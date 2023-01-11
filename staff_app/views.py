@@ -1,4 +1,5 @@
-from django.shortcuts import render, redirect
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpRequest, JsonResponse
 from django.contrib import messages
 from django.core.files.storage import FileSystemStorage
@@ -6,7 +7,9 @@ from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
 from hris_app.models import StaffUser, CustomUser
-from .models import LeaveReport, Notification
+from django.db.models import Q
+from .models import LeaveReport, Notification, Employee
+from .forms import AwardsCreateForm, PublicationsCreateForm, EmployeeCreateForm
 # Create your views here.
 
 
@@ -68,30 +71,73 @@ def profile(request):
     }
     return render(request, "staff_profile.html", context)
 
+# old code
+# def profile_update(request):
+#     if request.method != "POST":
+#         messages.error(request, "Invalid Method")
+#         return redirect('profile')
+#     else:
+#         first_name = request.POST.get('first_name')
+#         last_name = request.POST.get('last_name')
+#         password = request.POST.get('password')
+
+#         try:
+#             customuser = CustomUser.objects.get(id=request.user.id)
+#             customuser.first_name = first_name
+#             customuser.last_name = last_name
+#             if password != None and password != "":
+#                 customuser.set_password(password)
+#             customuser.save()
+
+#             staff = StaffUser.objects.get(admin=customuser.id)
+#             staff.save()
+
+#             messages.success(request, "Profile Updated Successfully")
+#             return redirect('profile')
+
+#         except:
+#             messages.error(request, "Failed to Update Profile")
+#             return redirect('profile')
+
 
 def profile_update(request):
-    if request.method != "POST":
-        messages.error(request, "Invalid Method")
-        return redirect('profile')
-    else:
-        first_name = request.POST.get('first_name')
-        last_name = request.POST.get('last_name')
-        password = request.POST.get('password')
+    form = EmployeeCreateForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+        form = EmployeeCreateForm()
+    context = {
+        'form': form
+    }
+    return render(request, "staff_profile_edit.html", context)
 
-        try:
-            customuser = CustomUser.objects.get(id=request.user.id)
-            customuser.first_name = first_name
-            customuser.last_name = last_name
-            if password != None and password != "":
-                customuser.set_password(password)
-            customuser.save()
 
-            staff = StaffUser.objects.get(admin=customuser.id)
-            staff.save()
+def add_award(request):
+    form = AwardsCreateForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+        form = AwardsCreateForm()
+    context = {
+        'form': form
+    }
+    return render(request, context)
 
-            messages.success(request, "Profile Updated Successfully")
-            return redirect('profile')
 
-        except:
-            messages.error(request, "Failed to Update Profile")
-            return redirect('profile')
+def view_awards(request):
+
+    return render('staff_awards.html')
+
+
+def add_publication(request):
+    form = PublicationsCreateForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+        form = PublicationsCreateForm()
+    context = {
+        'form': form
+    }
+    return render(request, context)
+
+
+def view_publications(request):
+
+    return render('staff_publications.html')

@@ -15,14 +15,14 @@ from .models import (
 class EmployeeCreateForm(forms.ModelForm):
     employeeid = forms.CharField(widget=forms.TextInput(
         attrs={'placeholder': 'please enter 5 characters without RGL or slashes eg. A0025'}))
-    image = forms.ImageField(widget=forms.FileInput(
+    image = forms.ImageField(required=False, widget=forms.FileInput(
         attrs={'onchange': 'previewImage(this);'}))
 
     class Meta:
         model = Employee
         exclude = ['is_blocked', 'is_deleted', 'created', 'updated']
         widgets = {
-            'bio': forms.Textarea(attrs={'cols': 5, 'rows': 5})
+            'bio': forms.Textarea(attrs={'cols': 100, 'rows': 5})
         }
 
         # def clean_user(self):

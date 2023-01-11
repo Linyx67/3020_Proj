@@ -176,12 +176,16 @@ class Employee(models.Model):
     bio = models.CharField(_('Bio'), help_text='your biography,tell me something about yourself eg. i love working ...',
                            max_length=255, default='', null=True, blank=True)
     birthday = models.DateField(_('Birthday'), blank=False, null=False)
-    religion = models.ForeignKey(Religion, verbose_name=_(
-        'Religion'), on_delete=models.SET_NULL, null=True, default=None)
+
     ssnitnumber = models.CharField(
         _('SSNIT Number'), max_length=30, null=True, blank=True)
     tinnumber = models.CharField(
         _('TIN'), max_length=15, null=True, blank=True)
+
+    employeetype = models.CharField(_('Employee Type'), max_length=15,
+                                    default=FULL_TIME, choices=EMPLOYEETYPE, blank=False, null=True)
+    employeeid = models.CharField(
+        _('Employee ID Number'), max_length=10, null=True, blank=True)
 
     is_blocked = models.BooleanField(
         _('Is Blocked'), help_text='button to toggle employee block and unblock', default=False)
@@ -380,9 +384,24 @@ class Publications(models.Model):
         'Title'), null=True, blank=False)
     year = models.IntegerField(verbose_name=_('Year'))
 
+    updated = models.DateTimeField(auto_now=True, auto_now_add=False)
+    created = models.DateTimeField(auto_now=False, auto_now_add=True)
+
+    class Meta:
+        verbose_name = _('Publication')
+        verbose_name_plural = _('Publications')
+        ordering = ['-created']
+
 
 class Awards(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=1)
     title = models.CharField(max_length=100, verbose_name=_(
         'Title'), null=True, blank=False)
     year = models.IntegerField(verbose_name=_('Year'))
+    updated = models.DateTimeField(auto_now=True, auto_now_add=False)
+    created = models.DateTimeField(auto_now=False, auto_now_add=True)
+
+    class Meta:
+        verbose_name = _('Award')
+        verbose_name_plural = _('Awards')
+        ordering = ['-created']
