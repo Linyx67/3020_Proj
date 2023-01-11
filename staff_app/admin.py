@@ -6,7 +6,9 @@ from .models import (
     Religion,
     Emergency,
     Employee,
-    Leave
+    Leave,
+    Awards,
+    Publications
 )
 
 
@@ -17,3 +19,5 @@ admin.site.register(Notification)
 admin.site.register(Religion)
 admin.site.register(Emergency)
 admin.site.register(Leave)
+admin.site.register(Awards)
+admin.site.register(Publications)
