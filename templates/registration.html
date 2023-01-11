@@ -1,0 +1,84 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Registration</title>
+    <link rel="stylesheet" type="text/CSS" href="{% static "css/bootstrap.min.css" %}">
+    <link rel="stylesheet" href="{% static "style_r.css" %}">
+</head>
+
+
+<body>
+    <div>
+        <form action="{% url 'hris:doRegistration' %}" method="POST">{% csrf_token %}
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="reg_card">
+                        <div class="form_info">
+                            <h1>Registration</h1>
+                            <p>Fill out the form with correct values.</p>
+                            <!-- spacer -->
+                            <hr class="mb-3">
+                            <!--label for input box
+                            <label for="firstname"><b>First Name<b></label>-->
+                            <!--input box -->
+                            <input id="firstname" class="form-control" type="text" name="first_name"  placeholder="First Name" required>
+                            <!--        
+                            <label for="lastname"><b>Last Name<b></label>-->
+                            <input id="lastname" class="form-control" type="text" name="last_name" placeholder="Last Name" required>
+                            
+                            <!--
+                            <label for="email"><b>Email Address<b></label>-->
+                            <input id="email" class="form-control" type="email" name="email" placeholder="Email" required>
+                            
+                            <!--
+                            <label for="password"><b>Password<b></label>-->
+                            <input id="password" class="form-control" type="password" name="password" placeholder="Password" required>
+                            
+                            <input id="confirmPassword" class="form-control" type="password" name="confirmPassword" placeholder="Confirm Password" required>
+
+                            <hr class="mb-3">
+                            <div class="d-flex justify-content-center">
+                                <input class="btn btn-primary" type="submit" id="register" name="create" value="Register">
+                                <!--submission button -->
+                            </div>
+
+                        </div>
+                        <div class="d-flex justify-content-center links">
+                            <a href="/login"><b> Return to Login Page</a>
+                        </div>
+                    </div>
+
+                </div>
+                {% comment %} Display Messages {% endcomment %}
+                {% if messages %}
+                <div class="col-12">
+                    {% for message in messages %}
+                    {% if message.tags == "error" %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <b>{{ message }}</b>
+                        <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+            
+        </form>
+    </div>
+    <!--Importing Jquery library from google-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <!--Importing Sweet Alert 2-->
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="https://kit.fontawesome.com/4aad805d2a.js" crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

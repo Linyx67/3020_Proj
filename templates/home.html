@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome</title>
+    <link rel="stylesheet" type="text/CSS" href="{% static "css/bootstrap.min.css" %}">
+    <link rel="stylesheet" href="{% static "style_l.css" %}">
+</head>
+<body>
+    <div class="d-flex justify-content-center">
+        <h1 class="Header">Welcome to the Human Resource Information System</h1>
+    </div>
+    <div class="d-flex justify-content-center form_container">
+        <div class="d-flex justify-content-center mt-3 login_container">
+            <button type="button" name="button" id="login" class="btn login_btn">
+                <a href="/login" class="Login_button"> Login </a>
+            </button>
+                
+            <button type="button" name="button" id="register" class="btn reg_btn">
+                <a href="/registration" class="Register_button"> Register</a>
+            </button>
+        </div>
+    </div>
+</body>
+</html>
