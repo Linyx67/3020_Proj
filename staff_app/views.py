@@ -104,6 +104,7 @@ def profile_update(request):
     form = EmployeeCreateForm(request.POST or None)
     if form.is_valid():
         form.save()
+        print('success')
         form = EmployeeCreateForm()
     context = {
         'form': form
@@ -119,7 +120,7 @@ def add_award(request):
     context = {
         'form': form
     }
-    return render(request, context)
+    return render(request, "staff_awards.html", context)
 
 
 def view_awards(request):
@@ -135,7 +136,7 @@ def add_publication(request):
     context = {
         'form': form
     }
-    return render(request, context)
+    return render(request, "staff_publications.html", context)
 
 
 def view_publications(request):
