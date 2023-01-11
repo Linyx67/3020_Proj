@@ -1,4 +1,5 @@
 from django import forms
+import datetime
 from hris_app.models import CustomUser
 from .models import (
     Emergency,
@@ -42,6 +43,9 @@ class EmergencyCreateForm(forms.ModelForm):
 
 
 class PublicationsCreateForm(forms.ModelForm):
+    year = forms.IntegerField(
+        min_value=1900, max_value=datetime.date.today().year)
+
     class Meta:
         model = Publications
         fields = ['title', 'year']
