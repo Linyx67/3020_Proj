@@ -106,6 +106,8 @@ def profile_update(request):
         form.save()
         print('success')
         form = EmployeeCreateForm()
+    else:
+        print(form.errors)
     context = {
         'form': form
     }
@@ -133,6 +135,8 @@ def add_publication(request):
     if form.is_valid():
         form.save()
         form = PublicationsCreateForm()
+    else:
+        print(form.errors)
     context = {
         'form': form
     }

@@ -48,7 +48,7 @@ class PublicationsCreateForm(forms.ModelForm):
 
     class Meta:
         model = Publications
-        fields = ['title', 'year']
+        exclude = ['created', 'updated']
 
 
 class AwardsCreateForm(forms.ModelForm):
@@ -57,4 +57,4 @@ class AwardsCreateForm(forms.ModelForm):
 
     class Meta:
         model = Awards
-        fields = ['title', 'year']
+        exclude = ['created', 'updated']
