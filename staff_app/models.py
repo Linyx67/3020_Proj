@@ -376,7 +376,13 @@ class Leave(models.Model):
 
 class Publications(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=1)
+    title = models.CharField(max_length=100, verbose_name=_(
+        'Title'), null=True, blank=False)
+    year = models.IntegerField(verbose_name=_('Year'))
 
 
 class Awards(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=1)
+    title = models.CharField(max_length=100, verbose_name=_(
+        'Title'), null=True, blank=False)
+    year = models.IntegerField(verbose_name=_('Year'))
