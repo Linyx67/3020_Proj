@@ -392,6 +392,9 @@ class Publications(models.Model):
         verbose_name_plural = _('Publications')
         ordering = ['-created']
 
+    def __str__(self):
+        return self.name
+
 
 class Awards(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=1)
@@ -405,3 +408,6 @@ class Awards(models.Model):
         verbose_name = _('Award')
         verbose_name_plural = _('Awards')
         ordering = ['-created']
+
+    def __str__(self):
+        return self.name

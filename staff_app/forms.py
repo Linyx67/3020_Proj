@@ -52,6 +52,9 @@ class PublicationsCreateForm(forms.ModelForm):
 
 
 class AwardsCreateForm(forms.ModelForm):
+    year = forms.IntegerField(
+        min_value=1900, max_value=datetime.date.today().year)
+
     class Meta:
         model = Awards
         fields = ['title', 'year']
