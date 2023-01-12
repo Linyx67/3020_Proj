@@ -5,8 +5,6 @@ from django.dispatch import receiver
 from hris_app.models import StaffUser, CustomUser, AdminUser
 from phonenumber_field.modelfields import PhoneNumberField
 from django.utils.translation import gettext as _
-from django.contrib.auth.models import User
-from .utility import code_format
 from admin_app.managers import EmployeeManager, LeaveManager
 # Create your models here.
 
@@ -184,8 +182,6 @@ class Employee(models.Model):
 
     employeetype = models.CharField(_('Employee Type'), max_length=15,
                                     default=FULL_TIME, choices=EMPLOYEETYPE, blank=False, null=True)
-    employeeid = models.CharField(
-        _('Employee ID Number'), max_length=10, null=True, blank=True)
 
     is_blocked = models.BooleanField(
         _('Is Blocked'), help_text='button to toggle employee block and unblock', default=False)
@@ -235,38 +231,25 @@ class Employee(models.Model):
     def can_apply_leave(self):
         pass
 
-    def save(self, *args, **kwargs):
-        '''
-        overriding the save method - for every instance that calls the save method 
-        perform this action on its employee_id
-        added : March, 03 2019 - 11:08 PM
-
-        '''
-        get_id = self.employeeid  # grab employee_id number from submitted form field
-        data = code_format(get_id)
-        # pass the new code to the employee_id as its orifinal or actual code
-        self.employeeid = data
-        super().save(*args, **kwargs)  # call the parent save method
-        # print(self.employeeid)
-
 
 # Leave Related
-SICK = 'sick'
-CASUAL = 'casual'
-EMERGENCY = 'emergency'
-STUDY = 'study'
-
-LEAVE_TYPE = (
-    (SICK, 'Sick Leave'),
-    (CASUAL, 'Casual Leave'),
-    (EMERGENCY, 'Emergency Leave'),
-    (STUDY, 'Study Leave'),
-)
-
-DAYS = 30
 
 
 class Leave(models.Model):
+    SICK = 'sick'
+    CASUAL = 'casual'
+    EMERGENCY = 'emergency'
+    STUDY = 'study'
+
+    LEAVE_TYPE = (
+        (SICK, 'Sick Leave'),
+        (CASUAL, 'Casual Leave'),
+        (EMERGENCY, 'Emergency Leave'),
+        (STUDY, 'Study Leave'),
+    )
+
+    DAYS = 30
+
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=1)
     startdate = models.DateField(verbose_name=_(
         'Start Date'), help_text='leave start date is on ..', null=True, blank=False)
@@ -393,7 +376,7 @@ class Publications(models.Model):
         ordering = ['-created']
 
     def __str__(self):
-        return self.name
+        return self.title
 
 
 class Awards(models.Model):
@@ -410,4 +393,4 @@ class Awards(models.Model):
         ordering = ['-created']
 
     def __str__(self):
-        return self.name
+        return self.title

@@ -14,18 +14,18 @@ from .forms import AwardsCreateForm, PublicationsCreateForm, EmployeeCreateForm
 
 
 def home(request):
-    print(request.user.id)
-    # Fetch All Approve Leave
-    # print(request.user)
-    print(request.user.user_type)
-    staff = StaffUser.objects.get(admin=request.user.id)
-    leave_count = LeaveReport.objects.filter(
-        staff_id=staff.id, leave_status=1).count()
-    context = {
-        "leave_count": leave_count,
-    }
+    # print(request.user.id)
+    # # Fetch All Approve Leave
+    # # print(request.user)
+    # print(request.user.user_type)
+    # staff = StaffUser.objects.get(admin=request.user.id)
+    # leave_count = LeaveReport.objects.filter(
+    #     staff_id=staff.id, leave_status=1).count()
+    # context = {
+    #     "leave_count": leave_count,
+    # }
 
-    return render(request, 'staff_home.html', context)
+    return render(request, 'staff_home.html')  # , context)
 
 
 def apply_leave(request):
@@ -103,11 +103,11 @@ def profile(request):
 def profile_update(request):
     form = EmployeeCreateForm(request.POST or None)
     if form.is_valid():
-        form.save()
-        print('success')
-        form = EmployeeCreateForm()
-    else:
-        print(form.errors)
+        instance = form.save(commit='false')
+        instance.user = request.user
+        instance.save()
+        return redirect('/staff_view')
+
     context = {
         'form': form
     }
@@ -117,8 +117,10 @@ def profile_update(request):
 def add_award(request):
     form = AwardsCreateForm(request.POST or None)
     if form.is_valid():
-        form.save()
-        form = AwardsCreateForm()
+        instance = form.save(commit='false')
+        instance.user = request.user
+        instance.save()
+        return redirect('/staff_view')
     context = {
         'form': form
     }
@@ -133,10 +135,11 @@ def view_awards(request):
 def add_publication(request):
     form = PublicationsCreateForm(request.POST or None)
     if form.is_valid():
-        form.save()
-        form = PublicationsCreateForm()
-    else:
-        print(form.errors)
+        instance = form.save(commit='false')
+        instance.user = request.user
+        instance.save()
+        return redirect('/staff_view')
+
     context = {
         'form': form
     }

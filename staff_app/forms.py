@@ -14,17 +14,22 @@ from .models import (
 
 
 class EmployeeCreateForm(forms.ModelForm):
-    employeeid = forms.CharField(widget=forms.TextInput(
-        attrs={'placeholder': 'please enter 5 characters without RGL or slashes eg. A0025'}))
     image = forms.ImageField(required=False, widget=forms.FileInput(
         attrs={'onchange': 'previewImage(this);'}))
 
     class Meta:
         model = Employee
-        exclude = ['is_blocked', 'is_deleted', 'created', 'updated']
+        exclude = ['is_blocked', 'is_deleted', 'created', 'updated', 'user']
         widgets = {
             'bio': forms.Textarea(attrs={'cols': 100, 'rows': 5})
         }
+
+    def clean_email(self, *args, **kwargs):
+        email = self.cleaned_data.get("email")
+        if not email.endswith("edu"):
+            raise forms.ValidationError("This is not a valid email address")
+        else:
+            return email
 
         # def clean_user(self):
         # 	user = self.cleaned_data['user'] #returns <User object>,not id as in [views <-> templates]
@@ -48,7 +53,7 @@ class PublicationsCreateForm(forms.ModelForm):
 
     class Meta:
         model = Publications
-        exclude = ['created', 'updated']
+        exclude = ['created', 'updated', 'user']
 
 
 class AwardsCreateForm(forms.ModelForm):
@@ -57,4 +62,4 @@ class AwardsCreateForm(forms.ModelForm):
 
     class Meta:
         model = Awards
-        exclude = ['created', 'updated']
+        exclude = ['created', 'updated', 'user']
