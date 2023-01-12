@@ -61,13 +61,12 @@ def apply_leave_save(request):
             return redirect('apply_leave')
 
 
-def profile(request):
-    user = CustomUser.objects.get(id=request.user.id)
-    staff = StaffUser.objects.get(admin=user)
+def profile(request, id):
+
+    obj = get_object_or_404(Employee, id=id)
 
     context = {
-        "user": user,
-        "staff": staff
+
     }
     return render(request, "staff_profile.html", context)
 

@@ -169,11 +169,11 @@ class Employee(models.Model):
                            default=MALE, choices=GENDER, blank=False)
     email = models.EmailField(
         _('Email'), max_length=255, default=None, blank=True, null=True)
-    tel = PhoneNumberField(default='+233240000000', null=False, blank=False,
-                           verbose_name='Phone Number (Example +233240000000)', help_text='Enter number with Country Code Eg. +233240000000')
-    bio = models.CharField(_('Bio'), help_text='your biography,tell me something about yourself eg. i love working ...',
-                           max_length=255, default='', null=True, blank=True)
-    birthday = models.DateField(_('Birthday'), blank=False, null=False)
+    tel = PhoneNumberField(null=False, blank=False,
+                           verbose_name='Phone Number')
+    bio = models.CharField(_('Bio'), max_length=255,
+                           default='', null=True, blank=True)
+    birthday = models.DateField(_('Date of Birth'), blank=False, null=False)
 
     ssnitnumber = models.CharField(
         _('SSNIT Number'), max_length=30, null=True, blank=True)
@@ -376,7 +376,7 @@ class Publications(models.Model):
         ordering = ['-created']
 
     def __str__(self):
-        return self.title
+        return (self.user.first_name + ' ' + self.user.last_name)
 
 
 class Awards(models.Model):
@@ -393,4 +393,4 @@ class Awards(models.Model):
         ordering = ['-created']
 
     def __str__(self):
-        return self.title
+        return (self.user.first_name + ' ' + self.user.last_name)
