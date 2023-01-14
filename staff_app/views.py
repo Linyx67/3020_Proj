@@ -8,24 +8,13 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
 from hris_app.models import StaffUser, CustomUser
 from django.db.models import Q
-from .models import LeaveReport, Notification, Employee
+from .models import LeaveReport, Notification, Employee, Publications, Awards
 from .forms import AwardsCreateForm, PublicationsCreateForm, EmployeeCreateForm
 # Create your views here.
 
 
 def home(request):
-    # print(request.user.id)
-    # # Fetch All Approve Leave
-    # # print(request.user)
-    # print(request.user.user_type)
-    # staff = StaffUser.objects.get(admin=request.user.id)
-    # leave_count = LeaveReport.objects.filter(
-    #     staff_id=staff.id, leave_status=1).count()
-    # context = {
-    #     "leave_count": leave_count,
-    # }
-
-    return render(request, 'staff_home.html')  # , context)
+    return render(request, 'staff_home.html')
 
 
 def apply_leave(request):
@@ -61,12 +50,12 @@ def apply_leave_save(request):
             return redirect('apply_leave')
 
 
-def profile(request, id):
-
-    obj = get_object_or_404(Employee, id=id)
+def profile(request):
+    employee = get_object_or_404(Employee, user_id=request.user.id)
+    # queryset = Employee.objects.filter(id=7)
 
     context = {
-
+        "object": employee
     }
     return render(request, "staff_profile.html", context)
 
@@ -100,7 +89,9 @@ def profile(request, id):
 
 
 def profile_update(request):
-    form = EmployeeCreateForm(request.POST or None)
+
+    employee = get_object_or_404(Employee, user_id=request.user.id)
+    form = EmployeeCreateForm(request.POST or None, instance=employee)
     if form.is_valid():
         instance = form.save(commit='false')
         instance.user = request.user
@@ -119,16 +110,33 @@ def add_award(request):
         instance = form.save(commit='false')
         instance.user = request.user
         instance.save()
-        return redirect('/staff_view')
+        return redirect('/staff_view/awards')
     context = {
         'form': form
     }
-    return render(request, "staff_awards.html", context)
+    return render(request, "staff_awards_add.html", context)
+
+
+def edit_award(request):
+    awards = get_object_or_404(Awards, user_id=request.user.id)
+    form = AwardsCreateForm(request.POST or None, instance=awards)
+    if form.is_valid():
+        instance = form.save(commit='false')
+        instance.user = request.user
+        instance.save()
+        return redirect('/staff_view/awards')
+    context = {
+        'form': form
+    }
+    return render(request, "staff_awards_edit.html", context)
 
 
 def view_awards(request):
-
-    return render('staff_awards.html')
+    awards = get_object_or_404(Awards, user_id=request.user.id)
+    context = {
+        "object": awards
+    }
+    return render(request, 'staff_awards.html', context)
 
 
 def add_publication(request):
@@ -137,14 +145,33 @@ def add_publication(request):
         instance = form.save(commit='false')
         instance.user = request.user
         instance.save()
-        return redirect('/staff_view')
+        return redirect('/staff_view/publications')
 
     context = {
         'form': form
     }
-    return render(request, "staff_publications.html", context)
+    return render(request, "staff_publications_edit.html", context)
+
+
+def edit_publication(request):
+    publications = get_object_or_404(Publications, user_id=request.user.id)
+    form = PublicationsCreateForm(request.POST or None, instance=publications)
+    if form.is_valid():
+        instance = form.save(commit='false')
+        instance.user = request.user
+        instance.save()
+        return redirect('/staff_view/publications')
+
+    context = {
+        'form': form
+    }
+    return render(request, "staff_publications_edit.html", context)
 
 
 def view_publications(request):
-
-    return render('staff_publications.html')
+    publications = get_object_or_404(Publications, user_id=request.user.id)
+    print(publications)
+    context = {
+        "object": publications
+    }
+    return render(request, 'staff_publications.html', context)

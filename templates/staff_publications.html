@@ -1,4 +1,10 @@
-<form action="." method="POST">{% csrf_token %}
-    {{form.as_p}}
-    <input type="submit" value="Save">
-</form>
+{% extends 'base.html' %}
+{% block title %}Staff | Publications{% endblock title %}
+{% block content %}
+
+    <p>{{object.title}}</p>
+    <p>{{object.year}}</p>
+    <p></p>
+    <a href="{% url 'staff:publication-edit' %}"> Add Publication</a>
+
+{% endblock content %}

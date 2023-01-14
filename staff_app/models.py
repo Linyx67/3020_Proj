@@ -376,7 +376,7 @@ class Publications(models.Model):
         ordering = ['-created']
 
     def __str__(self):
-        return (self.user.first_name + ' ' + self.user.last_name)
+        return (self.user.first_name+' '+self.user.last_name)
 
 
 class Awards(models.Model):
@@ -393,4 +393,4 @@ class Awards(models.Model):
         ordering = ['-created']
 
     def __str__(self):
-        return (self.user.first_name + ' ' + self.user.last_name)
+        return (self.user.first_name+' '+self.user.last_name)

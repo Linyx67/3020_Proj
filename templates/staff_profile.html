@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}Staff | Profile{% endblock title %}
+{% block content %}
+
+    <p>{{object.firstname}}</p>
+    <p>{{object.lastname}}</p>
+    <p>{{object.sex}}</p>
+    <p>{{object.birthday}}</p>
+    <p>{{object.gender}}</p>
+    <p>{{object.firstname}}</p>
+    <a href="{% url 'staff:profile-update' %}"> Edit Profile</a>
+{% endblock content %}
+
+
