@@ -20,7 +20,7 @@ from staff_app import views
 
 
 def home(request):
-    return render(request, 'home.html')
+    return render(request, 'hris/home.html')
 
 
 def contact(request):
@@ -28,7 +28,7 @@ def contact(request):
 
 
 def loginUser(request):
-    return render(request, 'login_page.html')
+    return render(request, 'hris/login_page.html')
 
 
 def doLogin(request):
@@ -40,12 +40,12 @@ def doLogin(request):
     print(request.user)
     if not (email_id and password):
         messages.error(request, "Please provide all the login details.")
-        return render(request, 'login_page.html')
+        return render(request, 'hris/login_page.html')
 
     user = CustomUser.objects.filter(email=email_id, password=password).last()
     if not user:
         messages.error(request, 'Invalid Login Credentials')
-        return render(request, 'login_page.html')
+        return render(request, 'hris/login_page.html')
 
     login(request, user)
     print(request, user)  # for testing
@@ -55,11 +55,11 @@ def doLogin(request):
     elif user.user_type == CustomUser.STAFF:
         return redirect('staff_view/')
 
-    return render(request, 'home.html')
+    return render(request, 'hris/home.html')
 
 
 def registration(request):
-    return render(request, 'registration.html')
+    return render(request, 'hris/registration.html')
 
 
 def doRegistration(request):
@@ -77,30 +77,30 @@ def doRegistration(request):
 
     if not (email_id and password and confirm_password):
         messages.error(request, 'Please provide all the information')
-        return render(request, 'registration.html')
+        return render(request, 'hris/registration.html')
 
     if password != confirm_password:
         messages.error(request, 'Please ensure that the passowrds match.')
-        return render(request, 'registration.html')
+        return render(request, 'hris/registration.html')
 
     user_exists = CustomUser.objects.filter(email=email_id).exists()
     if user_exists:
         messages.error(request, 'User with this email already exists')
-        return render(request, 'registration.html')
+        return render(request, 'hris/registration.html')
 
     user_type = get_user_type_from_email(email_id)
 
     if user_type is None:
         messages.error(
             request, "Please use valid format for the email id: '<firstname>.<lastname>@<sta.uwi.edu>'")
-        return render(request, 'registration.html')
+        return render(request, 'hris/registration.html')
 
     username = email_id
     print(username)
     if CustomUser.objects.filter(username=username).exists():
         messages.error(
             request, 'User with this name already exists. Please use different username.')
-        return render(request, 'registration.html')
+        return render(request, 'hris/registration.html')
 
     user = CustomUser()
     user.username = username
@@ -115,7 +115,7 @@ def doRegistration(request):
         StaffUser.objects.create(admin=user)
     elif user_type == CustomUser.ADMINISTRATOR:
         AdminUser.objects.create(admin=user)
-    return render(request, 'login_page.html')
+    return render(request, 'hris/login_page.html')
 
 
 def logout_user(request):

@@ -19,7 +19,7 @@ from .forms import (
 
 
 def home(request):
-    return render(request, 'staff_home.html')
+    return render(request, 'staff/staff_home.html')
 
 
 def apply_leave(request):
@@ -29,7 +29,7 @@ def apply_leave(request):
     context = {
         "leave_data": leave_data
     }
-    return (request, "staff_apply_leave.html", context)
+    return (request, "staff/staff_apply_leave.html", context)
 
 
 def apply_leave_save(request):
@@ -62,7 +62,7 @@ def profile(request):
     context = {
         "object": employee
     }
-    return render(request, "staff_profile.html", context)
+    return render(request, "staff/staff_profile.html", context)
 
 # old code
 # def profile_update(request):
@@ -106,7 +106,7 @@ def profile_update(request):
     context = {
         'form': form
     }
-    return render(request, "staff_profile_edit.html", context)
+    return render(request, "staff/staff_profile_edit.html", context)
 
 
 def add_award(request):
@@ -119,7 +119,7 @@ def add_award(request):
     context = {
         'form': form
     }
-    return render(request, "staff_awards_edit.html", context)
+    return render(request, "staff/staff_awards_edit.html", context)
 
 
 def edit_award(request):
@@ -134,7 +134,7 @@ def edit_award(request):
     context = {
         'form': form
     }
-    return render(request, "staff_awards_edit.html", context)
+    return render(request, "staff/staff_awards_edit.html", context)
 
 
 def view_awards(request):
@@ -148,7 +148,7 @@ def view_awards(request):
     context = {
         "object": awards
     }
-    return render(request, 'staff_awards.html', context)
+    return render(request, 'staff/staff_awards.html', context)
 
 
 def add_publication(request):
@@ -162,7 +162,7 @@ def add_publication(request):
     context = {
         'form': form
     }
-    return render(request, "staff_publications_edit.html", context)
+    return render(request, "staff/staff_publications_edit.html", context)
 
 
 def edit_publication(request):
@@ -177,7 +177,7 @@ def edit_publication(request):
     context = {
         'form': form
     }
-    return render(request, "staff_publications_edit.html", context)
+    return render(request, "staff/staff_publications_edit.html", context)
 
 
 def view_publications(request):
@@ -190,7 +190,7 @@ def view_publications(request):
     context = {
         "object": publications
     }
-    return render(request, 'staff_publications.html', context)
+    return render(request, "staff/staff_publications.html", context)
 
 
 def add_leave(request):
@@ -203,4 +203,4 @@ def add_leave(request):
     context = {
         'form': form
     }
-    return render(request, "staff_leave_add.html", context)
+    return render(request, "staff/staff_leave_add.html", context)
