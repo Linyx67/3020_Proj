@@ -60,6 +60,32 @@ class EmployeeCreateForm(forms.ModelForm):
         #   return user
 
 
+class LeaveCreateForm(forms.ModelForm):
+
+    class Meta:
+        model = Leave
+        exclude = ['user', 'defaultdays', 'status',
+                   'is_approved', 'updated', 'created']
+        widgets = {
+            'startdate': forms.DateInput(attrs={'placeholder': 'YYYY-MM-DD', 'class': 'form-control'}),
+            'enddate': forms.DateInput(attrs={'placeholder': 'YYYY-MM-DD', 'class': 'form-control'}),
+            'leavetype':  forms.Select(attrs={'class': 'form-control'}),
+            'reason': forms.Textarea(attrs={'rows': 4, 'cols': 40, 'class': 'form-control'})
+        }
+
+    def clean_enddate(self):
+        enddate = self.cleaned_data['enddate']
+        startdate = self.cleaned_data['startdate']
+        today_date = datetime.date.today()
+
+        if (startdate or enddate) < today_date:  # both dates must not be in the past
+            raise forms.ValidationError(
+                "Selected dates are incorrect,please select again")
+        elif startdate >= enddate:  # TRUE -> FUTURE DATE > PAST DATE,FALSE other wise
+            raise forms.ValidationError("Selected dates are wrong")
+        return enddate
+
+
 class EmergencyCreateForm(forms.ModelForm):
 
     class Meta:

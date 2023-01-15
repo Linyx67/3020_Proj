@@ -7,7 +7,7 @@
     <p>{{object.sex}}</p>
     <p>{{object.birthday}}</p>
     <p>{{object.gender}}</p>
-    <p>{{object.firstname}}</p>
+    <p>{{object.nisnumber|stringformat:"09d"}}</p>
     <a href="{% url 'staff:profile-update' %}"> Edit Profile</a>
 {% endblock content %}
 

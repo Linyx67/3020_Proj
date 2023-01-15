@@ -8,8 +8,13 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
 from hris_app.models import StaffUser, CustomUser
 from django.db.models import Q
-from .models import LeaveReport, Notification, Employee, Publications, Awards
-from .forms import AwardsCreateForm, PublicationsCreateForm, EmployeeCreateForm
+from .models import LeaveReport, Notification, Employee, Publications, Awards, Leave
+from .forms import (
+    AwardsCreateForm,
+    PublicationsCreateForm,
+    EmployeeCreateForm,
+    LeaveCreateForm
+)
 # Create your views here.
 
 
@@ -186,3 +191,16 @@ def view_publications(request):
         "object": publications
     }
     return render(request, 'staff_publications.html', context)
+
+
+def add_leave(request):
+    form = LeaveCreateForm(request.POST or None)
+    if form.is_valid():
+        instance = form.save(commit='false')
+        instance.user = request.user
+        instance.save()
+        return redirect('/staff_view')
+    context = {
+        'form': form
+    }
+    return render(request, "staff_leave_add.html", context)

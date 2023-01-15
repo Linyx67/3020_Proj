@@ -15,5 +15,6 @@ urlpatterns = [
     path('publications_edit/', views.edit_publication, name="publication-edit"),
     path('awards_add/', views.add_award, name="award-add"),
     path('publications_add/', views.add_publication, name="publication-add"),
+    path('leave/', views.add_leave, name="leave"),
 
 ]
