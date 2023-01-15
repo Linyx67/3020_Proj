@@ -26,7 +26,7 @@ class EmployeeCreateForm(forms.ModelForm):
             'lastname': forms.TextInput(attrs={'class': 'form-control'}),
             'othername': forms.TextInput(attrs={'class': 'form-control'}),
             'tel': forms.TextInput(attrs={'class': 'form-control'}),
-            'ssnitnumber': forms.TextInput(attrs={'class': 'form-control'}),
+            'nisnumber': forms.TextInput(attrs={'class': 'form-control'}),
             'tinnumber': forms.TextInput(attrs={'class': 'form-control'}),
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
             'birthday': forms.DateInput(attrs={'placeholder': 'YYYY-MM-DD', 'class': 'form-control'}),
@@ -45,6 +45,12 @@ class EmployeeCreateForm(forms.ModelForm):
         else:
             return email
 
+    def clean_nisnumber(self, *args, **kwargs):
+        nisnumber = self.cleaned_data.get("nisnumber")
+        if len(str(nisnumber)) > 9:
+            raise forms.ValidationError("This is not a valis NIS Number")
+        else:
+            return nisnumber
         # def clean_user(self):
         # 	user = self.cleaned_data['user'] #returns <User object>,not id as in [views <-> templates]
 

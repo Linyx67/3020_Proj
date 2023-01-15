@@ -1,10 +1,18 @@
 {% extends 'base.html' %}
 {% block title %}Staff | Publications{% endblock title %}
 {% block content %}
+    {% if not object %}
+        <p>No Publications</p>
+    {% else %}
+        {% for instance in object %}
+            <p>{{instance.title}}</p>
+            <p>{{instance.year}}</p>
+        {% endfor %}
+    {% endif %}
+       
+    
 
-    <p>{{object.title}}</p>
-    <p>{{object.year}}</p>
-    <p></p>
-    <a href="{% url 'staff:publication-edit' %}"> Add Publication</a>
-
+    
+    <a href="{% url 'staff:publication-edit' %}"> Edit Publication</a>
+    <a href="{% url 'staff:publication-add' %}"> Add Publication</a>
 {% endblock content %}

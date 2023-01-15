@@ -1,7 +1,14 @@
 {% extends 'base.html' %}
 {% block title %}Staff | Awards{% endblock title %}
 {% block content %}
-    <p>{{object.title}}</p>
-    <p>{{object.year}}</p>
-    <a href="{% url 'staff:award-edit' %}"> Add Award</a>
+    {% if not object %}
+        <p>No Awards</p>
+    {% else %}
+        {% for instance in object %}
+            <p>{{instance.title}}</p>
+            <p>{{instance.year}}</p>
+        {% endfor %}
+    {% endif %}
+    <a href="{% url 'staff:award-edit' %}"> Edit Award</a>
+    <a href="{% url 'staff:award-add' %}"> Add Award</a>
 {% endblock content %}

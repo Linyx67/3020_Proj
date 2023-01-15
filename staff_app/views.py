@@ -114,11 +114,12 @@ def add_award(request):
     context = {
         'form': form
     }
-    return render(request, "staff_awards_add.html", context)
+    return render(request, "staff_awards_edit.html", context)
 
 
 def edit_award(request):
     awards = get_object_or_404(Awards, user_id=request.user.id)
+
     form = AwardsCreateForm(request.POST or None, instance=awards)
     if form.is_valid():
         instance = form.save(commit='false')
@@ -132,7 +133,13 @@ def edit_award(request):
 
 
 def view_awards(request):
-    awards = get_object_or_404(Awards, user_id=request.user.id)
+    if Awards.objects.filter(user_id=request.user.id).exists():
+        awards = Awards.objects.filter(user_id=request.user.id)
+
+    else:
+        awards = []
+    # awards = Awards.objects.filter(user_id=request.user.id)
+    # awards = dict(get_object_or_404(Awards, user_id=request.user.id))
     context = {
         "object": awards
     }
@@ -169,8 +176,12 @@ def edit_publication(request):
 
 
 def view_publications(request):
-    publications = get_object_or_404(Publications, user_id=request.user.id)
-    print(publications)
+    if Publications.objects.filter(user_id=request.user.id).exists():
+        publications = Publications.objects.filter(user_id=request.user.id)
+    # publications = get_object_or_404(Publications, user_id=request.user.id)
+    else:
+        publications = []
+
     context = {
         "object": publications
     }

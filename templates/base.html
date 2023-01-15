@@ -9,8 +9,54 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{% endblock title %} </title>
     <link rel="stylesheet" type="text/CSS" href="{% static "css/bootstrap.min.css" %}">
+    <style>
+        .sidenav{
+            height:100%;
+            width:160px;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background-color: #0d6efd;
+            overflow-x: hidden;
+            padding-top: 20px;
+        }
+
+        .sidenav a{
+            padding: 6px 8px 6px 18px;
+            text-decoration: none;
+            font-size: 25px;
+            color: black;
+            display:block;
+        }
+
+        .sidenav a.active{
+            background-color: #04AA6D;
+            color: white;
+        }
+        .sidenav a:hover:not(.active){
+            background-color:#555;
+            color: #f1f1f1;
+        }
+
+        .main{
+            margin-left:160px;
+            padding: 0px 10px;
+        }
+
+    </style>
 </head>
 <body>
-    {% block content %}{% endblock content %}
+    <div class="sidenav">
+        <a href="">Temp1</a>
+        <a href="">Temp2</a>
+        <a href="">Temp3</a>
+        <a href="">Temp4</a>
+    </div>
+    <div class="main">
+        {% block content %}{% endblock content %}
+    </div>
+    
+    
 </body>
 </html>

@@ -13,5 +13,7 @@ urlpatterns = [
     path('publications/', views.view_publications, name="publication"),
     path('awards_edit/', views.edit_award, name="award-edit"),
     path('publications_edit/', views.edit_publication, name="publication-edit"),
+    path('awards_add/', views.add_award, name="award-add"),
+    path('publications_add/', views.add_publication, name="publication-add"),
 
 ]

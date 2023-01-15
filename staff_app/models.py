@@ -175,8 +175,8 @@ class Employee(models.Model):
                            default='', null=True, blank=True)
     birthday = models.DateField(_('Date of Birth'), blank=False, null=False)
 
-    ssnitnumber = models.CharField(
-        _('SSNIT Number'), max_length=30, null=True, blank=True)
+    nisnumber = models.PositiveIntegerField(
+        _('NIS Number'), null=True, blank=True)
     tinnumber = models.CharField(
         _('TIN'), max_length=15, null=True, blank=True)
 
@@ -365,7 +365,7 @@ class Publications(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=1)
     title = models.CharField(max_length=100, verbose_name=_(
         'Title'), null=True, blank=False)
-    year = models.IntegerField(verbose_name=_('Year'))
+    year = models.IntegerField(verbose_name=_('Year'), null=True)
 
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
     created = models.DateTimeField(auto_now=False, auto_now_add=True)
@@ -392,5 +392,5 @@ class Awards(models.Model):
         verbose_name_plural = _('Awards')
         ordering = ['-created']
 
-    def __str__(self):
-        return (self.user.first_name+' '+self.user.last_name)
+    # def __str__(self):
+    #     return (self.user.first_name+' '+self.user.last_name)
