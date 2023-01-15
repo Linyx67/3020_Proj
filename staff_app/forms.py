@@ -70,7 +70,7 @@ class LeaveCreateForm(forms.ModelForm):
             'startdate': forms.DateInput(attrs={'placeholder': 'YYYY-MM-DD', 'class': 'form-control'}),
             'enddate': forms.DateInput(attrs={'placeholder': 'YYYY-MM-DD', 'class': 'form-control'}),
             'leavetype':  forms.Select(attrs={'class': 'form-control'}),
-            'reason': forms.Textarea(attrs={'rows': 4, 'cols': 40, 'class': 'form-control'})
+            'reason': forms.Textarea(attrs={'rows': 12, 'cols': 40, 'class': 'form-control'})
         }
 
     def clean_enddate(self):
