@@ -211,3 +211,15 @@ def add_leave(request):
         'form': form
     }
     return render(request, "staff/staff_leave_add.html", context)
+
+
+def view_leave(request):
+    if Leave.objects.filter(user_id=request.user.id).exists():
+        leave = Leave.objects.filter(user_id=request.user.id)
+    else:
+        leave = []
+
+    context = {
+        "object": leave
+    }
+    return render(request, "staff/staff_leave_view.html", context)
