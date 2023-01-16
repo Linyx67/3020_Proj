@@ -56,8 +56,11 @@ def apply_leave_save(request):
 
 
 def profile(request):
-    employee = get_object_or_404(Employee, user_id=request.user.id)
+    if Employee.objects.filter(user_id=request.user.id).exists():
+        employee = get_object_or_404(Employee, user_id=request.user.id)
     # queryset = Employee.objects.filter(id=7)
+    else:
+        employee = []
 
     context = {
         "object": employee
@@ -94,9 +97,13 @@ def profile(request):
 
 
 def profile_update(request):
+    if Employee.objects.filter(user_id=request.user.id).exists():
+        employee = get_object_or_404(Employee, user_id=request.user.id)
+        form = EmployeeCreateForm(request.POST or None, instance=employee)
+    # employee = get_object_or_404(Employee, user_id=request.user.id)
+    else:
+        form = EmployeeCreateForm()
 
-    employee = get_object_or_404(Employee, user_id=request.user.id)
-    form = EmployeeCreateForm(request.POST or None, instance=employee)
     if form.is_valid():
         instance = form.save(commit='false')
         instance.user = request.user

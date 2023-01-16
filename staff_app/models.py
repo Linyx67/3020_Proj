@@ -179,9 +179,10 @@ class Employee(models.Model):
         _('NIS Number'), null=True, blank=True)
     tinnumber = models.CharField(
         _('TIN'), max_length=15, null=True, blank=True)
-
     employeetype = models.CharField(_('Employee Type'), max_length=15,
                                     default=FULL_TIME, choices=EMPLOYEETYPE, blank=False, null=True)
+    vitae = models.FileField(_('Cirriculum Vitae'), blank=True,
+                             null=True, help_text='upload in .docx or .pdf')
 
     is_blocked = models.BooleanField(
         _('Is Blocked'), help_text='button to toggle employee block and unblock', default=False)
@@ -204,7 +205,7 @@ class Employee(models.Model):
     def __str__(self):
         return self.get_full_name
 
-    @property
+    @ property
     def get_full_name(self):
         fullname = ''
         firstname = self.firstname
@@ -219,7 +220,7 @@ class Employee(models.Model):
             return fullname
         return
 
-    @property
+    @ property
     def get_age(self):
         current_year = datetime.date.today().year
         dateofbirth_year = self.birthday.year
@@ -227,7 +228,7 @@ class Employee(models.Model):
             return current_year - dateofbirth_year
         return
 
-    @property
+    @ property
     def can_apply_leave(self):
         pass
 
@@ -281,7 +282,7 @@ class Leave(models.Model):
     def __str__(self):
         return ('{0} - {1}'.format(self.leavetype, self.user))
 
-    @property
+    @ property
     def pretty_leave(self):
         '''
         i don't like the __str__ of leave object - this is a pretty one :-)
@@ -291,7 +292,7 @@ class Leave(models.Model):
         employee = user.employee_set.first().get_full_name
         return ('{0} - {1}'.format(employee, leave))
 
-    @property
+    @ property
     def leave_days(self):
         days_count = ''
         startdate = self.startdate
@@ -301,25 +302,25 @@ class Leave(models.Model):
         dates = (enddate - startdate)
         return dates.days
 
-    @property
+    @ property
     def leave_approved(self):
         return self.is_approved == True
 
-    @property
+    @ property
     def approve_leave(self):
         if not self.is_approved:
             self.is_approved = True
             self.status = 'approved'
             self.save()
 
-    @property
+    @ property
     def unapprove_leave(self):
         if self.is_approved:
             self.is_approved = False
             self.status = 'pending'
             self.save()
 
-    @property
+    @ property
     def leaves_cancel(self):
         if self.is_approved or not self.is_approved:
             self.is_approved = False
@@ -332,14 +333,14 @@ class Leave(models.Model):
     # 		self.status = 'pending'
     # 		self.save()
 
-    @property
+    @ property
     def reject_leave(self):
         if self.is_approved or not self.is_approved:
             self.is_approved = False
             self.status = 'rejected'
             self.save()
 
-    @property
+    @ property
     def is_rejected(self):
         return self.status == 'rejected'
 
