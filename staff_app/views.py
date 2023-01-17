@@ -108,7 +108,7 @@ def profile_update(request):
         instance = form.save(commit='false')
         instance.user = request.user
         instance.save()
-        return redirect('/staff_view')
+        return redirect('/staff_view/profile')
 
     context = {
         'form': form
