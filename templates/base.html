@@ -48,16 +48,33 @@
 </head>
 <body>
     <div class="sidenav">
-        <a href="{% url 'staff:staff-home' %}">Dashboard</a>
-        <a href="{% url 'staff:profile' %} ">Profile</a>
-        <a href="{% url 'staff:publication' %}">Publicaitons</a>
-        <a href="{% url 'staff:award' %}">Awards</a>
-        <a href="{% url 'staff:leave' %}">Leave</a>
+        {% if user.is_superuser%}
+            <a href="{% url 'admin_app:admin-home' %}">Dashboard</a>
+            <a href="{% url 'admin_app:employees' %} ">Employees</a>
+            <a href="{% url 'admin_app:leaves' %}">Leaves</a>
+            
+        {% else %}
+            <a href="{% url 'staff:staff-home' %}">Dashboard</a>
+            <a href="{% url 'staff:profile' %} ">Profile</a>
+            <a href="{% url 'staff:publication' %}">Publicaitons</a>
+            <a href="{% url 'staff:award' %}">Awards</a>
+            <a href="{% url 'staff:leave' %}">Leave</a>
+        {% endif %}
     </div>
     <div class="main">
         {% block content %}{% endblock content %}
+        
     </div>
-    
-    
+    <div class="container">
+        <div class="col-justify-content-right">
+            <footer class="footer">
+                <div class="container-fluid">
+                    <p class="copyright pull-right">
+                        &copy; <script>document.write(new Date().getFullYear())</script> <a href="">DECE</a>
+                    </p>
+                </div>
+            </footer>   
+        </div>
+    </div>
 </body>
 </html>
