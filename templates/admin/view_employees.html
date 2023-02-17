@@ -1,9 +1,23 @@
 {% extends 'base.html' %}
 {% block title %}Dashboard | Employees{% endblock title %}
 {% block content %}
-    <div>
-        
+    <div class="row" style="margin-bottom: 2.2rem;margin-top: 3rem;">
+        <div class="">
+        <div class="col-lg-12">
+
+            <form action="" method="GET">
+            <div class="input-group">
+                <span class="input-group-btn">
+                <button class="btn btn-default" id = "stylebutton" type="button">Search</button>
+                </span>
+                <input type="search" value="{{request.GET.search}}" name="search" class="form-control" placeholder="Search by firstname,lastname...">
+            </div><!-- /input-group -->
+        </form>
+
+        </div><!-- /.col-lg-6 -->
+        </div>
+    </div><!-- /.row -->
+
     
-    </div>
 {% endblock content %}
 
