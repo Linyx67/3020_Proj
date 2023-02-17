@@ -58,6 +58,8 @@ def apply_leave_save(request):
 
 
 def profile(request):
+    if not request.user.is_authenticated:
+        return redirect('hris:home')
     if Employee.objects.filter(user_id=request.user.id).exists():
         employee = get_object_or_404(Employee, user_id=request.user.id)
     # queryset = Employee.objects.filter(id=7)
@@ -99,6 +101,8 @@ def profile(request):
 
 
 def profile_update(request):
+    if not request.user.is_authenticated:
+        return redirect('hris:home')
     if Employee.objects.filter(user_id=request.user.id).exists():
         employee = get_object_or_404(Employee, user_id=request.user.id)
         form = EmployeeCreateForm(request.POST or None, instance=employee)
@@ -119,6 +123,8 @@ def profile_update(request):
 
 
 def add_award(request):
+    if not request.user.is_authenticated:
+        return redirect('hris:home')
     form = AwardsCreateForm(request.POST or None)
     if form.is_valid():
         instance = form.save(commit='false')
@@ -132,6 +138,8 @@ def add_award(request):
 
 
 def edit_award(request):
+    if not request.user.is_authenticated:
+        return redirect('hris:home')
     awards = get_object_or_404(Awards, user_id=request.user.id)
 
     form = AwardsCreateForm(request.POST or None, instance=awards)
@@ -147,6 +155,8 @@ def edit_award(request):
 
 
 def view_awards(request):
+    if not request.user.is_authenticated:
+        return redirect('hris:home')
     if Awards.objects.filter(user_id=request.user.id).exists():
         awards = Awards.objects.filter(user_id=request.user.id)
 
@@ -161,6 +171,8 @@ def view_awards(request):
 
 
 def add_publication(request):
+    if not request.user.is_authenticated:
+        return redirect('hris:home')
     form = PublicationsCreateForm(request.POST or None)
     if form.is_valid():
         instance = form.save(commit='false')
@@ -175,6 +187,8 @@ def add_publication(request):
 
 
 def edit_publication(request):
+    if not request.user.is_authenticated:
+        return redirect('hris:home')
     publications = get_object_or_404(Publications, user_id=request.user.id)
     form = PublicationsCreateForm(request.POST or None, instance=publications)
     if form.is_valid():
@@ -190,6 +204,8 @@ def edit_publication(request):
 
 
 def view_publications(request):
+    if not request.user.is_authenticated:
+        return redirect('hris:home')
     if Publications.objects.filter(user_id=request.user.id).exists():
         publications = Publications.objects.filter(user_id=request.user.id)
     # publications = get_object_or_404(Publications, user_id=request.user.id)
@@ -203,6 +219,8 @@ def view_publications(request):
 
 
 def add_leave(request):
+    if not request.user.is_authenticated:
+        return redirect('hris:home')
     form = LeaveCreateForm(request.POST or None)
     if form.is_valid():
         instance = form.save(commit='false')
@@ -216,6 +234,8 @@ def add_leave(request):
 
 
 def view_leave(request):
+    if not request.user.is_authenticated:
+        return redirect('hris:home')
     if Leave.objects.filter(user_id=request.user.id).exists():
         leave = Leave.objects.filter(user_id=request.user.id)
     else:
