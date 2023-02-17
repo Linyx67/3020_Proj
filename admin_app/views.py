@@ -22,7 +22,7 @@ def home(request):
 
 
 def employees(request):
-    if not (request.user.is_authenticated and request.user.is_superuser and request.user.is_staff):
+    if not (request.user.is_authenticated and request.user.is_superuser):
         return redirect('/')
 
     dataset = dict()

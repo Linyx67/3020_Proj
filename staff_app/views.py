@@ -19,6 +19,8 @@ from .forms import (
 
 
 def home(request):
+    if not request.user.is_authenticated:
+        return redirect('hris:home')
     return render(request, 'staff/staff_home.html')
 
 

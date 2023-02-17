@@ -52,6 +52,7 @@
             <a href="{% url 'admin_app:admin-home' %}">Dashboard</a>
             <a href="{% url 'admin_app:employees' %} ">Employees</a>
             <a href="{% url 'admin_app:leaves' %}">Leaves</a>
+            <a href="{% url 'hris:logout' %}">Logout</a>
             
         {% else %}
             <a href="{% url 'staff:staff-home' %}">Dashboard</a>
@@ -59,22 +60,32 @@
             <a href="{% url 'staff:publication' %}">Publicaitons</a>
             <a href="{% url 'staff:award' %}">Awards</a>
             <a href="{% url 'staff:leave' %}">Leave</a>
+            <a href="{% url 'hris:logout' %}">Logout</a>
         {% endif %}
     </div>
     <div class="main">
-        {% block content %}{% endblock content %}
+        {% block content %}
+        <section class="content">
+            <section class="container-fluid">
+                    
+
+
+            </section> <!-- /container -->           
+        </section>
+        {% endblock %}
         
-    </div>
-    <div class="container">
-        <div class="col-justify-content-right">
             <footer class="footer">
                 <div class="container-fluid">
                     <p class="copyright pull-right">
                         &copy; <script>document.write(new Date().getFullYear())</script> <a href="">DECE</a>
                     </p>
                 </div>
-            </footer>   
-        </div>
+            </footer> 
+        </div>  
+            
+        
     </div>
+    
 </body>
 </html>
+
