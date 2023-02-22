@@ -157,8 +157,8 @@ class Employee(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=1)
     title = models.CharField(_('Title'), max_length=10,
                              default=MR, choices=TITLE, blank=False, null=True)
-    image = models.FileField(_('Profile Image'), upload_to='profiles', default='default.png', blank=True,
-                             null=True, help_text='upload image size less than 2.0MB')  # work on path username-date/image
+    image = models.ImageField(_('Profile Image'), upload_to='profiles/', default='profiles/default.png', blank=True,
+                              null=True, help_text='upload image size less than 2.0MB')  # work on path username-date/image
     firstname = models.CharField(
         _('Firstname'), max_length=125, null=False, blank=False)
     lastname = models.CharField(
@@ -173,7 +173,7 @@ class Employee(models.Model):
                            verbose_name='Phone Number')
     bio = models.CharField(_('Bio'), max_length=255,
                            default='', null=True, blank=True)
-    birthday = models.DateField(_('Date of Birth'), blank=False, null=False)
+    birthday = models.DateField(_('Date of Birth'), blank=False, null=True)
 
     nisnumber = models.PositiveIntegerField(
         _('NIS Number'), null=True, blank=True)
@@ -181,7 +181,7 @@ class Employee(models.Model):
         _('TIN'), max_length=15, null=True, blank=True)
     employeetype = models.CharField(_('Employee Type'), max_length=15,
                                     default=FULL_TIME, choices=EMPLOYEETYPE, blank=False, null=True)
-    vitae = models.FileField(_('Cirriculum Vitae'), blank=True,
+    vitae = models.FileField(_('Cirriculum Vitae'), upload_to='vitae/', blank=True,
                              null=True, help_text='upload in .docx or .pdf')
 
     is_blocked = models.BooleanField(
@@ -216,7 +216,7 @@ class Employee(models.Model):
             fullname = firstname + ' ' + lastname
             return fullname
         elif othername:
-            fullname = firstname + ' ' + lastname + ' '+othername
+            fullname = firstname + ' ' + othername + ' '+lastname
             return fullname
         return
 

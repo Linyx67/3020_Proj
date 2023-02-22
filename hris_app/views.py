@@ -16,6 +16,7 @@ from .models import (
 )
 from django.contrib import messages
 from staff_app import views
+from staff_app.models import Employee
 # Create your views here.
 
 
@@ -113,6 +114,11 @@ def doRegistration(request):
 
     if user_type == CustomUser.STAFF:
         StaffUser.objects.create(admin=user)
+        employee = Employee.objects.create(user_id=user.id)
+        employee.firstname = first_name
+        employee.lastname = last_name
+        employee.email = email_id
+        employee.save()
     elif user_type == CustomUser.ADMINISTRATOR:
         AdminUser.objects.create(admin=user)
     return render(request, 'hris/login_page.html')

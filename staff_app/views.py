@@ -103,9 +103,12 @@ def profile(request):
 def profile_update(request):
     if not request.user.is_authenticated:
         return redirect('hris:home')
+
     if Employee.objects.filter(user_id=request.user.id).exists():
         employee = get_object_or_404(Employee, user_id=request.user.id)
-        form = EmployeeCreateForm(request.POST or None, instance=employee)
+        form = EmployeeCreateForm(
+            request.POST or None, request.FILES or None, instance=employee)
+
     # employee = get_object_or_404(Employee, user_id=request.user.id)
     else:
         form = EmployeeCreateForm()
