@@ -1,23 +1,149 @@
 {% extends 'base.html' %}
 {% block title %}Dashboard | Employees{% endblock title %}
+{% block stylesheet %}
+    .count-object {
+        position: absolute;
+        top: 31%;
+        right: 12px;
+        font-size: 25px;
+        font-weight: 100;
+        font-variant: petite-caps;
+        color: #f5f5f5;
+        text-shadow:1px 1px rgba(8, 8, 8, 0.23);
+    }
+
+    #stylebutton{
+        background: #60a0b3 !important;
+        color: #fff !important;
+        font-variant: petite-caps !important;
+        font-size: 14px !important;
+    }
+
+    .input-group-btn + input:focus{
+        outline:#60a0b3;
+    }
+{% endblock stylesheet %}
+   
+    
+
 {% block content %}
+    
+    <section class="row margin-bottom">
+        <div class="container-fluid">
+        <section class="col-lg-4 col-md-4 col-sm-12">
+            <div class="employee-box sec-box">
+                <a href="">
+                <span>Employees</span>
+                </a>
+                <span class="count-object">{{ all_employees.count }}</span> 
+            </div>
+        </section>
+        
+        <section class="col-lg-4 col-md-4 col-sm-12">
+            <div class="birthday-box sec-box">
+                <a href="">
+                <span>Blocked Users</span>
+                </a>
+                <span class="count-object">{{ blocked_employees.count }}</span> 
+            </div>
+        </section>
+    
+    </section>
+
     <div class="row" style="margin-bottom: 2.2rem;margin-top: 3rem;">
         <div class="">
         <div class="col-lg-12">
 
             <form action="" method="GET">
-            <div class="input-group">
-                <span class="input-group-btn">
-                <button class="btn btn-default" id = "stylebutton" type="button">Search</button>
-                </span>
-                <input type="search" value="{{request.GET.search}}" name="search" class="form-control" placeholder="Search by firstname,lastname...">
-            </div><!-- /input-group -->
-        </form>
+                <div class="input-group">
+                    <span class="input-group-btn">
+                    <button class="btn btn-default" id = "stylebutton" type="button">Search</button>
+                    </span>
+                    <input type="search" value="{{request.GET.search}}" name="search" class="form-control" placeholder="Search by firstname,lastname...">
+                </div><!-- /input-group -->
+            </form>
 
         </div><!-- /.col-lg-6 -->
         </div>
     </div><!-- /.row -->
 
+    <!-- TABLE -->
+    <div class="table-responsive table-shadow">
+        <div class="text-center table-description">
+            <h4 class="title-h3" style="color: #60a0b3 !important;
+            text-shadow: 1px 0px rgba(0,0,0,0.11)"> EMPLOYEES TABLE</h4>
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+                 <div class="download-print-action">
+                      Download Excel | Pdf | Print <!-- Work on pdf and excel and print -->
+                      
+                </div>
+            </div>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Full Name</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for employee in employee_list %}
+                <tr>
+
+                  {% if employee.employeeid %}
+                  <th scope="row">{{ employee.employeeid }}</th>
+                  {% else %}
+                  <th scope="row">-</th>
+                  {% endif %}
+
+                  <td>{{ employee.get_full_name }}</td>
+                  
+
+                  {% if employee.is_blocked %}
+                  <td>Inactive</td>
+                  {% else %}
+                  <td>active</td>
+                  {% endif %}
+
+                  <td> 
+                    <a href="{% url 'admin_app:info' employee.id %}">
+                        view
+                    </a>                     
+                    
+                  </td>
+                </tr>
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+        <!-- Pagination -->
+              <div class="pagination">
+                <span class="step-links">
+                    {% if employee_list.has_previous %}
+                        <a href="?page=1">&laquo; first</a>
+                        <a href="?page={{ employee_list.previous_page_number }}">previous</a>
+                    {% endif %}
+
+                    <span class="current">
+                        Page {{ employee_list.number }} of {{ employee_list.paginator.num_pages }}.
+                    </span>
+
+                    {% if employee_list.has_next %}
+                        <a href="?page={{ employee_list.next_page_number }}">next</a>
+                        <a href="?page={{ employee_list.paginator.num_pages }}">last &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+        <!-- /pagination -->
+
+
+    </div>
+    <!-- /TABLE -->
     
 {% endblock content %}
 

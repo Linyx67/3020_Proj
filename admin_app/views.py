@@ -23,7 +23,7 @@ def home(request):
 
 def employees(request):
     if not (request.user.is_authenticated and request.user.is_superuser):
-        return redirect('/')
+        return redirect('hris:home')
 
     dataset = dict()
     employees = Employee.objects.all()
@@ -50,6 +50,19 @@ def employees(request):
     dataset['title'] = 'Employees list view'
 
     return render(request, 'admin/view_employees.html', dataset)
+
+
+def employees_info(request, id):
+    if not (request.user.is_authenticated and request.user.is_superuser):
+        return redirect('hris:home')
+
+    employee = get_object_or_404(Employee, id=id)
+
+    dataset = dict()
+    dataset['employee'] = employee
+    dataset['title'] = 'profile - {0}'.format(employee.get_full_name)
+
+    return render(request, "admin/employee_info.html", dataset)
 
 
 def leaves_list(request):
