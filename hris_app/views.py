@@ -14,6 +14,7 @@ from .models import (
     AdminUser,
     StaffUser
 )
+from django.contrib.auth.hashers import make_password
 from django.contrib import messages
 from staff_app import views
 from staff_app.models import Employee
@@ -108,7 +109,7 @@ def doRegistration(request):
     user = CustomUser()
     user.username = username
     user.email = email_id
-    user.password = password
+    user.password = make_password(password)
     user.user_type = user_type
     user.first_name = first_name
     user.last_name = last_name
