@@ -16,11 +16,11 @@
     <div class="d-flex justify-content-center form_container">
         <div class="d-flex justify-content-center mt-3 login_container">
             <button type="button" name="button" id="login" class="btn login_btn">
-                <a href="/login" class="Login_button"> Login </a>
+                <a href="{% url 'hris:login' %}" class="Login_button"> Login </a>
             </button>
                 
             <button type="button" name="button" id="register" class="btn reg_btn">
-                <a href="/registration" class="Register_button"> Register</a>
+                <a href="{% url 'hris:registration' %}" class="Register_button"> Register</a>
             </button>
         </div>
     </div>
