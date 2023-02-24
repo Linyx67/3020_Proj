@@ -129,6 +129,11 @@ def logout_user(request):
     return HttpResponseRedirect('/')
 
 
+# def forgot_password(request):
+
+    return render(request, 'hris/forgot_password.html')
+
+
 def get_user_type_from_email(email_id):
     # """
     # Returns CustomUser.user_type corresponding to the given email address
