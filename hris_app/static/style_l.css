@@ -53,21 +53,21 @@ html {
 }
 .login_btn {
   width: 100%;
-  background: #0d6efd !important;
+  background: #01060e !important;
   color: white !important;
 }
 .login_btn:focus {
   box-shadow: none !important;
   outline: 10px !important;
-  /*width: 100px;
-    padding: 5px;
-    margin: 10px;
-    border-radius: 15px;
-    color: white;
-    background-color:#0d6efd;*/
+  width: 100px;
+  padding: 5px;
+  margin: 10px;
+  border-radius: 15px;
+  color: white;
+  background-color:#0d6efd;
 }
 .reg_btn {
-  width: 100%;
+  width: 90%;
   background: #0d6efd !important;
   color: white !important;
   margin: 10px;
@@ -75,12 +75,12 @@ html {
 .reg_btn:focus {
   box-shadow: none !important;
   outline: 10px !important;
-  /*width: 100px;
-    padding: 5px;
-    margin: 10px;
-    border-radius: 15px;
-    color: white;
-    background-color:#0d6efd;*/
+  width: 100px;
+  padding: 5px;
+  margin: 10px;
+  border-radius: 15px;
+  color: white;
+  background-color:#0d6efd;
 }
 
 .Register_button {
