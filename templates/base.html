@@ -66,6 +66,7 @@
             <a href="{% url 'admin_app:employees' %} ">Employees</a>
             <a href="{% url 'admin_app:leaves' %}">Leaves</a>
             <a href="{% url 'hris:logout' %}">Logout</a>
+            <a href="{% url 'hris:password_change' %}">Change Password</a>
             
         {% else %}
             <a href="{% url 'staff:staff-home' %}">Dashboard</a>
@@ -74,6 +75,7 @@
             <a href="{% url 'staff:award' %}">Awards</a>
             <a href="{% url 'staff:leave' %}">Leave</a>
             <a href="{% url 'hris:logout' %}">Logout</a>
+            <a href="{% url 'hris:password_change' %}">Change Password</a>
         {% endif %}
     </div>
     <div class="main">

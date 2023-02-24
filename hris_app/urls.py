@@ -14,7 +14,10 @@ urlpatterns = [
     path('doLogin', views.doLogin, name="doLogin"),
     path('doRegistration', views.doRegistration, name="doRegistration"),
 
-
+    path('password_change/', auth_views.PasswordChangeView.as_view(),
+         name="password_change"),
+    path('password_change/done/', auth_views.PasswordChangeDoneView.as_view(),
+         name="password_change_done"),
 
     path('password_reset/', auth_views.PasswordResetView.as_view(),
          name="password_reset"),
