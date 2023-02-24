@@ -43,11 +43,13 @@ def doLogin(request):
         messages.error(request, "Please provide all the login details.")
         return render(request, 'hris/login_page.html')
 
-    user = CustomUser.objects.filter(email=email_id, password=password).last()
+    user = CustomUser.objects.filter(email=email_id).last()
     if not user:
         messages.error(request, 'Invalid Login Credentials')
         return render(request, 'hris/login_page.html')
-
+    if not authenticate(request, username=email_id, password=password):
+        messages.error(request, 'Invalid Login Credentials')
+        return render(request, 'hris/login_page.html')
     login(request, user)
     print(request, user)  # for testing
 
