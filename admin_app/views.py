@@ -18,6 +18,8 @@ from staff_app.models import Employee, Leave
 
 
 def home(request):
+    if not (request.user.is_authenticated and request.user.is_superuser):
+        return redirect('hris:home')
     return render(request, "admin/admin_home.html")
 
 

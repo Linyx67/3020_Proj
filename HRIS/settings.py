@@ -152,7 +152,7 @@ EMAIL_HOST_USER = 'hr.system.x@gmail.com'
 EMAIL_HOST_PASSWORD = 'alyposeylitiokui'
 
 # Auto Logout Functionality
-AUTO_LOGOUT = {'IDLE_TIME': 10,
+AUTO_LOGOUT = {'IDLE_TIME': 1800,
                'REDIRECT_TO_LOGIN_IMMEDIATELY': True,
                'MESSAGE': 'The session has expired. Please login again to continue.',
                }
