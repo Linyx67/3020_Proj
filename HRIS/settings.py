@@ -61,6 +61,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    # 3rd party auto logout
+    'django_auto_logout.middleware.auto_logout',
 ]
 
 ROOT_URLCONF = 'HRIS.urls'
@@ -76,6 +79,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
+                # for 3rd party django-auto-logout
+                'django_auto_logout.context_processors.auto_logout_client',
             ],
         },
     },
@@ -144,3 +150,9 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'hr.system.x@gmail.com'
 EMAIL_HOST_PASSWORD = 'alyposeylitiokui'
+
+# Auto Logout Functionality
+AUTO_LOGOUT = {'IDLE_TIME': 10,
+               'REDIRECT_TO_LOGIN_IMMEDIATELY': True,
+               'MESSAGE': 'The session has expired. Please login again to continue.',
+               }

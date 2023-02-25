@@ -9,6 +9,11 @@
     <link rel="stylesheet" type="text/CSS" href="{% static "css/bootstrap.min.css" %}">
     <link rel="stylesheet" href="{% static "style_l.css" %}">
 </head>
+{% for message in messages %}
+    <div class="message text-center alert alert-info {{message.tags}}">
+        {{message}}
+    </div>
+{% endfor %}
 <body>
     <div class="d-flex justify-content-center">
         <h1 class="Header">Welcome to the Human Resource Information System</h1>
@@ -32,6 +37,6 @@
             </div>
         </div>
     </div>
-
+    {{ redirect_to_login_immediately}}
 </body>
 </html>

@@ -30,7 +30,7 @@ def contact(request):
 
 
 def loginUser(request):
-    return render(request, 'hris/login_page.html')
+    return render(request, 'hris/login.html')
 
 
 def doLogin(request):
@@ -42,15 +42,15 @@ def doLogin(request):
     print(request.user)
     if not (email_id and password):
         messages.error(request, "Please provide all the login details.")
-        return render(request, 'hris/login_page.html')
+        return render(request, 'hris/login.html')
 
     user = CustomUser.objects.filter(email=email_id).last()
     if not user:
         messages.error(request, 'Invalid Login Credentials')
-        return render(request, 'hris/login_page.html')
+        return render(request, 'hris/login.html')
     if not authenticate(request, username=email_id, password=password):
         messages.error(request, 'Invalid Login Credentials')
-        return render(request, 'hris/login_page.html')
+        return render(request, 'hris/login.html')
     login(request, user)
     print(request, user)  # for testing
 
@@ -124,17 +124,12 @@ def doRegistration(request):
         employee.save()
     elif user_type == CustomUser.ADMINISTRATOR:
         AdminUser.objects.create(admin=user)
-    return render(request, 'hris/login_page.html')
+    return render(request, 'hris/login.html')
 
 
 def logout_user(request):
     logout(request)
     return HttpResponseRedirect('/')
-
-
-# def forgot_password(request):
-
-    return render(request, 'hris/forgot_password.html')
 
 
 def get_user_type_from_email(email_id):
