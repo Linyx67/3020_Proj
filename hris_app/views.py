@@ -132,6 +132,34 @@ def logout_user(request):
     return HttpResponseRedirect('/')
 
 
+def add_accounts(request):
+    if not (request.user.is_authenticated and request.user.is_superuser):
+        return redirect('hris:home')
+    if request.FILES:
+        file = request.FILES['file'].read()
+        emails = file.splitlines()
+        for email_b in emails:
+            email = email_b.decode("utf-8")
+            name = email.split('@')[0]
+            firstname = name.split('.')[0]
+            lastname = name.split('.')[1]
+            user = CustomUser()
+            user_type = get_user_type_from_email(email)
+            user.username = email
+            user.email = email
+            user.user_type = user_type
+            user.first_name = firstname
+            user.last_name = lastname
+            user.save()
+            StaffUser.objects.create(admin=user)
+            employee = Employee.objects.create(user_id=user.id)
+            employee.firstname = firstname
+            employee.lastname = lastname
+            employee.email = email
+            employee.save()
+    return render(request, 'hris/add_accounts.html')
+
+
 def get_user_type_from_email(email_id):
     # """
     # Returns CustomUser.user_type corresponding to the given email address

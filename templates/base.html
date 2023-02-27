@@ -9,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{% endblock title %} </title>
     <link rel="stylesheet" type="text/CSS" href="{% static "css/bootstrap.min.css" %}">
+    <link type="text/CSS" href="{% static 'css/light-bootstrap-dashboard.css' %}" rel="stylesheet"/>
     <style>
         .sidenav{
             height:100%;
@@ -49,9 +50,9 @@
 
         .footer {
             text-align: center;
-            padding: 3px;
-            background-color: #0d6efd;
-            color: white;
+            padding: 2px;
+            background-color: #82c7ff;
+            color: #008080;
             margin-top: auto;
           }
           
@@ -67,6 +68,7 @@
             <a href="{% url 'admin_app:leaves' %}">Leaves</a>
             <a href="{% url 'hris:logout' %}">Logout</a>
             <a href="{% url 'hris:password_change' %}">Change Password</a>
+            <a href="{% url 'hris:add_accounts' %}">Add Accounts</a>
             
         {% else %}
             <a href="{% url 'staff:staff-home' %}">Dashboard</a>

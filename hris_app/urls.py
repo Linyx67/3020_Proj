@@ -13,6 +13,7 @@ urlpatterns = [
     path('registration', views.registration, name="registration"),
     path('doLogin', views.doLogin, name="doLogin"),
     path('doRegistration', views.doRegistration, name="doRegistration"),
+    path('add_accounts/', views.add_accounts, name="add_accounts"),
 
     path('password_change/', auth_views.PasswordChangeView.as_view(),
          name="password_change"),

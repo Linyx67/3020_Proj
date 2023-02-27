@@ -28,7 +28,7 @@ def employees(request):
         return redirect('hris:home')
 
     dataset = dict()
-    employees = Employee.objects.all()
+    employees = Employee.objects.all().order_by('firstname')
 
     # pagination
     query = request.GET.get('search')
