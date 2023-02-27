@@ -142,20 +142,21 @@ def add_accounts(request):
             email = email_b.decode("utf-8")
             name = email.split('@')[0]
             firstname = name.split('.')[0]
-            lastname = name.split('.')[1]
+            last = name.split('.')[1]
+            lastname = ''.join([i for i in last if not i.isdigit()])
             user = CustomUser()
             user_type = get_user_type_from_email(email)
             user.username = email
             user.email = email
             user.password = make_password('password')
             user.user_type = user_type
-            user.first_name = firstname
-            user.last_name = lastname
+            user.first_name = firstname.capitalize()
+            user.last_name = lastname.capitalize()
             user.save()
             StaffUser.objects.create(admin=user)
             employee = Employee.objects.create(user_id=user.id)
-            employee.firstname = firstname
-            employee.lastname = lastname
+            employee.firstname = firstname.capitalize()
+            employee.lastname = lastname.capitalize()
             employee.email = email
             employee.save()
     return render(request, 'hris/add_accounts.html')

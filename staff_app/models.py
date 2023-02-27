@@ -166,7 +166,7 @@ class Employee(models.Model):
     othername = models.CharField(
         _('Othername (optional)'), max_length=125, null=True, blank=True)
     sex = models.CharField(_('Gender'), max_length=10,
-                           default=MALE, choices=GENDER, blank=False)
+                           default=NOT_KNOWN, choices=GENDER, blank=False)
     email = models.EmailField(
         _('Email'), max_length=255, default=None, blank=True, null=True)
     tel = PhoneNumberField(null=False, blank=False,
