@@ -117,7 +117,7 @@ def profile_update(request):
         instance = form.save(commit='false')
         instance.user = request.user
         instance.save()
-        return redirect('/staff_view/profile')
+        return redirect('/staff_view/profile/')
 
     context = {
         'form': form
@@ -133,7 +133,7 @@ def add_award(request):
         instance = form.save(commit='false')
         instance.user = request.user
         instance.save()
-        return redirect('/staff_view/awards')
+        return redirect('/staff_view/awards/')
     context = {
         'form': form
     }
@@ -150,7 +150,7 @@ def edit_award(request, id):
         instance = form.save(commit='false')
         instance.user = request.user
         instance.save()
-        return redirect('/staff_view/awards')
+        return redirect('/staff_view/awards/')
     context = {
         'form': form
     }
@@ -198,7 +198,7 @@ def edit_publication(request, id):
         instance = form.save(commit='false')
         instance.user = request.user
         instance.save()
-        return redirect('/staff_view/publications')
+        return redirect('/staff_view/publications/')
 
     context = {
         'form': form
