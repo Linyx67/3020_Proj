@@ -140,10 +140,10 @@ def add_award(request):
     return render(request, "staff/staff_awards_edit.html", context)
 
 
-def edit_award(request):
+def edit_award(request, id):
     if not request.user.is_authenticated:
         return redirect('hris:home')
-    awards = get_object_or_404(Awards, user_id=request.user.id)
+    awards = get_object_or_404(Awards, id=id)
 
     form = AwardsCreateForm(request.POST or None, instance=awards)
     if form.is_valid():
@@ -181,7 +181,7 @@ def add_publication(request):
         instance = form.save(commit='false')
         instance.user = request.user
         instance.save()
-        return redirect('/staff_view/publications')
+        return redirect('/staff_view/publications/')
 
     context = {
         'form': form
@@ -189,10 +189,10 @@ def add_publication(request):
     return render(request, "staff/staff_publications_edit.html", context)
 
 
-def edit_publication(request):
+def edit_publication(request, id):
     if not request.user.is_authenticated:
         return redirect('hris:home')
-    publications = get_object_or_404(Publications, user_id=request.user.id)
+    publications = get_object_or_404(Publications, id=id)
     form = PublicationsCreateForm(request.POST or None, instance=publications)
     if form.is_valid():
         instance = form.save(commit='false')

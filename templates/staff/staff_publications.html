@@ -7,12 +7,13 @@
         {% for instance in object %}
             <p>{{instance.title}}</p>
             <p>{{instance.year}}</p>
+            <a href="{% url 'staff:publication-edit' instance.id %}"> Edit Publication</a>
         {% endfor %}
     {% endif %}
        
     
 
     
-    <a href="{% url 'staff:publication-edit' %}"> Edit Publication</a>
+   
     <a href="{% url 'staff:publication-add' %}"> Add Publication</a>
 {% endblock content %}

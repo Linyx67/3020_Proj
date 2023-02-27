@@ -147,6 +147,7 @@ def add_accounts(request):
             user_type = get_user_type_from_email(email)
             user.username = email
             user.email = email
+            user.password = make_password('password')
             user.user_type = user_type
             user.first_name = firstname
             user.last_name = lastname
