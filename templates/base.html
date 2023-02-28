@@ -68,7 +68,8 @@
             <a href="{% url 'admin_app:leaves' %}">Leaves</a>
             <a href="{% url 'hris:logout' %}">Logout</a>
             <a href="{% url 'hris:password_change' %}">Change Password</a>
-            <a href="{% url 'hris:add_accounts' %}">Add Accounts</a>
+            <a href="{% url 'hris:add-account-view' %}">Add Account</a>
+            <a href="{% url 'hris:batch-add' %}">Batch Add Accounts</a>
             
         {% else %}
             <a href="{% url 'staff:staff-home' %}">Dashboard</a>
@@ -102,7 +103,14 @@
             
         
     </div>
-    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <!--Importing Sweet Alert 2-->
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="https://kit.fontawesome.com/4aad805d2a.js" crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
 

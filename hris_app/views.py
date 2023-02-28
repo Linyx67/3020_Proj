@@ -135,20 +135,30 @@ def logout_user(request):
 def add_accounts(request):
     if not (request.user.is_authenticated and request.user.is_superuser):
         return redirect('hris:home')
+    failed = []
+    exists = []
     if request.FILES:
         file = request.FILES['file'].read()
         emails = file.splitlines()
         for email_b in emails:
             email = email_b.decode("utf-8")
+            if not email.endswith("sta.uwi.edu"):
+                failed.append(email)
+                continue
+            user_exists = CustomUser.objects.filter(email=email).exists()
+            if user_exists:
+                exists.append(email)
+                continue
             name = email.split('@')[0]
-            firstname = name.split('.')[0]
+            first = name.split('.')[0]
+            firstname = ''.join([i for i in first if not i.isdigit()])
             last = name.split('.')[1]
             lastname = ''.join([i for i in last if not i.isdigit()])
             user = CustomUser()
             user_type = get_user_type_from_email(email)
             user.username = email
             user.email = email
-            user.password = make_password('password')
+            user.password = make_password('password')  # default passowrd
             user.user_type = user_type
             user.first_name = firstname.capitalize()
             user.last_name = lastname.capitalize()
@@ -159,7 +169,51 @@ def add_accounts(request):
             employee.lastname = lastname.capitalize()
             employee.email = email
             employee.save()
-    return render(request, 'hris/add_accounts.html')
+
+    context = {
+        "failed": failed,
+        "exists": exists
+    }
+    return render(request, "hris/batch_add.html", context)
+
+
+def add_account_view(request):
+    if not (request.user.is_authenticated and request.user.is_superuser):
+        return redirect('hris:home')
+    return render(request, "hris/add_account.html")
+
+
+def add_account(request):
+    if not (request.user.is_authenticated and request.user.is_superuser):
+        return redirect('hris:home')
+    email = request.POST.get('email_address')
+    user_exists = CustomUser.objects.filter(email=email).exists()
+    if user_exists:
+        messages.error(request, 'User with this email already exists')
+        return render(request, 'hris/add_account.html')
+    else:
+        name = email.split('@')[0]
+        first = name.split('.')[0]
+        firstname = ''.join([i for i in first if not i.isdigit()])
+        last = name.split('.')[1]
+        lastname = ''.join([i for i in last if not i.isdigit()])
+        user = CustomUser()
+        user_type = get_user_type_from_email(email)
+        user.username = email
+        user.email = email
+        user.password = make_password('password')  # default passowrd
+        user.user_type = user_type
+        user.first_name = firstname.capitalize()
+        user.last_name = lastname.capitalize()
+        user.save()
+        StaffUser.objects.create(admin=user)
+        employee = Employee.objects.create(user_id=user.id)
+        employee.firstname = firstname.capitalize()
+        employee.lastname = lastname.capitalize()
+        employee.email = email
+        employee.save()
+        return render(request, "admin/admin_home.html")
+    return render(request, "hris/add_account.html")
 
 
 def get_user_type_from_email(email_id):

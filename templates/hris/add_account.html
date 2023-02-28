@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}Employees | Add{% endblock title %}
+{% block stylesheet %}{% endblock stylesheet %}
+{% block content %}
+    <form action="{% url 'hris:add-account'%}" method="POST">{% csrf_token %}
+        <input id="email" class="form-control" type="email" name="email_address" placeholder="Email" required>
+        <div class="d-flex justify-content-center">
+            <input class="btn btn-primary" type="submit" id="register" name="create" value="Add">
+            <!--submission button -->
+        </div>
+    </form>
+    {% if messages %}
+        <div class="col-12">
+            {% for message in messages %}
+                {% if message.tags == "error" %}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <b>{{ message }}</b>
+                    <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endblock content %}

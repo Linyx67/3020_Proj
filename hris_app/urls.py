@@ -13,7 +13,9 @@ urlpatterns = [
     path('registration', views.registration, name="registration"),
     path('doLogin', views.doLogin, name="doLogin"),
     path('doRegistration', views.doRegistration, name="doRegistration"),
-    path('add_accounts/', views.add_accounts, name="add_accounts"),
+    path('batch_add/', views.add_accounts, name="batch-add"),
+    path('add_accounts/', views.add_account_view, name="add-account-view"),
+    path('add_account/', views.add_account, name="add-account"),
 
     path('password_change/', auth_views.PasswordChangeView.as_view(),
          name="password_change"),

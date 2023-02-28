@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}Employees | Add{% endblock title %}
+{% block stylesheet %}{% endblock stylesheet %}
+{% block content %}
+    <form action="." method="post"enctype="multipart/form-data">{% csrf_token %}
+        File:
+        <input type="file" name="file"/>
+        <input type="submit" value="UPLOAD" />
+    </form>
+    {% if failed %}
+        <p>There was an error adding the following users: </p>
+        {% for instance in failed  %}
+            <p>{{instance}}</p>
+        {% endfor %}
+        <p>Adjust the emails in the file or enter them manually to proceed</p>
+        <p>The following users already exist</p>
+        {% for instance in exists %}
+            <p>{{instance}}</p>
+        {% endfor %}
+    {% endif %}
+{% endblock content %}
