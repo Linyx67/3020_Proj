@@ -18,6 +18,12 @@
                     <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
                 </div>
                 {% endif %}
+                {% if message.tags == "success" %}
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <b>{{ message }}</b>
+                    <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endif %}
             {% endfor %}
         </div>
     {% endif %}

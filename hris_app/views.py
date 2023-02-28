@@ -212,7 +212,8 @@ def add_account(request):
         employee.lastname = lastname.capitalize()
         employee.email = email
         employee.save()
-        return render(request, "admin/admin_home.html")
+        messages.success(request, 'Successfully added user')
+        return render(request, "hris/add_account.html")
     return render(request, "hris/add_account.html")
 
 
