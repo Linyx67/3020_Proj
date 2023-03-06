@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}Employees | Publications{% endblock title %}
+{% block stylesheet %}{% endblock stylesheet %}
+{% block content %}
+    {% if not publications %}
+        <p>No Publications</p>
+    {% else %}
+        {% for name in names %}
+            <p>{{name.firstname}}  {{name.lastname}}</p>
+            {% for instance in publications  %}
+                {% if instance.user_id == name.user_id %}
+                    <p>{{instance.title}}</p>
+                    <p>{{instance.year}}</p>
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+    {% endif %}
+{% endblock content %}

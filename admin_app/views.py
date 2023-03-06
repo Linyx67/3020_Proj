@@ -201,12 +201,30 @@ def view_my_leave_table(request):
 def awards(request):
     if not (request.user.is_authenticated and request.user.is_superuser):
         return redirect('hris:home')
-    awards = Awards.objects.all().order_by('year')
-    return render(request, "admin/awards.html")
+    awards = Awards.objects.all().order_by('-year')
+    ids = []
+    for instance in awards:
+        ids.append(instance.user_id)
+    names = Employee.objects.filter(user_id__in=ids)
+
+    context = {
+        "awards": awards,
+        "names": names
+    }
+    return render(request, "admin/awards.html", context)
 
 
 def publications(request):
     if not (request.user.is_authenticated and request.user.is_superuser):
         return redirect('hris:home')
-    publications = Publications.objects.all().order_by('year')
-    return render(request, "admin/awards.html")
+    publications = Publications.objects.all().order_by('-year')
+    ids = []
+    for instance in publications:
+        ids.append(instance.user_id)
+    names = Employee.objects.filter(user_id__in=ids)
+
+    context = {
+        "publications": publications,
+        "names": names
+    }
+    return render(request, "admin/publications.html", context)
