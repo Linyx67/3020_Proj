@@ -13,7 +13,7 @@ from django.contrib.auth import (
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.contrib import messages
 from django.db.models import Q
-from staff_app.models import Employee, Leave
+from staff_app.models import Employee, Leave, Awards, Publications
 # Create your views here.
 
 
@@ -196,3 +196,17 @@ def view_my_leave_table(request):
     else:
         return redirect('accounts:login')
     return render(request, 'dashboard/staff_leaves_table.html', dataset)
+
+
+def awards(request):
+    if not (request.user.is_authenticated and request.user.is_superuser):
+        return redirect('hris:home')
+    awards = Awards.objects.all().order_by('year')
+    return render(request, "admin/awards.html")
+
+
+def publications(request):
+    if not (request.user.is_authenticated and request.user.is_superuser):
+        return redirect('hris:home')
+    publications = Publications.objects.all().order_by('year')
+    return render(request, "admin/awards.html")
