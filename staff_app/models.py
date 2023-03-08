@@ -344,6 +344,13 @@ class Leave(models.Model):
     def is_rejected(self):
         return self.status == 'rejected'
 
+    @ property
+    def get_full_name(self):
+        user = self.user
+        firstname = self.user.first_name
+        lastname = self.user.last_name
+        fullname = firstname+' '+lastname
+        return fullname
     # def save(self,*args,**kwargs):
     # 	data = self.defaultdays
     # 	days_left = data - self.leave_days
