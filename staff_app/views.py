@@ -239,6 +239,7 @@ def add_leave(request):
 def view_leave(request):
     if not request.user.is_authenticated:
         return redirect('hris:home')
+
     if Leave.objects.filter(user_id=request.user.id).exists():
         leave = Leave.objects.filter(user_id=request.user.id)
     else:

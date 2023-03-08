@@ -1,11 +1,12 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}Staff | Leave{% endblock title %}
 {% block content %}
     {% if not object %}
         <p>No Leaves</p>
         <a href="{% url 'staff:add-leave' %}">Add Leave</a>
     {% else %}  
+        <p>test</p>
         <p>{{object.status}}</p>
-        
     {% endif %}
 {% endblock content %}
