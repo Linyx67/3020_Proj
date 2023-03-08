@@ -6,7 +6,8 @@
         <p>No Leaves</p>
         <a href="{% url 'staff:add-leave' %}">Add Leave</a>
     {% else %}  
-        <p>test</p>
-        <p>{{object.status}}</p>
+        {% for instance in object  %}
+            <p>{{instance.status}}</p>
+        {% endfor %}
     {% endif %}
 {% endblock content %}

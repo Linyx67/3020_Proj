@@ -327,11 +327,12 @@ class Leave(models.Model):
             self.status = 'cancelled'
             self.save()
 
-    # def uncancel_leave(self):
-    # 	if  self.is_approved or not self.is_approved:
-    # 		self.is_approved = False
-    # 		self.status = 'pending'
-    # 		self.save()
+    @ property
+    def uncancel_leave(self):
+        if self.is_approved or not self.is_approved:
+            self.is_approved = False
+            self.status = 'pending'
+            self.save()
 
     @ property
     def reject_leave(self):
