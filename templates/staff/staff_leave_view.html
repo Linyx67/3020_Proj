@@ -1,5 +1,11 @@
 {% extends 'base.html' %}
 {% block title %}Staff | Leave{% endblock title %}
 {% block content %}
-    <p></p>
+    {% if not object %}
+        <p>No Leaves</p>
+        <a href="{% url 'staff:add-leave' %}">Add Leave</a>
+    {% else %}  
+        <p>{{object.status}}</p>
+        
+    {% endif %}
 {% endblock content %}
