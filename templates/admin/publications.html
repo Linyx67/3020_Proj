@@ -5,14 +5,10 @@
     {% if not publications %}
         <p>No Publications</p>
     {% else %}
-        {% for name in names %}
-            <p>{{name.firstname}}  {{name.lastname}}</p>
-            {% for instance in publications  %}
-                {% if instance.user_id == name.user_id %}
-                    <p>{{instance.title}}</p>
-                    <p>{{instance.year}}</p>
-                {% endif %}
-            {% endfor %}
+        {% for instance in publications  %}
+            <p>{{instance.get_full_name}}</p>   
+            <p>{{instance.title}}</p>
+            <p>{{instance.year}}</p>
         {% endfor %}
     {% endif %}
 {% endblock content %}

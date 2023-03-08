@@ -386,6 +386,14 @@ class Publications(models.Model):
     def __str__(self):
         return (self.user.first_name+' '+self.user.last_name)
 
+    @ property
+    def get_full_name(self):
+        user = self.user
+        firstname = self.user.first_name
+        lastname = self.user.last_name
+        fullname = firstname+' '+lastname
+        return fullname
+
 
 class Awards(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=1)
@@ -400,5 +408,13 @@ class Awards(models.Model):
         verbose_name_plural = _('Awards')
         ordering = ['-created']
 
-    # def __str__(self):
-    #     return (self.user.first_name+' '+self.user.last_name)
+    def __str__(self):
+        return (self.user.first_name+' '+self.user.last_name)
+
+    @ property
+    def get_full_name(self):
+        user = self.user
+        firstname = self.user.first_name
+        lastname = self.user.last_name
+        fullname = firstname+' '+lastname
+        return fullname
