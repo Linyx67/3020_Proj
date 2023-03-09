@@ -23,9 +23,9 @@ padding-top: 10px;
 }
 
 span{
-  color: #c7c7c7;
-font-weight: lighter;
-font-size: 14px;
+    color: #c7c7c7;
+    font-weight: lighter;
+    font-size: 14px;
 }
 
 
@@ -77,6 +77,7 @@ font-variant: petite-caps;
   background-color: #2d88a9 !important;
 }
 
+
 .panel-title a:hover{
 color:#e6e4e4;
 }
@@ -88,6 +89,13 @@ color:#e6e4e4;
 .panel-title a:focus{
 color:#e6e4e4;
 }
+a:link {
+    color: white;
+    background-color: transparent;
+    text-decoration: none;
+}
+
+
 {% endblock stylesheet %}
 {% block content %}
     <section class="content">
@@ -122,17 +130,21 @@ color:#e6e4e4;
                     <section class="text-centered" style="margin-top: 3px;">
                         <ul class="list-group">
                             <li class="list-group-item"><span>Fullname</span> <div>{{ employee.get_full_name }}</div></li>
-                            <li class="list-group-item"><span>Nationality</span><div> {{ employee.nationality}}</div></li>
+        
 
                             {% if employee.email %}
                                 <li class="list-group-item"><span>Email</span> <div>{{ employee.email}}</div></li>
                             {% endif %}
-                            <li class="list-group-item"><span>Department</span> <div>{{ employee.department}}</div></li>
+                            
                             <li class="list-group-item"><span>Employee Type</span> <div>{{ employee.employeetype}}</div></li>
-                            <li class="list-group-item"><span>Role</span> <div>{{ employee.role}}</div></li>
-                                    <li class="list-group-item"><span>Date of Birth</span> <div>{{ employee.birthday}}</div></li>
-                            <li class="list-group-item"><span>Age </span><div>{{ employee.get_age }}</div></li>
-
+                            
+                            {% if employee.birthday %}
+                                <li class="list-group-item"><span>Date of Birth</span> <div>{{ employee.birthday}}</div></li>
+                                <li class="list-group-item"><span>Age </span><div>{{ employee.get_age }}</div></li>
+                            {% else %}
+                                <li class="list-group-item"><span>Date of Birth</span> <div>NONE</div></li>
+                                <li class="list-group-item"><span>Age </span><div>N/A</div></li>
+                            {% endif %}
                             {% if employee.is_blocked %}
                             <li class="list-group-item"><span>Status</span> <div>Inactive</div></li>
                             {% else %}
@@ -157,8 +169,8 @@ color:#e6e4e4;
                         <div class="panel panel-default">
                             <div class="panel-heading" role="tab" id="headingOne">
                                 <h4 class="panel-title">
-                                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                        PERSONAL INFORMATIONS 
+                                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne" >
+                                        PERSONAL INFORMATION 
                                     </a>
                                 </h4>
                             </div>
@@ -216,8 +228,8 @@ color:#e6e4e4;
                                                             <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>Date of Birth</span><div>{{ employee.birthday}}</div></a>
                                                         {% endif %}
 
-                                                        {% if employee.tinnumber %}
-                                                            <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>TIN</span> <div>{{ employee.tinnumber }}</div></a>
+                                                        {% if employee.nisnumber %}
+                                                            <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>NIS</span> <div>{{ employee.nisnumber|stringformat:"09d" }}</div></a>
                                                         {% endif %}
 
                                                         {% if employee.employeeid %}

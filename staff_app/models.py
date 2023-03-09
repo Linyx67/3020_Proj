@@ -173,7 +173,8 @@ class Employee(models.Model):
                            verbose_name='Phone Number')
     bio = models.CharField(_('Bio'), max_length=255,
                            default='', null=True, blank=True)
-    birthday = models.DateField(_('Date of Birth'), blank=False, null=True)
+    birthday = models.DateField(
+        _('Date of Birth'), blank=False, null=True)
 
     nisnumber = models.PositiveIntegerField(
         _('NIS Number'), null=True, blank=True)
