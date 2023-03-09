@@ -14,6 +14,7 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.contrib import messages
 from django.db.models import Q
 from staff_app.models import Employee, Leave, Awards, Publications
+from hris_app.models import CustomUser
 # Create your views here.
 
 
@@ -58,7 +59,7 @@ def employees_info(request, id):
     if not (request.user.is_authenticated and request.user.is_superuser):
         return redirect('hris:home')
 
-    employee = get_object_or_404(Employee, id=id)
+    employee = get_object_or_404(Employee, user_id=id)
 
     dataset = dict()
     dataset['employee'] = employee
@@ -231,20 +232,63 @@ def view_my_leave_table(request):
 def awards(request):
     if not (request.user.is_authenticated and request.user.is_superuser):
         return redirect('hris:home')
-    awards = Awards.objects.all().order_by('-year')
 
-    context = {
-        "awards": awards,
-    }
-    return render(request, "admin/awards.html", context)
+    awards = Awards.objects.all().order_by('-year')
+    users = CustomUser.objects.all()
+    dataset = dict()
+
+    # pagination
+    query = request.GET.get('search')
+    if query:
+        users = users.filter(
+            Q(first_name__icontains=query) |
+            Q(last_name__icontains=query)
+        )
+        ids = []
+        for user in users:
+            ids = ids.append(user.id)
+        awards = awards.filter(user_id__in=users.id)
+
+    paginator = Paginator(awards, 10)  # show 10 employee lists per page
+
+    page = request.GET.get('page')
+    awards_paginated = paginator.get_page(page)
+
+    dataset['awards_list'] = awards_paginated
+    dataset['all_awards'] = Awards.objects.all()
+
+    dataset['title'] = 'Awards list view'
+
+    return render(request, "admin/awards.html", dataset)
 
 
 def publications(request):
     if not (request.user.is_authenticated and request.user.is_superuser):
         return redirect('hris:home')
-    publications = Publications.objects.all().order_by('-year')
 
-    context = {
-        "publications": publications,
-    }
-    return render(request, "admin/publications.html", context)
+    publications = Publications.objects.all().order_by('-year')
+    users = CustomUser.objects.all()
+    dataset = dict()
+
+    # pagination
+    query = request.GET.get('search')
+    if query:
+        users = users.filter(
+            Q(first_name__icontains=query) |
+            Q(last_name__icontains=query)
+        )
+        ids = []
+        for user in users:
+            ids = ids.append(user.id)
+        publications = publications.filter(user_id__in=users.id)
+
+    paginator = Paginator(publications, 10)  # show 10 employee lists per page
+
+    page = request.GET.get('page')
+    publications_paginated = paginator.get_page(page)
+
+    dataset['pubs_list'] = publications_paginated
+    dataset['all_pubs'] = Publications.objects.all()
+
+    dataset['title'] = 'Publications list view'
+    return render(request, "admin/publications.html", dataset)

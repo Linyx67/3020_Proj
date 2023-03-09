@@ -1,14 +1,182 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}Employees | Awards{% endblock title %}
-{% block stylesheet %}{% endblock stylesheet %}
+{% block stylesheet %}
+.table-shadow{
+    background: white;
+    padding: 2%;
+    -webkit-box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(	0,0,0,0.2);
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);
+}
+.count-object {
+    position: absolute;
+    top: 31%;
+    right: 12px;
+    font-size: 25px;
+    font-weight: 100;
+    font-variant: petite-caps;
+    color: #f5f5f5;
+    text-shadow:1px 1px rgba(8, 8, 8, 0.23);
+}
+.sec-box{
+    <!-- width:200px; --><!-- enabled -> removes box responsiveness : avoid this -->
+    height:80px;
+    max-width:100%;
+    line-height:80px;
+    text-align:center;
+    position:relative;
+    
+    font-size:1.9rem;
+
+   -webkit-box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);
+   box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);
+   transition: all 400ms ease-in;
+
+   font-variant: petite-caps;
+}
+
+.sec-box a{
+    color:#fff;
+    text-decoration:none;
+       
+}
+   
+   
+.employee-box{
+    background:#26969a;
+}
+
+.blocked-box{
+    background:#8664ad;
+}
+
+#stylebutton{
+    background: #60a0b3 !important;
+    color: #fff !important;
+    font-variant: petite-caps !important;
+    font-size: 14px !important;
+}
+
+.input-group-btn + input:focus{
+    outline:#60a0b3;
+}
+#name:link, #name:visited {
+    color: black;
+    background-color: transparent;
+    text-decoration: none;
+    text-underline: none;
+}
+#name:hover, #name:active {
+    background-color: #f0f2f0;
+  }
+{% endblock stylesheet %}
 {% block content %}
-    {% if not awards %}
+    <link type="text/CSS" href="{% static 'css/light-bootstrap-dashboard.css' %}" rel="stylesheet"/>
+    <section class="row">
+        <section class="col col-lg-12">
+            <a href="{{request.META.HTTP_REFERER|escape}}" style="color:#0d6efd;">back</a>
+        </section>
+    </section>
+    {% if not all_awards %}
         <p>No Awards</p>
     {% else %}
-        {% for instance in awards  %}
-            <p>{{instance.get_full_name}}</p>
-            <p>{{instance.title}}</p>
-            <p>{{instance.year}}</p>
-        {% endfor %}
+    
+    <section class="row margin-bottom">
+        <div class="container-fluid">
+        <section class="col-lg-4 col-md-4 col-sm-12">
+            <div class="employee-box sec-box">
+                <a href="">
+                <span>Awards</span>
+                </a>
+                <span class="count-object">{{ all_awards.count }}</span> 
+            </div>
+        </section>    
+    </section>
+
+    <div class="row" style="margin-bottom: 2.2rem;margin-top: 3rem;">
+        <div class="">
+        <div class="col-lg-12">
+
+            <form action="." method="GET">
+                <div class="input-group">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" id = "stylebutton" type="submit">Search</button>
+                    </span>
+                    <input type="search" value="{{request.GET.search}}" name="search" class="form-control" placeholder="Search by first name,last name...">
+                </div><!-- /input-group -->
+            </form>
+
+        </div><!-- /.col-lg-6 -->
+        </div>
+    </div><!-- /.row -->
+
+    <!-- TABLE -->
+    <div class="table-responsive table-shadow">
+        <div class="text-center table-description">
+            <h4 class="title-h3" style="color: #60a0b3 !important;
+            text-shadow: 1px 0px rgba(0,0,0,0.11)"> AWARDS TABLE</h4>
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+                 <div class="download-print-action">
+                      Download Excel | Pdf | Print <!-- Work on pdf and excel and print -->
+                      
+                </div>
+            </div>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                  <th scope="col">Full Name</th>
+                  <th scope="col">Award Title</th>
+                  <th scope="col">Year</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for award in awards_list %}
+                <tr>
+
+                  
+                    {% if not award.get_full_name == " " %}
+                        <td><a id="name" href="{% url 'admin_app:info' award.user_id %}">{{ award.get_full_name }}</a></td>
+                    {% else %}
+                        <td>N/A</td>
+                    {% endif %}
+
+                  
+                  <td>{{award.title}}</td>                 
+
+                  <td>{{award.year}}</td>
+
+                  
+                </tr>
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+        <!-- Pagination -->
+              <div class="pagination">
+                <span class="step-links">
+                    {% if awards_list.has_previous %}
+                        <a href="?page=1">&laquo; first</a>
+                        <a href="?page={{ awards_list.previous_page_number }}">previous</a>
+                    {% endif %}
+
+                    <span class="current">
+                        Page {{ awards_list.number }} of {{ awards_list.paginator.num_pages }}.
+                    </span>
+
+                    {% if awards_list.has_next %}
+                        <a href="?page={{ awards_list.next_page_number }}">next</a>
+                        <a href="?page={{ awards_list.paginator.num_pages }}">last &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+        <!-- /pagination -->
+
+
+    </div>
+    <!-- /TABLE -->
     {% endif %}
 {% endblock content %}
