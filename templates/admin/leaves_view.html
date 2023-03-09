@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'base_leave.html' %}
 {% load static %}
 {% block title %}Admin | Leaves{% endblock title %}
 {% block stylesheet %}
@@ -161,7 +161,7 @@
                 	<div class="table-responsive table-shadow">
                 		<div class="text-center table-description">
                 			<h4 class="title-h3" style="color: #60a0b3 !important;
-    						text-shadow: 1px 0px rgba(0,0,0,0.11)">ALL LEAVES</h4>
+    						text-shadow: 1px 0px rgba(0,0,0,0.11)">{{title}}</h4>
                 		</div>
                 	
                 		<table class="table">

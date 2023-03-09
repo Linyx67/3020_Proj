@@ -1,0 +1,104 @@
+{% load static %}
+
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock title %} </title>
+    <link rel="stylesheet" type="text/CSS" href="{% static "css/bootstrap.min.css" %}">
+    
+    <style>
+        .sidenav{
+            height:100%;
+            width:160px;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background-color: #82c7ff;
+            overflow-x: hidden;
+            padding-top: 20px;
+        }
+
+        .sidenav a{
+            padding: 6px 8px 6px 18px;
+            text-decoration: none;
+            font-size: 25px;
+            color: black;
+            display:block;
+        }
+
+        .sidenav a.active{
+            background-color: #04AA6D;
+            color: white;
+        }
+        .sidenav a:hover:not(.active){
+            background-color:#555;
+            color: #f1f1f1;
+        }
+
+        .main{
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            margin-left:160px;
+            padding: 0px 5px;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 2px;
+            background-color: #82c7ff;
+            color: #008080;
+            margin-top: auto;
+          }
+          
+          {% block stylesheet %}
+          {% endblock stylesheet %}
+    </style>
+</head>
+<body>
+    <div class="sidenav">
+        <a href="{% url 'admin_app:admin-home' %}">Dashboard</a>
+        <a href="{% url 'admin_app:leaves' %} ">All</a>
+        <a href="{% url 'admin_app:leaves-pending' %} ">Pending</a>
+        <a href="{% url 'admin_app:leaves-approved' %}">Approved</a>
+        <a href="{% url 'admin_app:leaves-cancelled' %}">Cancelled</a>
+        <a href="{% url 'admin_app:leaves-rejected' %}">Rejected</a>
+            
+    </div>
+    <div class="main">
+        {% block content %}
+        <section class="content">
+            <section class="container-fluid">
+                    
+
+
+            </section> <!-- /container -->           
+        </section>
+        {% endblock %}
+        
+            <footer class="footer">
+                <div class="container-fluid">
+                    <p class="copyright pull-right">
+                        &copy; <script>document.write(new Date().getFullYear())</script> DECE
+                    </p>
+                </div>
+            </footer> 
+        </div>  
+            
+        
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <!--Importing Sweet Alert 2-->
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="https://kit.fontawesome.com/4aad805d2a.js" crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -70,12 +70,23 @@ def employees_info(request, id):
 def leaves_list(request):
     if not (request.user.is_authenticated and request.user.is_superuser):
         return redirect('hris:home')
+    leaves = Leave.objects.all()
+    context = {
+        'leave_list': leaves,
+        'title': 'ALL LEAVES'
+    }
+    return render(request, "admin/leaves_view.html", context)
+
+
+def leaves_pending_list(request):
+    if not (request.user.is_authenticated and request.user.is_superuser):
+        return redirect('hris:home')
     leaves = Leave.objects.all_pending_leaves()
     context = {
         'leave_list': leaves,
-        'title': 'approved leave list'
+        'title': 'PENDING LEAVES'
     }
-    return render(request, "admin/view_leaves.html", context)
+    return render(request, "admin/leaves_view.html", context)
 
 
 def leaves_approved_list(request):
@@ -83,7 +94,35 @@ def leaves_approved_list(request):
         return redirect('hris:home')
     # approved leaves -> calling model manager method
     leaves = Leave.objects.all_approved_leaves()
-    return render(request, 'dashboard/leaves_approved.html', {'leave_list': leaves, 'title': 'approved leave list'})
+
+    context = {
+        'leave_list': leaves,
+        'title': 'approved leave list'
+    }
+    return render(request, 'admin/leaves_approved.html', context)
+
+
+def cancel_leaves_list(request):
+    if not (request.user.is_authenticated and request.user.is_superuser):
+        return redirect('hris:home')
+    leaves = Leave.objects.all_cancel_leaves()
+
+    context = {
+        'leave_list_cancel': leaves,
+        'title': 'Cancel leave list'
+    }
+
+    return render(request, 'admin/leaves_cancelled.html', context)
+
+
+def leave_rejected_list(request):
+    if not (request.user.is_authenticated and request.user.is_superuser):
+        return redirect('hris:home')
+    dataset = dict()
+    leave = Leave.objects.all_rejected_leaves()
+
+    dataset['leave_list_rejected'] = leave
+    return render(request, 'admin/leaves_rejected.html', dataset)
 
 
 def leaves_view(request, id):
@@ -92,7 +131,6 @@ def leaves_view(request, id):
 
     leave = get_object_or_404(Leave, id=id)
     employee = Employee.objects.filter(user=leave.user)[0]
-    print(employee)
     context = {'leave': leave,
                'employee': employee,
                'title': '{0}-{1} leave'.format(leave.user.username, leave.status)
@@ -113,19 +151,12 @@ def approve_leave(request, id):
     return redirect('admin_app:leave-employee', id=id)
 
 
-def cancel_leaves_list(request):
-    if not (request.user.is_authenticated and request.user.is_superuser):
-        return redirect('hris:home')
-    leaves = Leave.objects.all_cancel_leaves()
-    return render(request, 'dashboard/leaves_cancel.html', {'leave_list_cancel': leaves, 'title': 'Cancel leave list'})
-
-
 def unapprove_leave(request, id):
     if not (request.user.is_authenticated and request.user.is_superuser):
         return redirect('hris:home')
     leave = get_object_or_404(Leave, id=id)
     leave.unapprove_leave
-    return redirect('dashboard:leaveslist')  # redirect to unapproved list
+    return redirect('admin_app:leaves')  # redirect to unapproved list
 
 
 def cancel_leave(request, id):
@@ -137,7 +168,7 @@ def cancel_leave(request, id):
     messages.success(request, 'Leave is canceled',
                      extra_tags='alert alert-success alert-dismissible show')
     # work on redirecting to instance leave - detail view
-    return redirect('dashboard:canceleaveslist')
+    return redirect('admin_app:leaves-cancelled')
 
 
 # Current section -> here
@@ -151,17 +182,7 @@ def uncancel_leave(request, id):
     messages.success(request, 'Leave is uncanceled,now in pending list',
                      extra_tags='alert alert-success alert-dismissible show')
     # work on redirecting to instance leave - detail view
-    return redirect('dashboard:canceleaveslist')
-
-
-def leave_rejected_list(request):
-    if not (request.user.is_authenticated and request.user.is_superuser):
-        return redirect('hris:home')
-    dataset = dict()
-    leave = Leave.objects.all_rejected_leaves()
-
-    dataset['leave_list_rejected'] = leave
-    return render(request, 'dashboard/rejected_leaves_list.html', dataset)
+    return redirect('admin_app:leaves-cancelled')
 
 
 def reject_leave(request, id):
@@ -172,7 +193,7 @@ def reject_leave(request, id):
     leave.reject_leave
     messages.success(request, 'Leave is rejected',
                      extra_tags='alert alert-success alert-dismissible show')
-    return redirect('dashboard:leavesrejected')
+    return redirect('admin_app:leaves-rejected')
 
     # return HttpResponse(id)
 
@@ -187,7 +208,7 @@ def unreject_leave(request, id):
     messages.success(request, 'Leave is now in pending list ',
                      extra_tags='alert alert-success alert-dismissible show')
 
-    return redirect('dashboard:leavesrejected')
+    return redirect('admin_app:leaves-rejected')
 
 
 # Rabotec staffs leaves table user only

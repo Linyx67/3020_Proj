@@ -34,12 +34,8 @@ def loginUser(request):
 
 
 def doLogin(request):
-    print("here")
     email_id = request.POST.get('email')
     password = request.POST.get('password')
-    print(email_id)
-    print(password)
-    print(request.user)
     if not (email_id and password):
         messages.error(request, "Please provide all the login details.")
         return render(request, 'hris/login.html')
@@ -52,7 +48,6 @@ def doLogin(request):
         messages.error(request, 'Invalid Login Credentials')
         return render(request, 'hris/login.html')
     login(request, user)
-    print(request, user)  # for testing
 
     if user.user_type == CustomUser.ADMINISTRATOR:
         return redirect('admin_view/')
