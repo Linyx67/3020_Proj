@@ -68,12 +68,6 @@ def doRegistration(request):
     password = request.POST.get('password')
     confirm_password = request.POST.get('confirmPassword')
 
-    print(email_id)  # for testing
-    print(password)
-    print(confirm_password)
-    print(first_name)
-    print(last_name)
-
     if not (email_id and password and confirm_password):
         messages.error(request, 'Please provide all the information')
         return render(request, 'hris/registration.html')
@@ -95,7 +89,7 @@ def doRegistration(request):
         return render(request, 'hris/registration.html')
 
     username = email_id
-    print(username)
+
     if CustomUser.objects.filter(username=username).exists():
         messages.error(
             request, 'User with this name already exists. Please use different username.')

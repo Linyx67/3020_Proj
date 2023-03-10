@@ -93,7 +93,7 @@ def leaves_pending_list(request):
 def leaves_approved_list(request):
     if not (request.user.is_authenticated and request.user.is_superuser):
         return redirect('hris:home')
-    # approved leaves -> calling model manager method
+
     leaves = Leave.objects.all_approved_leaves()
 
     context = {
