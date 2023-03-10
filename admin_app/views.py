@@ -159,7 +159,7 @@ def approve_leave(request, id):
 
     send_mail(
         'Leave Request Approved',
-        'Dear {0},\nCongratulations! Your leave has been approved!\n\nRegards,\nAdministration.'.format(
+        'Dear {0},\n\nCongratulations! Your leave request has been approved!\n\nRegards,\nAdministration.'.format(
             leave.get_full_name),
         'hr.system.x@gmail.com',
         [email],
@@ -214,7 +214,7 @@ def reject_leave(request, id):
                      extra_tags='alert alert-success alert-dismissible show')
     send_mail(
         'Leave Request Rejected',
-        'Dear {0},\nWe regret to inform you that your leave request has been rejected.\n\nRegards,\nAdministration.'.format(
+        'Dear {0},\n\nWe regret to inform you that your leave request has been rejected.\n\nRegards,\nAdministration.'.format(
             leave.get_full_name),
         'hr.system.x@gmail.com',
         [email],

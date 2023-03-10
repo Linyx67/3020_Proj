@@ -206,6 +206,14 @@ def add_account(request):
     return render(request, "hris/add_account.html")
 
 
+def reset_account(request, id):
+    return redirect('admin_app:home')
+
+
+def reset_accounts(request, id):
+    return redirect('admin_app:home')
+
+
 def get_user_type_from_email(email_id):
     # """
     # Returns CustomUser.user_type corresponding to the given email address
