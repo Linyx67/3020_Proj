@@ -13,6 +13,7 @@ from django.contrib.auth import (
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.contrib import messages
 from django.db.models import Q
+from django.http import FileResponse
 from staff_app.models import Employee, Leave, Awards, Publications
 from hris_app.models import CustomUser
 # Create your views here.
@@ -66,6 +67,13 @@ def employees_info(request, id):
     dataset['title'] = 'profile - {0}'.format(employee.get_full_name)
 
     return render(request, "admin/employee_info.html", dataset)
+
+
+def download_vitae(request, id):
+    object = get_object_or_404(Employee, user_id=id)
+    file = object.vitae.path
+    response = FileResponse(open(file, 'rb'))
+    return response
 
 
 def leaves_list(request):

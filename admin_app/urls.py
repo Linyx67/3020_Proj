@@ -5,7 +5,8 @@ app_name = 'admin_app'
 urlpatterns = [
     path('', views.home, name="admin-home"),
     path('employees/', views.employees, name="employees"),
-    path('employee_info/<int:id>/', views.employees_info, name="info"),
+    path('employee/download/<int:id>/', views.download_vitae, name="download"),
+    path('employee/<int:id>/', views.employees_info, name="info"),
 
     path('awards/', views.awards, name="awards"),
     path('publications/', views.publications, name="publications"),

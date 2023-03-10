@@ -68,8 +68,8 @@ span{
 }
 
 span,.list-group-item > div{
-font-variant: petite-caps;
-}
+    font-variant: petite-caps;
+    }
 
 
 .panel-default>.panel-heading {
@@ -95,6 +95,12 @@ a:link {
     text-decoration: none;
 }
 
+#file:link {
+    color: blue;
+    background-color: transparent;
+    text-decoration: underline;
+    padding: 10px 15px;
+}
 
 {% endblock stylesheet %}
 {% block content %}
@@ -219,7 +225,7 @@ a:link {
                                                             <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>Contact</span> <div> {{ employee.tel  }}</div></a>
                                                         {% endif %}
 
-                                                        {% if employee.tel %}
+                                                        {% if employee.bio %}
                                                             <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>Bio</span> <div> {{ employee.bio }} </div></a>
                                                         {% endif %}
 
@@ -239,12 +245,12 @@ a:link {
                                                         {% if employee.dateissued %}
                                                             <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>Date Issued(Employee ID)</span> <div>{{ employee.dateissued }}</div></a>
                                                         {% endif %}
-                                                
+                                                        
                                                     </div>
 
                                                 {% else %}
 
-                                                    <h4>No Information found,to add click <a href="{% url 'dashboard:familycreate' %}">here</a></h4>
+                                                    <h4>No Information found,to add click <a href="">here</a></h4>
 
                                                 {% endif %}
                                             </div>
@@ -259,8 +265,13 @@ a:link {
                                                     <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>Nationality</span><div>{{ employee.nationality }}</div></a>
                                                 {% endif %}
 
-                                                {% if employee.hometown %}
-                                                    <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>HomeTown</span> <div>{{ employee.hometown}}</div></a>
+                                                {% if employee.vitae %}
+                                                    <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" role="tab" aria-controls="">
+                                                        <span>Cirriculum Vitae</span>
+                                                        <div>
+                                                            {{ employee.vitae | cut:'vitae/' }}<a id="file" href="{% url 'admin_app:download' employee.user_id %}">download</a>
+                                                        </div>
+                                                    </a>
                                                 {% endif %}
 
 
