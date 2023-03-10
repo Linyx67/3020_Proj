@@ -11,6 +11,7 @@ from django.contrib.auth import (
     login
 )
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.core.mail import send_mail
 from django.contrib import messages
 from django.db.models import Q
 from django.http import FileResponse
@@ -151,12 +152,20 @@ def approve_leave(request, id):
     if not (request.user.is_authenticated and request.user.is_superuser):
         return redirect('hris:home')
     leave = get_object_or_404(Leave, id=id)
-    user = leave.user
-    employee = Employee.objects.filter(user=user)[0]
     leave.approve_leave
-
+    email = leave.user.username
     messages.error(request, 'Leave successfully approved for {0}'.format(
-        employee.get_full_name), extra_tags='alert alert-success alert-dismissible show')
+        leave.get_full_name), extra_tags='alert alert-success alert-dismissible show')
+
+    send_mail(
+        'Leave Request Approved',
+        'Dear {0},\nCongratulations! Your leave has been approved!\n\nRegards,\nAdministration.'.format(
+            leave.get_full_name),
+        'hr.system.x@gmail.com',
+        [email],
+        fail_silently=False,
+    )
+
     return redirect('admin_app:leave-employee', id=id)
 
 
@@ -197,11 +206,20 @@ def uncancel_leave(request, id):
 def reject_leave(request, id):
     if not (request.user.is_authenticated and request.user.is_superuser):
         return redirect('hris:home')
-    dataset = dict()
+
     leave = get_object_or_404(Leave, id=id)
     leave.reject_leave
+    email = leave.user.username
     messages.success(request, 'Leave is rejected',
                      extra_tags='alert alert-success alert-dismissible show')
+    send_mail(
+        'Leave Request Rejected',
+        'Dear {0},\nWe regret to inform you that your leave request has been rejected.\n\nRegards,\nAdministration.'.format(
+            leave.get_full_name),
+        'hr.system.x@gmail.com',
+        [email],
+        fail_silently=False,
+    )
     return redirect('admin_app:leaves-rejected')
 
     # return HttpResponse(id)

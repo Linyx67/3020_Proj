@@ -263,7 +263,6 @@ class Leave(models.Model):
                               help_text='add additional information for leave', null=True, blank=True)
     defaultdays = models.PositiveIntegerField(verbose_name=_(
         'Leave days per year counter'), default=DAYS, null=True, blank=True)
-
     # hrcomments = models.ForeignKey('CommentLeave') #hide
 
     # pending,approved,rejected,cancelled
