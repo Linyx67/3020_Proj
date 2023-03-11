@@ -133,25 +133,30 @@
                 </tr>
             </thead>
             <tbody>
-                {% for award in awards_list %}
-                <tr>
+                {% if not awards_list %}
+                    <tr>
+                    <td>No awards associated with that employee found.</td>
+                    </tr>
+                {% else %}
+                    {% for award in awards_list %}
+                    <tr>
 
-                  
-                    {% if not award.get_full_name == " " %}
-                        <td><a id="name" href="{% url 'admin_app:info' award.user_id %}">{{ award.get_full_name }}</a></td>
-                    {% else %}
-                        <td>N/A</td>
-                    {% endif %}
+                    
+                        {% if award.user.first_name or award.user.last_name %}
+                            <td><a id="name" href="{% url 'admin_app:info' award.user_id %}">{{ award.user.first_name}} {{award.user.last_name}}</a></td>
+                        {% else %}
+                            <td>N/A</td>
+                        {% endif %}
 
-                  
-                  <td>{{award.title}}</td>                 
+                    
+                    <td>{{award.title}}</td>                 
 
-                  <td>{{award.year}}</td>
+                    <td>{{award.year}}</td>
 
-                  
-                </tr>
-                {% endfor %}
-
+                    
+                    </tr>
+                    {% endfor %}
+                {% endif %}
             </tbody>
 
         </table>

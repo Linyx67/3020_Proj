@@ -37,7 +37,7 @@ class LeaveManager(models.Manager):
         '''
         return super().get_queryset().filter(status='pending').order_by('-created')  # applying FIFO
 
-    def all_cancel_leaves(self):
+    def all_cancelled_leaves(self):
         return super().get_queryset().filter(status='cancelled').order_by('-created')
 
     def all_rejected_leaves(self):

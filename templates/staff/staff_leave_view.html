@@ -4,10 +4,11 @@
 {% block content %}
     {% if not object %}
         <p>No Leaves</p>
-        <a href="{% url 'staff:add-leave' %}">Add Leave</a>
+        <a href="{% url 'staff:add-leave' %}">Apply for Leave</a>
     {% else %}  
         {% for instance in object  %}
             <p>{{instance.status}}</p>
         {% endfor %}
+        <a href="{% url 'staff:add-leave' %}">Apply for Leave</a>
     {% endif %}
 {% endblock content %}

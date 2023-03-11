@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     # 3rd party
     'phonenumber_field',
     'bootstrap_modal_forms',
+    'debug_toolbar',
 
     # own
     'admin_app',
@@ -65,6 +66,8 @@ MIDDLEWARE = [
 
     # 3rd party auto logout
     'django_auto_logout.middleware.auto_logout',
+    # debug toolbar
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'HRIS.urls'
@@ -160,3 +163,9 @@ AUTO_LOGOUT = {'IDLE_TIME': 1800,
                'REDIRECT_TO_LOGIN_IMMEDIATELY': True,
                'MESSAGE': 'The session has expired. Please login again to continue.',
                }
+
+INTERNAL_IPS = [
+    # ...
+    "127.0.0.1",
+    # ...
+]

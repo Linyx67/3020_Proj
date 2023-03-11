@@ -133,25 +133,30 @@
                 </tr>
             </thead>
             <tbody>
-                {% for pub in pubs_list %}
-                <tr>
+                {% if not pubs_list %}
+                    <tr>
+                    <td>No publications associated with that employee found.</td>
+                    </tr>
+                {% else %}
+                    {% for pub in pubs_list %}
+                    <tr>
 
-                  
-                    {% if not pub.get_full_name == " " %}
-                        <td><a id="name" href="{% url 'admin_app:info' pub.user_id %}">{{ pub.get_full_name }}</a></td>
-                    {% else %}
-                        <td>N/A</td>
-                    {% endif %}
+                    
+                        {% if pub.user.first_name or pub.user.last_name %}
+                            <td><a id="name" href="{% url 'admin_app:info' pub.user_id %}">{{ pub.user.first_name}} {{pub.user.last_name}}</a></td>
+                        {% else %}
+                            <td>N/A</td>
+                        {% endif %}
 
-                  
-                  <td>{{pub.title}}</td>                 
+                    
+                    <td>{{pub.title}}</td>                 
 
-                  <td>{{pub.year}}</td>
+                    <td>{{pub.year}}</td>
 
-                
-                </tr>
-                {% endfor %}
-
+                    
+                    </tr>
+                    {% endfor %}
+                {% endif %}
             </tbody>
 
         </table>

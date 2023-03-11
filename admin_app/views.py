@@ -13,8 +13,14 @@ from django.contrib.auth import (
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.core.mail import send_mail
 from django.contrib import messages
-from django.db.models import Q
+from django.db.models import Q, F
+
 from django.http import FileResponse
+import io
+from reportlab.pdfgen import canvas
+from reportlab.lib.units import inch
+from reportlab.lib.pagesizes import letter
+
 from staff_app.models import Employee, Leave, Awards, Publications
 from hris_app.models import CustomUser
 # Create your views here.
@@ -115,7 +121,7 @@ def leaves_approved_list(request):
 def cancel_leaves_list(request):
     if not (request.user.is_authenticated and request.user.is_superuser):
         return redirect('hris:home')
-    leaves = Leave.objects.all_cancel_leaves()
+    leaves = Leave.objects.all_cancelled_leaves()
 
     context = {
         'leave_list_cancel': leaves,
@@ -259,7 +265,7 @@ def awards(request):
     if not (request.user.is_authenticated and request.user.is_superuser):
         return redirect('hris:home')
 
-    awards = Awards.objects.all().order_by('-year')
+    awards = Awards.objects.prefetch_related('user').all().order_by('-year')
     users = CustomUser.objects.all()
     dataset = dict()
 
@@ -270,10 +276,8 @@ def awards(request):
             Q(first_name__icontains=query) |
             Q(last_name__icontains=query)
         )
-        ids = []
-        for user in users:
-            ids = ids.append(user.id)
-        awards = awards.filter(user_id__in=users.id)
+        ids = users.values_list('id', flat=True).distinct()
+        awards = awards.filter(user_id__in=ids)
 
     paginator = Paginator(awards, 10)  # show 10 employee lists per page
 
@@ -292,10 +296,10 @@ def publications(request):
     if not (request.user.is_authenticated and request.user.is_superuser):
         return redirect('hris:home')
 
-    publications = Publications.objects.all().order_by('-year')
+    publications = Publications.objects.prefetch_related('user').all().order_by(
+        '-year')
     users = CustomUser.objects.all()
     dataset = dict()
-
     # pagination
     query = request.GET.get('search')
     if query:
@@ -303,11 +307,8 @@ def publications(request):
             Q(first_name__icontains=query) |
             Q(last_name__icontains=query)
         )
-        ids = []
-        for user in users:
-            ids = ids.append(user.id)
-        publications = publications.filter(user_id__in=users.id)
-
+        ids = users.values_list('id', flat=True).distinct()
+        publications = publications.filter(user_id__in=ids)
     paginator = Paginator(publications, 10)  # show 10 employee lists per page
 
     page = request.GET.get('page')
