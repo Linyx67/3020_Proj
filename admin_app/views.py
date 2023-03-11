@@ -266,18 +266,15 @@ def awards(request):
         return redirect('hris:home')
 
     awards = Awards.objects.prefetch_related('user').all().order_by('-year')
-    users = CustomUser.objects.all()
     dataset = dict()
 
     # pagination
     query = request.GET.get('search')
     if query:
-        users = users.filter(
-            Q(first_name__icontains=query) |
-            Q(last_name__icontains=query)
+        awards = awards.filter(
+            Q(user__first_name__icontains=query) |
+            Q(user__last_name__icontains=query)
         )
-        ids = users.values_list('id', flat=True).distinct()
-        awards = awards.filter(user_id__in=ids)
 
     paginator = Paginator(awards, 10)  # show 10 employee lists per page
 
@@ -298,17 +295,16 @@ def publications(request):
 
     publications = Publications.objects.prefetch_related('user').all().order_by(
         '-year')
-    users = CustomUser.objects.all()
+
     dataset = dict()
     # pagination
     query = request.GET.get('search')
     if query:
-        users = users.filter(
-            Q(first_name__icontains=query) |
-            Q(last_name__icontains=query)
+        publications = publications.filter(
+            Q(user__first_name__icontains=query) |
+            Q(user__last_name__icontains=query)
         )
-        ids = users.values_list('id', flat=True).distinct()
-        publications = publications.filter(user_id__in=ids)
+
     paginator = Paginator(publications, 10)  # show 10 employee lists per page
 
     page = request.GET.get('page')
