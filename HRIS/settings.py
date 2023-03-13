@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     'phonenumber_field',
     'bootstrap_modal_forms',
     'debug_toolbar',
-
+    'django_filters',
     # own
     'admin_app',
     'staff_app',

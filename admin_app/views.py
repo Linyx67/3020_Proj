@@ -17,6 +17,7 @@ from django.db.models import Q, F
 
 from django.http import FileResponse
 import io
+import re
 from reportlab.pdfgen import canvas
 from reportlab.lib.units import inch
 from reportlab.lib.pagesizes import letter
@@ -42,9 +43,9 @@ def employees(request):
     # pagination
     query = request.GET.get('search')
     if query:
+        query = re.sub(r"\s+", ".", query, flags=re.UNICODE)
         employees = employees.filter(
-            Q(firstname__icontains=query) |
-            Q(lastname__icontains=query)
+            Q(email__icontains=query)
         )
 
     paginator = Paginator(employees, 10)  # show 10 employee lists per page
@@ -271,9 +272,9 @@ def awards(request):
     # pagination
     query = request.GET.get('search')
     if query:
+        query = re.sub(r"\s+", ".", query, flags=re.UNICODE)
         awards = awards.filter(
-            Q(user__first_name__icontains=query) |
-            Q(user__last_name__icontains=query)
+            Q(user__username__icontains=query)
         )
 
     paginator = Paginator(awards, 10)  # show 10 employee lists per page
@@ -300,9 +301,9 @@ def publications(request):
     # pagination
     query = request.GET.get('search')
     if query:
+        query = re.sub(r"\s+", ".", query, flags=re.UNICODE)
         publications = publications.filter(
-            Q(user__first_name__icontains=query) |
-            Q(user__last_name__icontains=query)
+            Q(user__username__icontains=query)
         )
 
     paginator = Paginator(publications, 10)  # show 10 employee lists per page
