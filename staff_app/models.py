@@ -178,8 +178,7 @@ class Employee(models.Model):
 
     nisnumber = models.PositiveIntegerField(
         _('NIS Number'), null=True, blank=True)
-    tinnumber = models.CharField(
-        _('TIN'), max_length=15, null=True, blank=True)
+
     employeetype = models.CharField(_('Employee Type'), max_length=15,
                                     default=FULL_TIME, choices=EMPLOYEETYPE, blank=False, null=True)
     vitae = models.FileField(_('Cirriculum Vitae'), upload_to='vitae/', blank=True,
