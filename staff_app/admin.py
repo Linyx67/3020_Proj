@@ -8,7 +8,12 @@ from .models import (
     Employee,
     Leave,
     Awards,
-    Publications
+    Publications,
+    Conferences,
+    Development,
+    Manuscripts,
+    Presentations,
+    Consultancies
 )
 
 
@@ -21,3 +26,8 @@ admin.site.register(Emergency)
 admin.site.register(Leave)
 admin.site.register(Awards)
 admin.site.register(Publications)
+admin.site.register(Consultancies)
+admin.site.register(Conferences)
+admin.site.register(Development)
+admin.site.register(Manuscripts)
+admin.site.register(Presentations)

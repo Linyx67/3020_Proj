@@ -418,3 +418,131 @@ class Awards(models.Model):
         lastname = self.user.last_name
         fullname = firstname+' '+lastname
         return fullname
+
+
+class Conferences(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=1)
+    title = models.CharField(max_length=100, verbose_name=_(
+        'Title'), null=True, blank=False)
+    year = models.IntegerField(verbose_name=_('Year'))
+    updated = models.DateTimeField(auto_now=True, auto_now_add=False)
+    created = models.DateTimeField(auto_now=False, auto_now_add=True)
+
+    class Meta:
+        verbose_name = _('Conference')
+        verbose_name_plural = _('Conferences')
+        ordering = ['-created']
+
+    def __str__(self):
+        return (self.user.first_name+' '+self.user.last_name)
+
+    @ property
+    def get_full_name(self):
+        user = self.user
+        firstname = self.user.first_name
+        lastname = self.user.last_name
+        fullname = firstname+' '+lastname
+        return fullname
+
+
+class Development(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=1)
+    title = models.CharField(max_length=100, verbose_name=_(
+        'Title'), null=True, blank=False)
+    period = models.IntegerField(verbose_name=_('Period'))
+    updated = models.DateTimeField(auto_now=True, auto_now_add=False)
+    created = models.DateTimeField(auto_now=False, auto_now_add=True)
+
+    class Meta:
+        verbose_name = _('Development')
+        verbose_name_plural = _('Development')
+        ordering = ['-created']
+
+    def __str__(self):
+        return (self.user.first_name+' '+self.user.last_name)
+
+    @ property
+    def get_full_name(self):
+        user = self.user
+        firstname = self.user.first_name
+        lastname = self.user.last_name
+        fullname = firstname+' '+lastname
+        return fullname
+
+
+class Manuscripts(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=1)
+    title = models.CharField(max_length=100, verbose_name=_(
+        'Title'), null=True, blank=False)
+    in_preparation = models.BooleanField(default=False)
+    in_review = models.BooleanField(default=False)
+    updated = models.DateTimeField(auto_now=True, auto_now_add=False)
+    created = models.DateTimeField(auto_now=False, auto_now_add=True)
+
+    class Meta:
+        verbose_name = _('Manuscript')
+        verbose_name_plural = _('Manuscripts')
+        ordering = ['-created']
+
+    def __str__(self):
+        return (self.user.first_name+' '+self.user.last_name)
+
+    @ property
+    def get_full_name(self):
+        user = self.user
+        firstname = self.user.first_name
+        lastname = self.user.last_name
+        fullname = firstname+' '+lastname
+        return fullname
+
+
+class Presentations(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=1)
+    title = models.CharField(max_length=100, verbose_name=_(
+        'Title'), null=True, blank=False)
+    period = models.IntegerField(verbose_name=_('Period'))
+    updated = models.DateTimeField(auto_now=True, auto_now_add=False)
+    created = models.DateTimeField(auto_now=False, auto_now_add=True)
+
+    class Meta:
+        verbose_name = _('Presentation')
+        verbose_name_plural = _('Presentations')
+        ordering = ['-created']
+
+    def __str__(self):
+        return (self.user.first_name+' '+self.user.last_name)
+
+    @ property
+    def get_full_name(self):
+        user = self.user
+        firstname = self.user.first_name
+        lastname = self.user.last_name
+        fullname = firstname+' '+lastname
+        return fullname
+
+
+class Consultancies(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=1)
+    title = models.CharField(max_length=100, verbose_name=_(
+        'Title'), null=True, blank=False)
+    position = models.CharField(max_length=100, verbose_name=_(
+        'Position'), null=True, blank=True)
+    period = models.IntegerField(verbose_name=_('Period'))
+    updated = models.DateTimeField(auto_now=True, auto_now_add=False)
+    created = models.DateTimeField(auto_now=False, auto_now_add=True)
+
+    class Meta:
+        verbose_name = _('Consultancy')
+        verbose_name_plural = _('Consultancies')
+        ordering = ['-created']
+
+    def __str__(self):
+        return (self.user.first_name+' '+self.user.last_name)
+
+    @ property
+    def get_full_name(self):
+        user = self.user
+        firstname = self.user.first_name
+        lastname = self.user.last_name
+        fullname = firstname+' '+lastname
+        return fullname
