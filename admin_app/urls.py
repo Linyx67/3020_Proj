@@ -10,6 +10,7 @@ urlpatterns = [
 
     path('awards/', views.awards, name="awards"),
     path('publications/', views.publications, name="publications"),
+    path('publications/journals/', views.pubs_journals, name="pubs-journals"),
 
     path('leaves/all/', views.leaves_list, name="leaves"),
     path('leaves/pending/', views.leaves_pending_list, name="leaves-pending"),

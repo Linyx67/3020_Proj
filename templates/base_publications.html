@@ -63,12 +63,12 @@
 <body>
     <div class="sidenav">
         <a href="{% url 'admin_app:admin-home' %}">Dashboard</a>
-        <a href="{% url 'admin_app:leaves' %} ">All</a>
-        <a href="{% url 'admin_app:leaves-pending' %} ">Pending</a>
-        <a href="{% url 'admin_app:leaves-approved' %}">Approved</a>
-        <a href="{% url 'admin_app:leaves-cancelled' %}">Cancelled</a>
-        <a href="{% url 'admin_app:leaves-rejected' %}">Rejected</a>
-            
+        <a href="{% url 'admin_app:pubs-journals' %} ">Peer Reviewed Journals</a>
+        <a href="{# url 'admin_app:pubs-manuscripts' #} ">Manuscripts</a>
+        <a href="{# url 'admin_app:pubs-presentations' #}">Technical Presentations</a>
+        {# admin_app:pubs-journals #}
+        {# admin_app:pubs-manuscripts #}
+        {# admin_app:pubs-journals #}
     </div>
     <div class="main">
         {% block content %}
