@@ -315,4 +315,4 @@ def publications(request):
     dataset['all_pubs'] = Publications.objects.all()
 
     dataset['title'] = 'Publications list view'
-    return render(request, "admin/publications.html", dataset)
+    return render(request, "admin/publications_view.html", dataset)

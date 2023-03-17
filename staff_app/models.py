@@ -556,3 +556,27 @@ class Consultancies(models.Model):
         lastname = self.user.last_name
         fullname = firstname+' '+lastname
         return fullname
+
+
+class Grants(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=1)
+    title = models.CharField(max_length=100, verbose_name=_(
+        'Title'), null=True, blank=False)
+    updated = models.DateTimeField(auto_now=True, auto_now_add=False)
+    created = models.DateTimeField(auto_now=False, auto_now_add=True)
+
+    class Meta:
+        verbose_name = _('Grant')
+        verbose_name_plural = _('Grants')
+        ordering = ['-created']
+
+    def __str__(self):
+        return (self.user.first_name+' '+self.user.last_name)
+
+    @ property
+    def get_full_name(self):
+        user = self.user
+        firstname = self.user.first_name
+        lastname = self.user.last_name
+        fullname = firstname+' '+lastname
+        return fullname

@@ -13,7 +13,8 @@ from .models import (
     Consultancies,
     Manuscripts,
     Development,
-    Presentations
+    Presentations,
+    Grants
 )
 
 # Employee
@@ -193,4 +194,13 @@ class ManuscriptsCreateForm(forms.ModelForm):
             'title': forms.TextInput(attrs={'class': 'form-control'}),
             'in_preparation': forms.CheckboxInput(attrs={'class': 'form-control'}),
             'in_review': forms.CheckboxInput(attrs={'class': 'form-control'}),
+        }
+
+
+class GrantsCreateForm(forms.ModelForm):
+    class Meta:
+        model = Grants
+        exclude = ['created', 'updated', 'user']
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'form-control'}),
         }

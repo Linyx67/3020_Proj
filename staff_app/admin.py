@@ -13,7 +13,8 @@ from .models import (
     Development,
     Manuscripts,
     Presentations,
-    Consultancies
+    Consultancies,
+    Grants
 )
 
 
@@ -31,3 +32,4 @@ admin.site.register(Conferences)
 admin.site.register(Development)
 admin.site.register(Manuscripts)
 admin.site.register(Presentations)
+admin.site.register(Grants)
