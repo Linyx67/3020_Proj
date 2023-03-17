@@ -8,10 +8,23 @@ from .models import (
     Religion,
     Leave,
     Awards,
-    Publications
+    Publications,
+    Conferences,
+    Consultancies,
+    Manuscripts,
+    Development,
+    Presentations
 )
 
 # Employee
+
+
+def year_choices():
+    return [(r, r) for r in range(datetime.date.today().year+1, 1900, -1)]
+
+
+def year_choice():
+    return [r for r in range(datetime.date.today().year+1, 1900, -1)]
 
 
 class EmployeeCreateForm(forms.ModelForm):
@@ -27,9 +40,8 @@ class EmployeeCreateForm(forms.ModelForm):
             'othername': forms.TextInput(attrs={'class': 'form-control'}),
             'tel': forms.TextInput(attrs={'class': 'form-control'}),
             'nisnumber': forms.TextInput(attrs={'class': 'form-control'}),
-            'tinnumber': forms.TextInput(attrs={'class': 'form-control'}),
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
-            'birthday': forms.DateInput(attrs={'placeholder': 'YYYY-MM-DD', 'class': 'form-control'}),
+            'birthday': forms.SelectDateWidget(years=year_choice(), attrs={'class': 'form-control'}),
             'image': forms.FileInput(attrs={'class': 'form-control', 'onchange': 'previewImage(this);'}),
             'vitae': forms.FileInput(attrs={'class': 'form-control'}),
             'title': forms.Select(attrs={'class': 'form-control'}),
@@ -67,8 +79,8 @@ class LeaveCreateForm(forms.ModelForm):
         exclude = ['user', 'defaultdays', 'status',
                    'is_approved', 'updated', 'created']
         widgets = {
-            'startdate': forms.DateInput(attrs={'placeholder': 'YYYY-MM-DD', 'class': 'form-control'}),
-            'enddate': forms.DateInput(attrs={'placeholder': 'YYYY-MM-DD', 'class': 'form-control'}),
+            'startdate': forms.SelectDateWidget(attrs={'placeholder': 'YYYY-MM-DD', 'class': 'form-control'}),
+            'enddate': forms.SelectDateWidget(attrs={'placeholder': 'YYYY-MM-DD', 'class': 'form-control'}),
             'leavetype':  forms.Select(attrs={'class': 'form-control'}),
             'reason': forms.Textarea(attrs={'rows': 12, 'cols': 40, 'class': 'form-control'})
         }
@@ -94,18 +106,91 @@ class EmergencyCreateForm(forms.ModelForm):
 
 
 class PublicationsCreateForm(forms.ModelForm):
-    year = forms.IntegerField(
-        min_value=1900, max_value=datetime.date.today().year)
 
     class Meta:
         model = Publications
         exclude = ['created', 'updated', 'user']
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'form-control'}),
+            'year': forms.Select(choices=year_choices(), attrs={'class': 'form-control'}),
+        }
 
 
 class AwardsCreateForm(forms.ModelForm):
-    year = forms.IntegerField(
-        min_value=1900, max_value=datetime.date.today().year)
 
     class Meta:
         model = Awards
         exclude = ['created', 'updated', 'user']
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'form-control'}),
+            'year': forms.Select(choices=year_choices(), attrs={'class': 'form-control'}),
+        }
+
+
+class ConferencesCreateForm(forms.ModelForm):
+
+    class Meta:
+        model = Conferences
+        exclude = ['created', 'updated', 'user']
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'form-control'}),
+            'year': forms.Select(choices=year_choices(), attrs={'class': 'form-control'}),
+
+        }
+
+
+class PresentationsCreateForm(forms.ModelForm):
+
+    class Meta:
+        model = Presentations
+        exclude = ['created', 'updated', 'user']
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'form-control'}),
+            'year': forms.Select(choices=year_choices(), attrs={'class': 'form-control'}),
+        }
+
+
+class DevelopmentCreateForm(forms.ModelForm):
+
+    class Meta:
+        model = Development
+        exclude = ['created', 'updated', 'user']
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'form-control'}),
+            'year_start': forms.Select(choices=year_choices(), attrs={'class': 'form-control'}),
+            'year_end': forms.Select(choices=year_choices(), attrs={'class': 'form-control'}),
+        }
+
+    def clean_endyear(self):
+        year_end = self.cleaned_data['year_end']
+        year_start = self.cleaned_data['year_start']
+        year_today = datetime.date.today().year()
+
+        if (year_start or year_end) < year_today:  # both dates must not be in the past
+            raise forms.ValidationError(
+                "Selected Years are incorrect,please select again")
+        elif year_start >= year_end:  # TRUE -> FUTURE DATE > PAST DATE,FALSE other wise
+            raise forms.ValidationError("Selected Years are wrong")
+        return year_end
+
+
+class ConsultanciesCreateForm(forms.ModelForm):
+    class Meta:
+        model = Consultancies
+        exclude = ['created', 'updated', 'user']
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'form-control'}),
+            'position': forms.TextInput(attrs={'class': 'form-control'}),
+            'period': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+
+
+class ManuscriptsCreateForm(forms.ModelForm):
+    class Meta:
+        model = Manuscripts
+        exclude = ['created', 'updated', 'user']
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'form-control'}),
+            'in_preparation': forms.CheckboxInput(attrs={'class': 'form-control'}),
+            'in_review': forms.CheckboxInput(attrs={'class': 'form-control'}),
+        }

@@ -1,11 +1,13 @@
 from django.db import models
+from django.core.validators import MinValueValidator
 import datetime
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from hris_app.models import StaffUser, CustomUser, AdminUser
+from hris_app.models import StaffUser, CustomUser
 from phonenumber_field.modelfields import PhoneNumberField
 from django.utils.translation import gettext as _
 from admin_app.managers import EmployeeManager, LeaveManager
+from .validate import max_value_current_year
 # Create your models here.
 
 
@@ -373,7 +375,8 @@ class Publications(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=1)
     title = models.CharField(max_length=100, verbose_name=_(
         'Title'), null=True, blank=False)
-    year = models.IntegerField(verbose_name=_('Year'), null=True)
+    year = models.IntegerField(verbose_name=_('Year'), null=True, validators=[
+                               MinValueValidator(1900), max_value_current_year])
 
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
     created = models.DateTimeField(auto_now=False, auto_now_add=True)
@@ -399,7 +402,8 @@ class Awards(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=1)
     title = models.CharField(max_length=100, verbose_name=_(
         'Title'), null=True, blank=False)
-    year = models.IntegerField(verbose_name=_('Year'))
+    year = models.IntegerField(verbose_name=_('Year'), null=True, validators=[
+                               MinValueValidator(1900), max_value_current_year])
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
     created = models.DateTimeField(auto_now=False, auto_now_add=True)
 
@@ -424,7 +428,8 @@ class Conferences(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=1)
     title = models.CharField(max_length=100, verbose_name=_(
         'Title'), null=True, blank=False)
-    year = models.IntegerField(verbose_name=_('Year'))
+    year = models.IntegerField(verbose_name=_('Year'), null=True, validators=[
+                               MinValueValidator(1900), max_value_current_year])
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
     created = models.DateTimeField(auto_now=False, auto_now_add=True)
 
@@ -449,7 +454,10 @@ class Development(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=1)
     title = models.CharField(max_length=100, verbose_name=_(
         'Title'), null=True, blank=False)
-    period = models.IntegerField(verbose_name=_('Period'))
+    year_start = models.IntegerField(verbose_name=_('Start Year'), null=True, validators=[
+        MinValueValidator(1900), max_value_current_year])
+    year_end = models.IntegerField(verbose_name=_('End Year'), null=True, validators=[
+        MinValueValidator(1900), max_value_current_year])
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
     created = models.DateTimeField(auto_now=False, auto_now_add=True)
 
@@ -474,8 +482,8 @@ class Manuscripts(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=1)
     title = models.CharField(max_length=100, verbose_name=_(
         'Title'), null=True, blank=False)
-    in_preparation = models.BooleanField(default=False)
-    in_review = models.BooleanField(default=False)
+    in_preparation = models.BooleanField(_('In Preparation'), default=False)
+    in_review = models.BooleanField(_('In Review'), default=False)
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
     created = models.DateTimeField(auto_now=False, auto_now_add=True)
 
@@ -500,7 +508,8 @@ class Presentations(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=1)
     title = models.CharField(max_length=100, verbose_name=_(
         'Title'), null=True, blank=False)
-    period = models.IntegerField(verbose_name=_('Period'))
+    year = models.IntegerField(verbose_name=_('Year'), null=True, validators=[
+                               MinValueValidator(1900), max_value_current_year])
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
     created = models.DateTimeField(auto_now=False, auto_now_add=True)
 
@@ -525,9 +534,10 @@ class Consultancies(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=1)
     title = models.CharField(max_length=100, verbose_name=_(
         'Title'), null=True, blank=False)
-    position = models.CharField(max_length=100, verbose_name=_(
+    position = models.CharField(max_length=50, verbose_name=_(
         'Position'), null=True, blank=True)
-    period = models.IntegerField(verbose_name=_('Period'))
+    period = models.CharField(verbose_name=_(
+        'Period'), null=True, max_length=50)
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
     created = models.DateTimeField(auto_now=False, auto_now_add=True)
 
