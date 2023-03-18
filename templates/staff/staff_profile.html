@@ -281,15 +281,38 @@ a:link {
                                                 
                                                 <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span style="">Peer Revieved Journals</span>
                                                     <div>
-                                                        {% if publications %}
-                                                            {% for pub in publications  %}
-                                                                {{pub.title}} - {{pub.year}}<br>
+                                                        {% if journals %}
+                                                            {% for journal in journals  %}
+                                                                {{journal.title}} - {{journal.year}}<br>
                                                             {% endfor %}
                                                         {% else %}
                                                             NONE
                                                         {% endif %}
                                                     </div>
-                                                </a>                                               
+                                                </a>
+                                                <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span style="">Conference Papers</span>
+                                                    <div>
+                                                        {% if papers %}
+                                                            {% for paper in papers  %}
+                                                                {{paper.title}} - {{paper.year}}<br>
+                                                            {% endfor %}
+                                                        {% else %}
+                                                            NONE
+                                                        {% endif %}
+                                                    </div>
+                                                </a>
+
+                                                <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span style="">Books</span>
+                                                    <div>
+                                                        {% if books %}
+                                                            {% for book in books  %}
+                                                                {{book.title}} - {{book.year}}<br>
+                                                            {% endfor %}
+                                                        {% else %}
+                                                            NONE
+                                                        {% endif %}
+                                                    </div>
+                                                </a>                                      
                                                 
                                                 <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>Technical Presentations</span> 
                                                     <div>
