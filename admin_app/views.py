@@ -22,7 +22,18 @@ from reportlab.pdfgen import canvas
 from reportlab.lib.units import inch
 from reportlab.lib.pagesizes import letter
 
-from staff_app.models import Employee, Leave, Awards, Publications
+from staff_app.models import (
+    Employee,
+    Leave,
+    Awards,
+    Publications,
+    Conferences,
+    Development,
+    Manuscripts,
+    Presentations,
+    Consultancies,
+    Grants
+)
 from hris_app.models import CustomUser
 # Create your views here.
 
@@ -68,10 +79,62 @@ def employees_info(request, id):
     if not (request.user.is_authenticated and request.user.is_superuser):
         return redirect('hris:home')
 
-    employee = get_object_or_404(Employee, user_id=id)
+    if Employee.objects.filter(user_id=id).exists():
+        employee = Employee.objects.get(user_id=id)
+    else:
+        employee = Employee.objects.none()
+
+    if Awards.objects.filter(user_id=id).exists():
+        awards = Awards.objects.filter(user_id=id)
+    else:
+        awards = Awards.objects.none()
+
+    if Publications.objects.filter(user_id=id).exists():
+        publications = Publications.objects.filter(user_id=id)
+    else:
+        publications = Publications.objects.none()
+
+    if Grants.objects.filter(user_id=id).exists():
+        grants = Grants.objects.filter(user_id=id)
+    else:
+        grants = Grants.objects.none()
+
+    if Consultancies.objects.filter(user_id=id).exists():
+        consultancies = Consultancies.objects.filter(user_id=id)
+    else:
+        consultancies = Consultancies.objects.none()
+
+    if Presentations.objects.filter(user_id=id).exists():
+        presentations = Presentations.objects.filter(user_id=id)
+    else:
+        presentations = Presentations.objects.none()
+
+    if Manuscripts.objects.filter(user_id=id).exists():
+        manuscripts = Manuscripts.objects.filter(user_id=id)
+    else:
+        manuscripts = Manuscripts.objects.none()
+
+    if Development.objects.filter(user_id=id).exists():
+        development = Development.objects.filter(user_id=id)
+    else:
+        development = Development.objects.none()
+
+    if Conferences.objects.filter(user_id=id).exists():
+        conferences = Conferences.objects.filter(user_id=id)
+    else:
+        conferences = Conferences.objects.none()
 
     dataset = dict()
     dataset['employee'] = employee
+
+    dataset['awards'] = awards
+    dataset['publications'] = publications
+    dataset['grants'] = grants
+    dataset['consultancies'] = consultancies
+    dataset['presentations'] = presentations
+    dataset['manuscripts'] = manuscripts
+    dataset['development'] = development
+    dataset['conferences'] = conferences
     dataset['title'] = 'profile - {0}'.format(employee.get_full_name)
 
     return render(request, "admin/employee_info.html", dataset)

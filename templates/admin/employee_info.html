@@ -135,7 +135,7 @@ a:link {
                     <img src="{{ employee.image.url}}" class="img-fluid rounded-circle-image" >
                     <section class="text-centered" style="margin-top: 3px;">
                         <ul class="list-group">
-                            <li class="list-group-item"><span>Fullname</span> <div>{{ employee.get_full_name }}</div></li>
+                            <li class="list-group-item"><span>Title</span> <div> {{employee.title}} {{ employee.get_full_name }}</div></li>
         
 
                             {% if employee.email %}
