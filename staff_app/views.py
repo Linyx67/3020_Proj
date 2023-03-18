@@ -8,7 +8,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
 from hris_app.models import StaffUser, CustomUser
 from django.db.models import Q
-from .models import LeaveReport, Notification, Employee, Publications, Awards, Leave
+from .models import LeaveReport, Employee, Publications, Awards, Leave
+from .functions import get_user_info
 from .forms import (
     AwardsCreateForm,
     PublicationsCreateForm,
@@ -60,44 +61,8 @@ def apply_leave_save(request):
 def profile(request):
     if not request.user.is_authenticated:
         return redirect('hris:home')
-    if Employee.objects.filter(user_id=request.user.id).exists():
-        employee = get_object_or_404(Employee, user_id=request.user.id)
-    # queryset = Employee.objects.filter(id=7)
-    else:
-        employee = []
-
-    context = {
-        "object": employee
-    }
-    return render(request, "staff/staff_profile.html", context)
-
-# old code
-# def profile_update(request):
-#     if request.method != "POST":
-#         messages.error(request, "Invalid Method")
-#         return redirect('profile')
-#     else:
-#         first_name = request.POST.get('first_name')
-#         last_name = request.POST.get('last_name')
-#         password = request.POST.get('password')
-
-#         try:
-#             customuser = CustomUser.objects.get(id=request.user.id)
-#             customuser.first_name = first_name
-#             customuser.last_name = last_name
-#             if password != None and password != "":
-#                 customuser.set_password(password)
-#             customuser.save()
-
-#             staff = StaffUser.objects.get(admin=customuser.id)
-#             staff.save()
-
-#             messages.success(request, "Profile Updated Successfully")
-#             return redirect('profile')
-
-#         except:
-#             messages.error(request, "Failed to Update Profile")
-#             return redirect('profile')
+    dataset = get_user_info(request.user.id)
+    return render(request, "staff/staff_profile.html", dataset)
 
 
 def profile_update(request):
