@@ -110,7 +110,8 @@ def employees_info(request, id):
         presentations = Presentations.objects.none()
 
     if Manuscripts.objects.filter(user_id=id).exists():
-        manuscripts = Manuscripts.objects.filter(user_id=id)
+        manuscripts = Manuscripts.objects.filter(
+            user_id=id).order_by('in_preparation')
     else:
         manuscripts = Manuscripts.objects.none()
 

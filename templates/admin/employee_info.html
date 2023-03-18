@@ -126,7 +126,7 @@ a:link {
             </section>
             <section class="row">
                 <section class="text-center">
-                    <h3><span class="employee-name-title">{{ employee.get_full_name}}</span></h3>
+                    <h3><span class="employee-name-title">{{employee.title}} {{ employee.get_full_name}}</span></h3>
                 </section>
             </section>
 
@@ -189,8 +189,6 @@ a:link {
                                                 {% if employee %}
                                                     
                                                     <div class="list-group" id="list-tab" role="tablist">
-                                                        <a class="list-group-item list-group-item-action" id="list-home-list" data-toggle="list" href="" role="tab" aria-controls=""><span>Salutation</span> <div>{{ employee.title }}</div>
-                                                        </a>
 
                                                         {% if employee.firstname %}
                                                             <a class="list-group-item list-group-item-action" id="list-profile-list" data-toggle="list" href="" role="tab" aria-controls=""><span>Firstname</span> <div> {{ employee.firstname}} </div>
@@ -238,12 +236,14 @@ a:link {
                                                             <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>NIS</span> <div>{{ employee.nisnumber|stringformat:"09d" }}</div></a>
                                                         {% endif %}
 
-                                                        {% if employee.employeeid %}
-                                                            <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>Employee ID</span> <div>{{ employee.employeeid }}</div></a>
-                                                        {% endif %}
-
-                                                        {% if employee.dateissued %}
-                                                            <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>Date Issued(Employee ID)</span> <div>{{ employee.dateissued }}</div></a>
+                                                        {% if employee.vitae %}
+                                                            <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" role="tab" aria-controls="">
+                                                                <span>Cirriculum Vitae</span>
+                                                                <div>
+                                                                    {{ employee.vitae | cut:'vitae/' }}
+                                                                </div>
+                                                                <a id="file" href="{% url 'admin_app:download' employee.user_id %}">download</a>
+                                                            </a>
                                                         {% endif %}
                                                         
                                                     </div>
@@ -256,59 +256,104 @@ a:link {
                                             </div>
                                     <!-- Here working -->
                                             <div class="col col-lg-6">
-                                                {% if  employee.religion %}
-                                                    <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span style="">Religion</span><div>{{  employee.religion }}</div>
-                                                    </a>
-                                                {% endif %}
+                                                <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>Professional Development</span> 
+                                                    <div>
+                                                        {% if development %}
+                                                            {% for dev in development  %}
+                                                                {{dev.title}} - {{dev.period}}
+                                                            {% endfor %}
+                                                        {% else %}
+                                                            NONE
+                                                        {% endif %}
+                                                    </div>
+                                                </a>
+                                                <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span style="">Awards</span>
+                                                    <div>
+                                                        {% if  awards %}
+                                                            {% for award in awards  %}
+                                                                {{award.title}} - {{award.year}}<br>
+                                                            {% endfor %}
+                                                        {% else %}
+                                                            NONE
+                                                        {% endif %}
+                                                    </div>
+                                                </a>
+                                                
+                                                <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span style="">Peer Revieved Journals</span>
+                                                    <div>
+                                                        {% if publications %}
+                                                            {% for pub in publications  %}
+                                                                {{pub.title}} - {{pub.year}}<br>
+                                                            {% endfor %}
+                                                        {% else %}
+                                                            NONE
+                                                        {% endif %}
+                                                    </div>
+                                                </a>                                               
+                                                
+                                                <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>Technical Presentations</span> 
+                                                    <div>
+                                                        {% if presentations %}
+                                                            {% for presentation in presentations %}
+                                                                {{presentation.title}} - {{presentation.year}}
+                                                            {% endfor %}
+                                                        {% else %}
+                                                            NONE
+                                                        {% endif %}
+                                                    </div>
+                                                </a>
 
-                                                {% if employee.nationality %}
-                                                    <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>Nationality</span><div>{{ employee.nationality }}</div></a>
-                                                {% endif %}
+                                                <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>Manuscripts</span> 
+                                                    <div>
+                                                        {% if manuscripts %}
+                                                            {% for manuscript in manuscripts %}
+                                                                {% if manuscript.in_preparation %}
+                                                                    {{manuscript.title}} - In Preparation
+                                                                {% else %}
+                                                                    {{manuscript.title}} - Under Review
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        {% else %}
+                                                            NONE
+                                                        {% endif %}
+                                                    </div>
+                                                </a>
 
-                                                {% if employee.vitae %}
-                                                    <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" role="tab" aria-controls="">
-                                                        <span>Cirriculum Vitae</span>
-                                                        <div>
-                                                            {{ employee.vitae | cut:'vitae/' }}
-                                                        </div>
-                                                        <a id="file" href="{% url 'admin_app:download' employee.user_id %}">download</a>
-                                                    </a>
-                                                {% endif %}
+                                                <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>Conferences Attended</span> 
+                                                    <div>
+                                                        {% if conferences %}
+                                                            {% for conference in conferences %}
+                                                                {{conference.title}} - {{conference.year}}
+                                                            {% endfor %}
+                                                        {% else %}
+                                                            NONE
+                                                        {% endif %}
+                                                    </div>
+                                                </a>
 
+                                                <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>Professional Consultancies</span> 
+                                                    <div>
+                                                        {% if consultancies %}
+                                                            {% for consult in consultancies %}
+                                                                {{consult.title}} - {{consult.period}}<br>Position - {{consult.position}}
+                                                            {% endfor %}
+                                                        {% else %}
+                                                            NONE
+                                                        {% endif %}
+                                                    </div>
+                                                </a>
 
-                                                {% if employee.region %}
-                                                    <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>Region</span> <div>{{ employee.region }}</div></a>
-                                                {% endif %}
-
-                                                {% if employee.residence %}
-                                                    <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>Residence (current)</span> <div>{{ employee.residence }}</div></a>
-                                                {% endif %}
-
-                                                {% if employee.address %}
-                                                    <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>Address (Residence)</span> <div>{{ employee.address }}</div></a>
-                                                {% endif %}
-
-                                                {% if employee.education %}
-                                                    <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>Education (Highest)</span> <div>{{ employee.education }}</div></a>
-                                                {% endif %}
-
-                                                {% if employee.lastwork %}
-                                                    <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>Last Place of Work</span> <div>{{ employee.lastwork }}</div></a>
-                                                {% endif %}
-
-                                                {% if employee.position %}
-                                                    <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>Position (last place of work)</span> <div>{{ employee.position  }}</div></a>
-                                                {% endif %}
-
-                                                {% if employee.ssnitnumber %}
-                                                    <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>SSNI Number</span> <div>{{ employee.ssnitnumber  }}</div></a>
-                                                {% endif %}
-
-                                                {% if employee.startdate %}
-                                                    <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>Employement Date</span> <div>{{ employee.startdate  }}</div></a>
-                                                {% endif %}
-
-
+                                                <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>Research Grants</span> 
+                                                    <div>
+                                                        {% if grants %}
+                                                            {% for grant in grants %}
+                                                                {{grant.title}}
+                                                            {% endfor %}
+                                                        {% else %}
+                                                            NONE
+                                                        {% endif %}
+                                                    </div>
+                                                </a>
                                                 <div>
                                                     <span>last update - {{employee.updated|naturaltime }}</span>
                                                 </div>
