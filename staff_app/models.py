@@ -372,12 +372,24 @@ class Leave(models.Model):
 # 		return self.leave
 
 class Publications(models.Model):
+
+    JOURNAL = 'Peer Reviewed Journal'
+    CONFERENCE = 'Conference Paper'
+    BOOK = 'Book'
+
+    PUBLICATION_TYPE = (
+        (JOURNAL, 'Peer Reviewed Journal'),
+        (CONFERENCE, 'Conference Paper'),
+        (BOOK, 'Book'),
+
+    )
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=1)
     title = models.CharField(max_length=100, verbose_name=_(
         'Title'), null=True, blank=False)
     year = models.IntegerField(verbose_name=_('Year'), null=True, validators=[
                                MinValueValidator(1900), max_value_current_year])
-
+    publicationtype = models.CharField(_('Publication Type'), max_length=25,
+                                       default=JOURNAL, choices=PUBLICATION_TYPE, blank=False, null=True)
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
     created = models.DateTimeField(auto_now=False, auto_now_add=True)
 

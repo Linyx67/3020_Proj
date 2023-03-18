@@ -1,15 +1,9 @@
 from django.shortcuts import (
     render,
-    HttpResponse,
     redirect,
-    HttpResponseRedirect,
     get_object_or_404
 )
-from django.contrib.auth import (
-    logout,
-    authenticate,
-    login
-)
+
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.core.mail import send_mail
 from django.contrib import messages
@@ -34,7 +28,6 @@ from staff_app.models import (
     Consultancies,
     Grants
 )
-from hris_app.models import CustomUser
 from staff_app.functions import get_user_info
 # Create your views here.
 

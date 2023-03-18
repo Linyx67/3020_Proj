@@ -114,6 +114,7 @@ class PublicationsCreateForm(forms.ModelForm):
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control'}),
             'year': forms.Select(choices=year_choices(), attrs={'class': 'form-control'}),
+            'publicationtype': forms.Select(attrs={'class': 'form-control'}),
         }
 
 

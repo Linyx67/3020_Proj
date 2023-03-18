@@ -24,9 +24,16 @@ def get_user_info(id):
         awards = Awards.objects.none()
 
     if Publications.objects.filter(user_id=id).exists():
-        publications = Publications.objects.filter(user_id=id)
+        publications = Publications.objects.filter(
+            user_id=id)
+        jorunals = publications.filter(publicationtype='Peer Reviewed Journal')
+        papers = publications.filter(publicationtype='Conference Paper')
+        books = publications.filter(publicationtype='Book')
     else:
         publications = Publications.objects.none()
+        jorunals = publications.none()
+        papers = publications.none()
+        books = publications.none()
 
     if Grants.objects.filter(user_id=id).exists():
         grants = Grants.objects.filter(user_id=id)
@@ -63,7 +70,9 @@ def get_user_info(id):
     dataset['employee'] = employee
 
     dataset['awards'] = awards
-    dataset['publications'] = publications
+    dataset['journals'] = jorunals
+    dataset['papers'] = papers
+    dataset['books'] = books
     dataset['grants'] = grants
     dataset['consultancies'] = consultancies
     dataset['presentations'] = presentations
