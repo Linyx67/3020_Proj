@@ -28,6 +28,10 @@ def year_choice():
     return [r for r in range(datetime.date.today().year+1, 1900, -1)]
 
 
+def academic_year_choices():
+    return [(r, r+1) for r in range(datetime.date.today().year, 1900, -1)]
+
+
 class EmployeeCreateForm(forms.ModelForm):
     image = forms.ImageField(required=False)
 

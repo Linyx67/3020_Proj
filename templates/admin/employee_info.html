@@ -186,73 +186,121 @@ a:link {
                                         <div class="row">
                                             <div class="col col-lg-6">
                                         
-                                                {% if employee %}
-                                                    
-                                                    <div class="list-group" id="list-tab" role="tablist">
+                                                <div class="list-group" id="list-tab" role="tablist">
+                                                                                                      
+                                                    <a class="list-group-item list-group-item-action" id="list-profile-list" data-toggle="list" href="" role="tab" aria-controls=""><span>Firstname</span>
+                                                        <div> 
+                                                            {% if employee.firstname %}
+                                                                {{ employee.firstname}} 
+                                                            {% else %}
+                                                                NONE
+                                                            {% endif %}
+                                                        </div>
+                                                    </a>                                                   
+                                                   
+                                                    <a class="list-group-item list-group-item-action" id="list-profile-list" data-toggle="list" href="" role="tab" aria-controls=""><span>Lastname</span>
+                                                        <div> 
+                                                            {% if employee.lastname %}
+                                                                {{ employee.lastname}} 
+                                                            {% else %}
+                                                                NONE
+                                                            {% endif %}
+                                                        
+                                                        </div>
+                                                    </a>
+                                                                                                        
+                                                    <a class="list-group-item list-group-item-action" id="list-messages-list" data-toggle="list" href="" role="tab" aria-controls=""><span>Othername</span> 
+                                                        <div>
+                                                            {% if employee.othername %}
+                                                                {{ employee.othername}} 
+                                                            {% else %}
+                                                                NONE
+                                                            {% endif %}
+                                                                
+                                                        </div>
+                                                    </a>
+                                                                                                       
+                                                    <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>Gender</span> 
+                                                        <div>
+                                                            {% if employee.sex %}
 
-                                                        {% if employee.firstname %}
-                                                            <a class="list-group-item list-group-item-action" id="list-profile-list" data-toggle="list" href="" role="tab" aria-controls=""><span>Firstname</span> <div> {{ employee.firstname}} </div>
-                                                            </a>
-                                                        {% endif %}
-
-                                                        {% if employee.lastname %}
-                                                            <a class="list-group-item list-group-item-action" id="list-profile-list" data-toggle="list" href="" role="tab" aria-controls=""><span>Lastname</span> <div> {{ employee.lastname }} </div>
-                                                            </a>
-                                                        {% endif %}
-
-                                                        {% if employee.othername %}
-                                                            <a class="list-group-item list-group-item-action" id="list-messages-list" data-toggle="list" href="" role="tab" aria-controls=""><span>Othername</span> <div>{{ employee.othername}} </div>
-                                                            </a>
-                                                        {% endif %}
-
-                                                        {% if employee.sex %}
-                                                            <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>Gender</span> <div> {{ employee.sex }}
-                                                            </div>
-                                                            </a>
-                                                        {% endif %}
-
+                                                            {{ employee.sex }}
+                                                            {% else %}
+                                                                Undefined
+                                                            {% endif %}
+                                                        </div>
+                                                    </a>
+                                                                                                                                                            
+                                                    <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>Email </span>
+                                                        <div>
+                                                            {% if employee.email %}
+                                                                {{ employee.email }} 
+                                                            {% else %}
+                                                                NONE
+                                                            {% endif %}                                                          
+                                                        </div>
+                                                    </a>
+                                                                                                                                                           
+                                                    <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>Contact</span> 
+                                                        <div> 
+                                                            {% if employee.tel %}
+                                                                {{ employee.tel  }}
+                                                            {% else %}
+                                                                NONE
+                                                            {% endif %}
                                                             
-                                                        {% if employee.email %}
-                                                            <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>Email </span><div>{{ employee.email }} </div>
-                                                            </a>
-                                                        {% endif %}
-                                                        
-
-
-                                                        {% if employee.tel %}
-                                                            <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>Contact</span> <div> {{ employee.tel  }}</div></a>
-                                                        {% endif %}
-
-                                                        {% if employee.bio %}
-                                                            <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>Bio</span> <div> {{ employee.bio }} </div></a>
-                                                        {% endif %}
-
-
-                                                        {% if employee.birthday %}
-                                                            <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>Date of Birth</span><div>{{ employee.birthday}}</div></a>
-                                                        {% endif %}
-
-                                                        {% if employee.nisnumber %}
-                                                            <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>NIS</span> <div>{{ employee.nisnumber|stringformat:"09d" }}</div></a>
-                                                        {% endif %}
-
+                                                        </div>
+                                                    </a>
+                                                                                                      
+                                                    <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>Bio</span> 
+                                                        <div>
+                                                            {% if employee.bio %}
+                                                                {{ employee.bio }} 
+                                                            {% else %}
+                                                                NONE
+                                                            {% endif %}                                                                                                                   
+                                                        </div>
+                                                    </a>
+                                                                                                       
+                                                    <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>Date of Birth</span>
+                                                        <div>
+                                                            {% if employee.birthday %}
+                                                                {{employee.birthday}}
+                                                            {% else %}
+                                                                NONE
+                                                            {% endif %}
+                                                        </div>
+                                                    </a>
+                                                                                                       
+                                                    <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>NIS</span> 
+                                                        <div>
+                                                            {% if employee.nisnumber %}
+                                                                {{ employee.nisnumber|stringformat:"09d" }}
+                                                            {% else %}
+                                                                NONE
+                                                            {% endif %}
+                                                            
+                                                        </div>
+                                                    </a>
+                                                                                                     
+                                                    <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" role="tab" aria-controls="">
+                                                        <span>Cirriculum Vitae</span>
                                                         {% if employee.vitae %}
-                                                            <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" role="tab" aria-controls="">
-                                                                <span>Cirriculum Vitae</span>
-                                                                <div>
-                                                                    {{ employee.vitae | cut:'vitae/' }}
-                                                                </div>
-                                                                <a id="file" href="{% url 'admin_app:download' employee.user_id %}">download</a>
-                                                            </a>
+                                                            <div>
+                                                                {{ employee.vitae | cut:'vitae/' }}
+                                                            </div>
+                                                            <a id="file" href="{% url 'admin_app:download' employee.user_id %}">download</a>
+                                                        {% else %}
+                                                            <div>
+                                                                NONE
+                                                            </div>
                                                         {% endif %}
-                                                        
-                                                    </div>
+                                                    </a>
+                                                    
+                                                    
+                                                </div>
 
-                                                {% else %}
-
-                                                    <h4>No Information found,to add click <a href="">here</a></h4>
-
-                                                {% endif %}
+                                        
                                             </div>
                                     <!-- Here working -->
                                             <div class="col col-lg-6">

@@ -286,7 +286,7 @@ class Leave(models.Model):
     @ property
     def pretty_leave(self):
         '''
-        i don't like the __str__ of leave object - this is a pretty one :-)
+        i don't like the __str__ of leave object - this is a pretty one
         '''
         leave = self.leavetype
         user = self.user
