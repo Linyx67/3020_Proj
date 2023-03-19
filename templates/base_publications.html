@@ -63,7 +63,10 @@
 <body>
     <div class="sidenav">
         <a href="{% url 'admin_app:admin-home' %}">Dashboard</a>
-        <a href="{% url 'admin_app:pubs-journals' %} ">Peer Reviewed Journals</a>
+        <a href="{% url 'admin_app:publications' %} ">All Publications</a>
+        <a href="{% url 'admin_app:pubs-journals' %} ">Journals</a>
+        <a href="{% url 'admin_app:pubs-papers' %} ">Papers</a>
+        <a href="{% url 'admin_app:pubs-books' %} ">Books</a>
         <a href="{# url 'admin_app:pubs-manuscripts' #} ">Manuscripts</a>
         <a href="{# url 'admin_app:pubs-presentations' #}">Technical Presentations</a>
         {# admin_app:pubs-journals #}

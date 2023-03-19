@@ -6,7 +6,7 @@ from django.dispatch import receiver
 from hris_app.models import StaffUser, CustomUser
 from phonenumber_field.modelfields import PhoneNumberField
 from django.utils.translation import gettext as _
-from admin_app.managers import EmployeeManager, LeaveManager
+from admin_app.managers import EmployeeManager, LeaveManager, PublicationManager
 from .validate import max_value_current_year
 # Create your models here.
 
@@ -392,6 +392,8 @@ class Publications(models.Model):
                                        default=JOURNAL, choices=PUBLICATION_TYPE, blank=False, null=True)
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
     created = models.DateTimeField(auto_now=False, auto_now_add=True)
+
+    objects = PublicationManager()
 
     class Meta:
         verbose_name = _('Publication')

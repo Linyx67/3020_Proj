@@ -56,3 +56,17 @@ class LeaveManager(models.Manager):
         this include leave approved,pending,rejected,cancelled
 
         '''
+
+
+class PublicationManager(models.Manager):
+    def journals(self):
+
+        return super().get_queryset().filter(publicationtype='Peer Reviewed Journal').order_by('-created')
+
+    def papers(self):
+
+        return super().get_queryset().filter(publicationtype='Conference Paper').order_by('-created')
+
+    def books(self):
+
+        return super().get_queryset().filter(publicationtype='Book').order_by('-created')

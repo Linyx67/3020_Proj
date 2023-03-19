@@ -244,23 +244,6 @@ def unreject_leave(request, id):
     return redirect('admin_app:leaves-rejected')
 
 
-# Rabotec staffs leaves table user only
-def view_my_leave_table(request):
-    # work on the logics
-    if not (request.user.is_authenticated and request.user.is_superuser):
-        return redirect('hris:home')
-    else:
-        user = request.user
-        leaves = Leave.objects.filter(user=user)
-        employee = Employee.objects.filter(user=user).first()
-        print(leaves)
-        dataset = dict()
-        dataset['leave_list'] = leaves
-        dataset['employee'] = employee
-        dataset['title'] = 'Leaves List'
-    return render(request, 'admin/staff_leaves_table.html', dataset)
-
-
 def awards(request):
     if not (request.user.is_authenticated and request.user.is_superuser):
         return redirect('hris:home')
@@ -290,11 +273,6 @@ def awards(request):
 
 
 def publications(request):
-
-    return render(request, "admin/publications_view.html")
-
-
-def pubs_journals(request):
     if not (request.user.is_authenticated and request.user.is_superuser):
         return redirect('hris:home')
 
@@ -302,7 +280,7 @@ def pubs_journals(request):
         '-year')
 
     dataset = dict()
-    # pagination
+
     query = request.GET.get('search')
     if query:
         query = re.sub(r"\s+", ".", query, flags=re.UNICODE)
@@ -310,6 +288,7 @@ def pubs_journals(request):
             Q(user__username__icontains=query)
         )
 
+    # pagination
     paginator = Paginator(publications, 10)  # show 10 employee lists per page
 
     page = request.GET.get('page')
@@ -318,5 +297,103 @@ def pubs_journals(request):
     dataset['pubs_list'] = publications_paginated
     dataset['all_pubs'] = Publications.objects.all()
 
-    dataset['title'] = 'Publications list view'
-    return render(request, "admin/publications_journals.html", dataset)
+    dataset['title'] = 'Employee | Publications'
+    dataset['count_title'] = 'Total Publications'
+
+    return render(request, "admin/publications_view.html", dataset)
+
+
+def pubs_journals(request):
+    if not (request.user.is_authenticated and request.user.is_superuser):
+        return redirect('hris:home')
+
+    journals = Publications.objects.journals().prefetch_related('user').all().order_by(
+        '-year')
+
+    dataset = dict()
+    dataset['all_pubs'] = journals
+
+    query = request.GET.get('search')
+    # fix the query as the count gets reset when a query happens
+    if query:
+        query = re.sub(r"\s+", ".", query, flags=re.UNICODE)
+        journals = journals.filter(
+            Q(user__username__icontains=query)
+        )
+
+    # pagination
+    paginator = Paginator(journals, 10)  # show 10 employee lists per page
+
+    page = request.GET.get('page')
+    journals_paginated = paginator.get_page(page)
+
+    dataset['pubs_list'] = journals_paginated
+
+    dataset['title'] = 'Publications | Journals'
+    dataset['count_title'] = 'Total Journals'
+
+    return render(request, "admin/publications_view.html", dataset)
+
+
+def pubs_papers(request):
+    if not (request.user.is_authenticated and request.user.is_superuser):
+        return redirect('hris:home')
+
+    papers = Publications.objects.papers().prefetch_related('user').all().order_by(
+        '-year')
+
+    dataset = dict()
+    dataset['all_pubs'] = papers
+
+    query = request.GET.get('search')
+    # fix the query as the count gets reset when a query happens
+    if query:
+        query = re.sub(r"\s+", ".", query, flags=re.UNICODE)
+        papers = papers.filter(
+            Q(user__username__icontains=query)
+        )
+
+    # pagination
+    paginator = Paginator(papers, 10)  # show 10 employee lists per page
+
+    page = request.GET.get('page')
+    papers_paginated = paginator.get_page(page)
+
+    dataset['pubs_list'] = papers_paginated
+
+    dataset['title'] = 'Publications | Conference Papers'
+    dataset['count_title'] = 'Total Papers'
+
+    return render(request, "admin/publications_view.html", dataset)
+
+
+def pubs_books(request):
+    if not (request.user.is_authenticated and request.user.is_superuser):
+        return redirect('hris:home')
+
+    books = Publications.objects.books().prefetch_related('user').all().order_by(
+        '-year')
+
+    dataset = dict()
+    dataset['all_pubs'] = books
+
+    query = request.GET.get('search')
+    # fix the query as the count gets reset when a query happens
+    if query:
+        query = re.sub(r"\s+", ".", query, flags=re.UNICODE)
+        books = books.filter(
+            Q(user__username__icontains=query)
+        )
+
+    # pagination
+    paginator = Paginator(books, 10)  # show 10 employee lists per page
+
+    page = request.GET.get('page')
+    books_paginated = paginator.get_page(page)
+
+    dataset['pubs_list'] = books_paginated
+
+    dataset['title'] = 'Publications | Books'
+    dataset['count_title'] = 'Total Books'
+
+    return render(request, "admin/publications_view.html", dataset)

@@ -24,11 +24,9 @@ def get_user_info(id):
         awards = Awards.objects.none()
 
     if Publications.objects.filter(user_id=id).exists():
-        publications = Publications.objects.filter(
-            user_id=id)
-        jorunals = publications.filter(publicationtype='Peer Reviewed Journal')
-        papers = publications.filter(publicationtype='Conference Paper')
-        books = publications.filter(publicationtype='Book')
+        jorunals = Publications.objects.journals().filter(user_id=id)
+        papers = Publications.objects.papers().filter(user_id=id)
+        books = Publications.objects.books().filter(user_id=id)
     else:
         publications = Publications.objects.none()
         jorunals = publications.none()

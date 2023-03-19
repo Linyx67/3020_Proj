@@ -1,6 +1,6 @@
 {% extends 'base_publications.html' %}
 {% load static %}
-{% block title %}Employees | Peer Reviewwed Journals{% endblock title %}
+{% block title %}Publications | Journals{% endblock title %}
 {% block stylesheet %}
 .table-shadow{
     background: white;
@@ -77,7 +77,7 @@
             <a href="{{request.META.HTTP_REFERER|escape}}" style="color:#0d6efd;">back</a>
         </section>
     </section>
-    {% if not all_pubs %}
+    {% if not all_journals %}
         <p>No Publications</p>
     {% else %}
     
@@ -86,9 +86,9 @@
         <section class="col-lg-4 col-md-4 col-sm-12">
             <div class="employee-box sec-box">
                 <a href="">
-                <span>Publications</span>
+                <span>Total Journals</span>
                 </a>
-                <span class="count-object">{{ all_pubs.count }}</span> 
+                <span class="count-object">{{ all_journals.count }}</span> 
             </div>
         </section>    
     </section>
@@ -114,7 +114,7 @@
     <div class="table-responsive table-shadow">
         <div class="text-center table-description">
             <h4 class="title-h3" style="color: #60a0b3 !important;
-            text-shadow: 1px 0px rgba(0,0,0,0.11)"> PUBLICATIONS TABLE</h4>
+            text-shadow: 1px 0px rgba(0,0,0,0.11)">PEER REVIEWED JOURNALS TABLE</h4>
         </div>
         <div class="container-fluid">
             <div class="row">
@@ -128,30 +128,30 @@
             <thead>
                 <tr>
                   <th scope="col">Full Name</th>
-                  <th scope="col">Publication Title</th>
+                  <th scope="col">Journal Title</th>
                   <th scope="col">Year</th>
                 </tr>
             </thead>
             <tbody>
-                {% if not pubs_list %}
+                {% if not journals %}
                     <tr>
-                    <td>No publications associated with that employee found.</td>
+                    <td>No journals associated with that employee found.</td>
                     </tr>
                 {% else %}
-                    {% for pub in pubs_list %}
+                    {% for journal in journals %}
                     <tr>
 
                     
-                        {% if pub.user.first_name or pub.user.last_name %}
-                            <td><a id="name" href="{% url 'admin_app:info' pub.user_id %}">{{ pub.user.first_name}} {{pub.user.last_name}}</a></td>
+                        {% if journal.user.first_name or journal.user.last_name %}
+                            <td><a id="name" href="{% url 'admin_app:info' journal.user_id %}">{{ journal.user.first_name}} {{journal.user.last_name}}</a></td>
                         {% else %}
                             <td>N/A</td>
                         {% endif %}
 
                     
-                    <td>{{pub.title}}</td>                 
+                        <td>{{journal.title}}</td>                 
 
-                    <td>{{pub.year}}</td>
+                        <td>{{journal.year}}</td>
 
                     
                     </tr>
@@ -163,18 +163,18 @@
         <!-- Pagination -->
               <div class="pagination">
                 <span class="step-links">
-                    {% if pubs_list.has_previous %}
+                    {% if journals.has_previous %}
                         <a href="?page=1">&laquo; first</a>
-                        <a href="?page={{ pubs_list.previous_page_number }}">previous</a>
+                        <a href="?page={{ journals.previous_page_number }}">previous</a>
                     {% endif %}
 
                     <span class="current">
-                        Page {{ pubs_list.number }} of {{ pubs_list.paginator.num_pages }}.
+                        Page {{ journals.number }} of {{ journals.paginator.num_pages }}.
                     </span>
 
-                    {% if pubs_list.has_next %}
-                        <a href="?page={{ pubs_list.next_page_number }}">next</a>
-                        <a href="?page={{ pubs_list.paginator.num_pages }}">last &raquo;</a>
+                    {% if journals.has_next %}
+                        <a href="?page={{ journals.next_page_number }}">next</a>
+                        <a href="?page={{ journals.paginator.num_pages }}">last &raquo;</a>
                     {% endif %}
                 </span>
             </div>
