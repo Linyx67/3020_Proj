@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserChangeForm
-import datetime
 from hris_app.models import CustomUser
+from .functions import year_choices, academic_year_choices, year_choice
 from .models import (
     Emergency,
     Employee,
@@ -18,18 +18,6 @@ from .models import (
 )
 
 # Employee
-
-
-def year_choices():
-    return [(r, r) for r in range(datetime.date.today().year+1, 1900, -1)]
-
-
-def year_choice():
-    return [r for r in range(datetime.date.today().year+1, 1900, -1)]
-
-
-def academic_year_choices():
-    return [(r, r+1) for r in range(datetime.date.today().year, 1900, -1)]
 
 
 class EmployeeCreateForm(forms.ModelForm):
@@ -117,7 +105,7 @@ class PublicationsCreateForm(forms.ModelForm):
         exclude = ['created', 'updated', 'user']
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control'}),
-            'year': forms.Select(choices=year_choices(), attrs={'class': 'form-control'}),
+            'year': forms.Select(choices=academic_year_choices(), attrs={'class': 'form-control'}),
             'publicationtype': forms.Select(attrs={'class': 'form-control'}),
         }
 
@@ -129,7 +117,7 @@ class AwardsCreateForm(forms.ModelForm):
         exclude = ['created', 'updated', 'user']
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control'}),
-            'year': forms.Select(choices=year_choices(), attrs={'class': 'form-control'}),
+            'year': forms.Select(choices=academic_year_choices(), attrs={'class': 'form-control'}),
         }
 
 
@@ -140,7 +128,7 @@ class ConferencesCreateForm(forms.ModelForm):
         exclude = ['created', 'updated', 'user']
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control'}),
-            'year': forms.Select(choices=year_choices(), attrs={'class': 'form-control'}),
+            'year': forms.Select(choices=academic_year_choices(), attrs={'class': 'form-control'}),
 
         }
 
@@ -152,7 +140,7 @@ class PresentationsCreateForm(forms.ModelForm):
         exclude = ['created', 'updated', 'user']
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control'}),
-            'year': forms.Select(choices=year_choices(), attrs={'class': 'form-control'}),
+            'year': forms.Select(choices=academic_year_choices(), attrs={'class': 'form-control'}),
         }
 
 

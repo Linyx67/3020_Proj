@@ -386,8 +386,8 @@ class Publications(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=1)
     title = models.CharField(max_length=100, verbose_name=_(
         'Title'), null=True, blank=False)
-    year = models.IntegerField(verbose_name=_('Year'), null=True, validators=[
-                               MinValueValidator(1900), max_value_current_year])
+    year = models.CharField(verbose_name=_(
+        'Academic Year'), null=True, blank=False, max_length=9)
     publicationtype = models.CharField(_('Publication Type'), max_length=25,
                                        default=JOURNAL, choices=PUBLICATION_TYPE, blank=False, null=True)
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
@@ -416,8 +416,8 @@ class Awards(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=1)
     title = models.CharField(max_length=100, verbose_name=_(
         'Title'), null=True, blank=False)
-    year = models.IntegerField(verbose_name=_('Year'), null=True, validators=[
-                               MinValueValidator(1900), max_value_current_year])
+    year = models.CharField(verbose_name=_(
+        'Academic Year'), null=True, blank=False, max_length=9)
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
     created = models.DateTimeField(auto_now=False, auto_now_add=True)
 
@@ -442,8 +442,8 @@ class Conferences(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=1)
     title = models.CharField(max_length=100, verbose_name=_(
         'Title'), null=True, blank=False)
-    year = models.IntegerField(verbose_name=_('Year'), null=True, validators=[
-                               MinValueValidator(1900), max_value_current_year])
+    year = models.CharField(verbose_name=_(
+        'Academic Year'), null=True, blank=False, max_length=9)
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
     created = models.DateTimeField(auto_now=False, auto_now_add=True)
 
@@ -522,8 +522,8 @@ class Presentations(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=1)
     title = models.CharField(max_length=100, verbose_name=_(
         'Title'), null=True, blank=False)
-    year = models.IntegerField(verbose_name=_('Year'), null=True, validators=[
-                               MinValueValidator(1900), max_value_current_year])
+    year = models.CharField(verbose_name=_(
+        'Academic Year'), null=True, blank=False, max_length=9)
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
     created = models.DateTimeField(auto_now=False, auto_now_add=True)
 

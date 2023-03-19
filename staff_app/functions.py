@@ -1,3 +1,4 @@
+import datetime
 from .models import (
     Employee,
     Awards,
@@ -9,6 +10,18 @@ from .models import (
     Consultancies,
     Grants
 )
+
+
+def year_choices():
+    return [(r, r) for r in range(datetime.date.today().year+1, 1900, -1)]
+
+
+def year_choice():
+    return [r for r in range(datetime.date.today().year+1, 1900, -1)]
+
+
+def academic_year_choices():
+    return [((str(r)+'/'+str(r+1)), (str(r)+'/'+str(r+1))) for r in range(datetime.date.today().year, 1950, -1)]
 
 
 def get_user_info(id):
