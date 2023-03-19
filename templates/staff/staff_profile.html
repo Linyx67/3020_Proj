@@ -198,11 +198,9 @@ a:link {
                                 <div class="panel-body">
                                     <div class="container-fluid">
                                         <div class="row">
-                                            <div class="col col-lg-6">
-                                        
-                                                
+                                            <div class="col col-lg-6">                                                                     
                                                 <div class="list-group" id="list-tab" role="tablist">
-                                                                                                      
+
                                                     <a class="list-group-item list-group-item-action" id="list-profile-list" data-toggle="list" href="" role="tab" aria-controls=""><span>Firstname</span>
                                                         <div> 
                                                             {% if employee.firstname %}
@@ -304,17 +302,15 @@ a:link {
                                                             <div>
                                                                 {{ employee.vitae | cut:'vitae/' }}
                                                             </div>
-                                                            <a id="file" href="{% url 'admin_app:download' employee.user_id %}">download</a>
+                                                            <div><a id="file" href="{% url 'admin_app:download' employee.user_id %}">download</a><a id ="file" href="{% url 'staff:profile-update'%}">Edit Profile</a></div>
                                                         {% else %}
                                                             <div>
                                                                 NONE
+                                                                <a id ="file" href="{% url 'staff:profile-update'%}">Edit Profile</a></span>
                                                             </div>
                                                         {% endif %}
-                                                    </a>
-                                                    
-                                                    
-                                                </div>
-
+                                                    </a>                                     
+                                                </div>                                               
                                             </div>
                                     <!-- Here working -->
                                             <div class="col col-lg-6">
@@ -441,8 +437,7 @@ a:link {
                                                 </a>
                                                 <div>
                                                     <span>last update - {{employee.updated|naturaltime }}</span>
-                                                </div>
-                                        
+                                                </div>                                       
                                             </div>
                                         </div>
                                     </div>
