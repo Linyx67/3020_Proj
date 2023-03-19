@@ -27,5 +27,5 @@ urlpatterns = [
     path('leaves/uncancel/<int:id>/', views.uncancel_leave, name='leave-uncancel'),
     path('leaves/reject/<int:id>/', views.reject_leave, name='leave-reject'),
     path('leaves/unreject/<int:id>/', views.unreject_leave, name='leave-unreject'),
-
+    path('annualreports/', views.annualreports, name='annualreports'),
 ]

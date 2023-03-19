@@ -49,6 +49,8 @@ INSTALLED_APPS = [
     'bootstrap_modal_forms',
     'debug_toolbar',
     'django_filters',
+    'bootstrapform',
+
     # own
     'admin_app',
     'staff_app',

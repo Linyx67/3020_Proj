@@ -16,6 +16,7 @@ from reportlab.pdfgen import canvas
 from reportlab.lib.units import inch
 from reportlab.lib.pagesizes import letter
 
+from hris_app .models import CustomUser
 from staff_app.models import (
     Employee,
     Leave,
@@ -29,6 +30,7 @@ from staff_app.models import (
     Grants
 )
 from staff_app.functions import get_user_info
+from .filters import EmployeeFilter
 # Create your views here.
 
 
@@ -397,3 +399,39 @@ def pubs_books(request):
     dataset['count_title'] = 'Total Books'
 
     return render(request, "admin/publications_view.html", dataset)
+
+
+def annualreports(request):
+    if not (request.user.is_authenticated and request.user.is_superuser):
+        return redirect('hris:home')
+
+    dataset = dict()
+    users = CustomUser.objects.none()
+    publications = Publications.objects.none()
+    presentations = Presentations.objects.none()
+    conferences = Conferences.objects.none()
+    awards = Awards.objects.none()
+    # myFilter = EmployeeFilter(request.GET, queryset=employees)
+    # employees = myFilter.qs
+    if request.GET.get('first_name'):
+        firstname = request.GET.get('first_name')
+        lastname = request.GET.get('last_name')
+        year = request.GET.get('year')
+        if CustomUser.objects.filter(first_name=firstname, last_name=lastname).exists():
+            users = CustomUser.objects.get(
+                first_name=firstname, last_name=lastname)
+            publications = Publications.objects.filter(
+                user_id=users.id, year=year)
+            presentations = Presentations.objects.filter(
+                user_id=users.id, year=year)
+            conferences = Conferences.objects.filter(
+                user_id=users.id, year=year)
+            awards = Awards.objects.filter(user_id=users.id, year=year)
+
+    dataset['users'] = users
+    dataset['awards'] = awards
+    dataset['publications'] = publications
+    dataset['presentations'] = presentations
+    dataset['conferences'] = conferences
+
+    return render(request, 'admin/annualreports.html', dataset)
