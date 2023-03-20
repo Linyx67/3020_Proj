@@ -599,13 +599,14 @@ def annualreports(request):
     # Initialize an empty dictionary and create empty queryset variables for the relevant models.
     dataset = dict()
     users = CustomUser.objects.none()
+    employee = Employee.objects.none()
     publications = Publications.objects.none()
     presentations = Presentations.objects.none()
     conferences = Conferences.objects.none()
     awards = Awards.objects.none()
 
     # Check if there are any GET parameters (first_name, last_name, and year).
-    if request.GET.get('first_name', 'last_name', 'year'):
+    if request.GET.get('first_name'):
         # If there are, retrieve their values.
         firstname = request.GET.get('first_name')
         lastname = request.GET.get('last_name')
@@ -615,6 +616,7 @@ def annualreports(request):
             # If there is, retrieve the user object and the relevant data for that user in the given year.
             users = CustomUser.objects.get(
                 first_name=firstname, last_name=lastname)
+            employee = Employee.objects.get(user_id=users.id)
             publications = Publications.objects.filter(
                 user_id=users.id, year=year)
             presentations = Presentations.objects.filter(
@@ -624,7 +626,8 @@ def annualreports(request):
             awards = Awards.objects.filter(user_id=users.id, year=year)
 
     # Add the retrieved data to the dataset dictionary.
-    dataset['users'] = users
+    dataset['employee'] = employee
+    dataset['year'] = year
     dataset['awards'] = awards
     dataset['publications'] = publications
     dataset['presentations'] = presentations
