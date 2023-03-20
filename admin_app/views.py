@@ -7,7 +7,7 @@ from django.shortcuts import (
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.core.mail import send_mail
 from django.contrib import messages
-from django.db.models import Q, F
+from django.db.models import Q
 
 from django.http import FileResponse
 import io
@@ -643,3 +643,135 @@ def annualreports(request):
     dataset['form'] = form
     # Render the annualreports template with the dataset dictionary.
     return render(request, 'admin/annualreports.html', dataset)
+
+
+def annualreport_pdf(request, id):
+    # create bytestream buffer
+    buf = io.BytesIO()
+
+    # create a canvas
+    c = canvas.Canvas(buf, pagesize=letter, bottomup=0)
+
+    # create a text object
+    textob = c.beginText()
+    textob.setTextOrigin(inch, inch)
+    textob.setFont("Helvetica", 14)
+
+    # getting information for the report
+    if Employee.objects.filter(user_id=id).exists():
+        employee = Employee.objects.get(user_id=id)
+        journals = Publications.objects.journals().filter(
+            user_id=id)
+        papers = Publications.objects.papers().filter(
+            user_id=id)
+        books = Publications.objects.books().filter(
+            user_id=id)
+        presentations = Presentations.objects.filter(
+            user_id=id)
+        conferences = Conferences.objects.filter(
+            user_id=id)
+        awards = Awards.objects.filter(user_id=id)
+
+    # lines of text
+    lines = [
+        "Report for Academic Year ",
+        "===========================================================",
+        " ",
+        "Name: "+employee.title+' '+employee.firstname+' '+employee.lastname,
+        " ",
+        "===========================================================",
+        "Peer Reviewed Journals Published",
+        "===========================================================",
+        " "
+    ]
+    if journals:
+        for journal in journals:
+            lines.append(journal.title)
+    else:
+        lines.append("-")
+
+    lines.append(" ")
+    lines.append(
+        "===========================================================")
+    lines.append("Conference Papers Published")
+    lines.append(
+        "===========================================================")
+    lines.append(" ")
+
+    if papers:
+        for paper in papers:
+            lines.append(paper.title)
+    else:
+        lines.append("-")
+
+    lines.append(" ")
+    lines.append(
+        "===========================================================")
+    lines.append("Books Published")
+    lines.append(
+        "===========================================================")
+    lines.append(" ")
+
+    if books:
+        for book in books:
+            lines.append(book.title)
+    else:
+        lines.append("-")
+
+    lines.append(" ")
+    lines.append(
+        "===========================================================")
+    lines.append("Technical Presentations")
+    lines.append(
+        "===========================================================")
+    lines.append(" ")
+
+    if presentations:
+        for presentation in presentations:
+            lines.append(presentation.title)
+    else:
+        lines.append("-")
+
+    lines.append(" ")
+    lines.append(
+        "===========================================================")
+    lines.append("Conferences Attended")
+    lines.append(
+        "===========================================================")
+    lines.append(" ")
+
+    if conferences:
+        for con in conferences:
+            lines.append(con.title)
+    else:
+        lines.append("-")
+
+    lines.append(" ")
+    lines.append(
+        "===========================================================")
+    lines.append("Awards Received")
+    lines.append(
+        "===========================================================")
+    lines.append(" ")
+
+    if awards:
+        for award in awards:
+            lines.append(award.title)
+    else:
+        lines.append("-")
+    lines.append(" ")
+    lines.append(
+        "===========================================================")
+
+    for line in lines:
+        textob.textLine(line)
+
+    c.drawText(textob)
+    c.showPage()
+    c.save()
+    buf.seek(0)
+
+    response = FileResponse(buf, as_attachment=True,
+                            filename=employee.firstname+'_'+employee.lastname+'_annualreport.pdf')
+
+    return response

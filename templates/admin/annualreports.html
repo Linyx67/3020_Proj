@@ -95,6 +95,13 @@ a:link {
     background-color: transparent;
     text-decoration: none;
 }
+
+#file:link {
+    color: blue;
+    background-color: transparent;
+    text-decoration: underline;
+    padding: 10px 15px;
+}
 {% endblock stylesheet %}
 {% block content %}
     <section class="content">
@@ -139,9 +146,9 @@ a:link {
                     {% endif %}
                 </section>
             </section>
-            {% if not employee %}
+            {% if employee %}
     
-            {% else %}
+            
             
                 <section class="row">
                     <section class="text-center">
@@ -269,8 +276,9 @@ a:link {
                                                                 NONE
                                                             {% endif %}
                                                         </div>
+                                                        <a id="file" href="{% url 'admin_app:annualreport-pdf' employee.user_id%}">download</a> 
                                                     </a>
-
+                                                       
                                                     <div>
                                                         <span>last update - {{employee.updated|naturaltime }}</span>
                                                     </div>
