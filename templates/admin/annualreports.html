@@ -106,16 +106,18 @@ a:link {
             </section>
             <section class="row">
                 <section class="col col-lg-12">
-                    <form action="." method="GET" >{% csrf_token %}
+                    <form action="." method="POST" >{% csrf_token %}
                         <div class="form-group row">
                             <div class="col-sm-3">
-                                <input id="firstname" class="form-control" type="text" name="first_name"  placeholder="First Name" required>
+                                {{form.firstname}}
                             </div>
                             <div class="col-sm-3">
-                                <input id="lastname" class="form-control" type="text" name="last_name"  placeholder="Last Name" required>
+                               
+                                {{form.lastname}}
                             </div>
                             <div class="col-sm-3">
-                                <input id="firstname" class="form-control" type="text" name="year"  placeholder="Academic year e.g 2022/2023" required>
+                                
+                                {{form.year}}
                             </div>
                             <div class="col-sm-2">
                                 <input class="btn btn-primary" type="submit" value="Confirm" />
@@ -129,161 +131,160 @@ a:link {
                 <section class="col col-lg-12 col-md-12  col-sm-12">
                     {% if  messages %}
                             {% for message in messages %}
-                                <div {% if message.tags %} class="{{ message.tags}}"{% endif %}>
-                                    {{ message }}
-                                    <button type="button" class="close" id = "override-start"data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <b>{{ message }}</b>
+                                <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
+                            </div>
                             {% endfor %}
                     {% endif %}
                 </section>
             </section>
-            <section class="row">
-                <section class="text-center">
-                    <h3><span class="employee-name-title">{{employee.title}} {{ employee.get_full_name}}</span></h3>
-                </section>
-            </section>
-
-            <section class="row">
-                <section class="col col-lg-4 col-md-4 col-sm-12 profile-wrapper">
-                    <img src="{{ employee.image.url}}" class="img-fluid rounded-circle-image" >
-                    <section class="text-centered" style="margin-top: 3px;">
-                        <ul class="list-group">
-                            <li class="list-group-item"><span>Title</span> <div> {{employee.title}} {{ employee.get_full_name }}</div></li>
-        
-
-                            {% if employee.email %}
-                                <li class="list-group-item"><span>Email</span> <div>{{ employee.email}}</div></li>
-                            {% endif %}
-                            
-                            <li class="list-group-item"><span>Employee Type</span> <div>{{ employee.employeetype}}</div></li>
-                            
-                            {% if employee.birthday %}
-                                <li class="list-group-item"><span>Date of Birth</span> <div>{{ employee.birthday}}</div></li>
-                                <li class="list-group-item"><span>Age </span><div>{{ employee.get_age }}</div></li>
-                            {% else %}
-                                <li class="list-group-item"><span>Date of Birth</span> <div>NONE</div></li>
-                                <li class="list-group-item"><span>Age </span><div>N/A</div></li>
-                            {% endif %}
-                            {% if employee.is_blocked %}
-                            <li class="list-group-item"><span>Status</span> <div>Inactive</div></li>
-                            {% else %}
-                            <li class="list-group-item"><span>Status</span><div> active</div></li>
-                            {% endif %}
-                            <div>
-                                <span style="font-style: italic;">updated - {{employee.updated|naturaltime}}</span>
-                            </div>
-                            
-                        </ul>
+            {% if not employee %}
+    
+            {% else %}
+            
+                <section class="row">
+                    <section class="text-center">
+                        <h3><span class="employee-name-title">{{employee.title}} {{ employee.get_full_name}}</span></h3>
                     </section>
-                </section><!-- /profile-wrappper -->
-                <section class="col col-lg-8" >
-                        <!-- ACCORDIAN - COLLAPSIBLE -->
-                        <!-- 1 Personal Detail -->
-                        <!-- 2 -- Family -->
-                        <!-- 3--  Emergency -->
-                        <!-- 4 -- Bank Account -->
-                    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                </section>
 
-                    <!-- PERSONAL INFORMATION -->
-                        <div class="panel panel-default">
-                            <div class="panel-heading" role="tab" id="headingOne">
-                                <h4 class="panel-title">
-                                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne" >
-                                        ACADEMIC YEAR {{year}} 
-                                    </a>
-                                </h4>
-                            </div>
-                            <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-                                <div class="panel-body">
-                                    <div class="container-fluid">
-                                        <div class="row">
-                                            <div class="col">                                                                                               
-                                                <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span style="">Peer Revieved Journals Published</span>
-                                                    <div>
-                                                        {% if journals %}
-                                                            {% for journal in journals  %}
-                                                                {{journal.title}}<br>
-                                                            {% endfor %}
-                                                        {% else %}
-                                                            NONE
-                                                        {% endif %}
-                                                    </div>
-                                                </a>
-                                                <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span style="">Conference Papers Published</span>
-                                                    <div>
-                                                        {% if papers %}
-                                                            {% for paper in papers  %}
-                                                                {{paper.title}}<br>
-                                                            {% endfor %}
-                                                        {% else %}
-                                                            NONE
-                                                        {% endif %}
-                                                    </div>
-                                                </a>
+                <section class="row">
+                    <section class="col col-lg-4 col-md-4 col-sm-12 profile-wrapper">
+                        <img src="{{ employee.image.url}}" class="img-fluid rounded-circle-image" >
+                        <section class="text-centered" style="margin-top: 3px;">
+                            <ul class="list-group">
+                                <li class="list-group-item"><span>Title</span> <div> {{employee.title}} {{ employee.get_full_name }}</div></li>
+            
 
-                                                <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span style="">Books Published</span>
-                                                    <div>
-                                                        {% if books %}
-                                                            {% for book in books  %}
-                                                                {{book.title}}<br>
-                                                            {% endfor %}
-                                                        {% else %}
-                                                            NONE
-                                                        {% endif %}
-                                                    </div>
-                                                </a>
+                                {% if employee.email %}
+                                    <li class="list-group-item"><span>Email</span> <div>{{ employee.email}}</div></li>
+                                {% endif %}
+                                
+                                <li class="list-group-item"><span>Employee Type</span> <div>{{ employee.employeetype}}</div></li>
+                                
+                                {% if employee.birthday %}
+                                    <li class="list-group-item"><span>Date of Birth</span> <div>{{ employee.birthday}}</div></li>
+                                    <li class="list-group-item"><span>Age </span><div>{{ employee.get_age }}</div></li>
+                                {% else %}
+                                    <li class="list-group-item"><span>Date of Birth</span> <div>NONE</div></li>
+                                    <li class="list-group-item"><span>Age </span><div>N/A</div></li>
+                                {% endif %}
+                                {% if employee.is_blocked %}
+                                <li class="list-group-item"><span>Status</span> <div>Inactive</div></li>
+                                {% else %}
+                                <li class="list-group-item"><span>Status</span><div> active</div></li>
+                                {% endif %}
+                                <div>
+                                    <span style="font-style: italic;">updated - {{employee.updated|naturaltime}}</span>
+                                </div>
+                                
+                            </ul>
+                        </section>
+                    </section><!-- /profile-wrappper -->
+                    <section class="col col-lg-8" >
 
-                                                <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>Technical Presentations</span> 
-                                                    <div>
-                                                        {% if presentations %}
-                                                            {% for presentation in presentations %}
-                                                                {{presentation.title}}
-                                                            {% endfor %}
-                                                        {% else %}
-                                                            NONE
-                                                        {% endif %}
-                                                    </div>
-                                                </a>
+                        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
 
-                                                <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>Conferences Attended</span> 
-                                                    <div>
-                                                        {% if conferences %}
-                                                            {% for conference in conferences %}
-                                                                {{conference.title}}
-                                                            {% endfor %}
-                                                        {% else %}
-                                                            NONE
-                                                        {% endif %}
-                                                    </div>
-                                                </a>
+            
+                            <div class="panel panel-default">
+                                <div class="panel-heading" role="tab" id="headingOne">
+                                    <h4 class="panel-title">
+                                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne" >
+                                            ACADEMIC YEAR {{year}} 
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                                    <div class="panel-body">
+                                        <div class="container-fluid">
+                                            <div class="row">
+                                                <div class="col">                                                                                               
+                                                    <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span style="">Peer Revieved Journals Published</span>
+                                                        <div>
+                                                            {% if journals %}
+                                                                {% for journal in journals  %}
+                                                                    {{journal.title}}<br>
+                                                                {% endfor %}
+                                                            {% else %}
+                                                                NONE
+                                                            {% endif %}
+                                                        </div>
+                                                    </a>
+                                                    <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span style="">Conference Papers Published</span>
+                                                        <div>
+                                                            {% if papers %}
+                                                                {% for paper in papers  %}
+                                                                    {{paper.title}}<br>
+                                                                {% endfor %}
+                                                            {% else %}
+                                                                NONE
+                                                            {% endif %}
+                                                        </div>
+                                                    </a>
 
-                                                <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span style="">Awards Received</span>
-                                                    <div>
-                                                        {% if  awards %}
-                                                            {% for award in awards  %}
-                                                                {{award.title}}<br>
-                                                            {% endfor %}
-                                                        {% else %}
-                                                            NONE
-                                                        {% endif %}
-                                                    </div>
-                                                </a>
+                                                    <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span style="">Books Published</span>
+                                                        <div>
+                                                            {% if books %}
+                                                                {% for book in books  %}
+                                                                    {{book.title}}<br>
+                                                                {% endfor %}
+                                                            {% else %}
+                                                                NONE
+                                                            {% endif %}
+                                                        </div>
+                                                    </a>
 
-                                                <div>
-                                                    <span>last update - {{employee.updated|naturaltime }}</span>
+                                                    <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>Technical Presentations</span> 
+                                                        <div>
+                                                            {% if presentations %}
+                                                                {% for presentation in presentations %}
+                                                                    {{presentation.title}}
+                                                                {% endfor %}
+                                                            {% else %}
+                                                                NONE
+                                                            {% endif %}
+                                                        </div>
+                                                    </a>
+
+                                                    <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>Conferences Attended</span> 
+                                                        <div>
+                                                            {% if conferences %}
+                                                                {% for conference in conferences %}
+                                                                    {{conference.title}}
+                                                                {% endfor %}
+                                                            {% else %}
+                                                                NONE
+                                                            {% endif %}
+                                                        </div>
+                                                    </a>
+
+                                                    <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span style="">Awards Received</span>
+                                                        <div>
+                                                            {% if  awards %}
+                                                                {% for award in awards  %}
+                                                                    {{award.title}}<br>
+                                                                {% endfor %}
+                                                            {% else %}
+                                                                NONE
+                                                            {% endif %}
+                                                        </div>
+                                                    </a>
+
+                                                    <div>
+                                                        <span>last update - {{employee.updated|naturaltime }}</span>
+                                                    </div>
+                                            
                                                 </div>
-                                        
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>                 
-                    </div>
-                </section>
-            </section><!-- /Row -->
-
+                            </div>                 
+                        </div>
+                    </section>
+                </section><!-- /Row -->
+            {% endif %}
         </section> <!-- /container --> 
 
     </section><!-- /content -->

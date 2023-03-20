@@ -29,6 +29,7 @@ from staff_app.models import (
     Consultancies,
     Grants
 )
+from .forms import ReportForm
 from staff_app.functions import get_user_info
 
 
@@ -598,21 +599,28 @@ def annualreports(request):
 
     # Initialize an empty dictionary and create empty queryset variables for the relevant models.
     dataset = dict()
+    year = ''
     users = CustomUser.objects.none()
     employee = Employee.objects.none()
     publications = Publications.objects.none()
     presentations = Presentations.objects.none()
     conferences = Conferences.objects.none()
     awards = Awards.objects.none()
-
+    form = ReportForm(request.POST or None)
     # Check if there are any GET parameters (first_name, last_name, and year).
-    if request.GET.get('first_name'):
+    if form.is_valid():
         # If there are, retrieve their values.
-        firstname = request.GET.get('first_name')
-        lastname = request.GET.get('last_name')
-        year = request.GET.get('year')
+        firstname = form.cleaned_data['firstname']
+        lastname = form.cleaned_data['lastname']
+        year = form.cleaned_data['year']
+
         # Check if a user with the given first and last names exists.
-        if CustomUser.objects.filter(first_name=firstname, last_name=lastname).exists():
+        if not CustomUser.objects.filter(first_name=firstname, last_name=lastname).exists():
+            messages.error(request, 'Employee not found! Please try again.')
+            dataset['form'] = form
+            return render(request, 'admin/annualreports.html', dataset)
+
+        else:
             # If there is, retrieve the user object and the relevant data for that user in the given year.
             users = CustomUser.objects.get(
                 first_name=firstname, last_name=lastname)
@@ -632,6 +640,6 @@ def annualreports(request):
     dataset['publications'] = publications
     dataset['presentations'] = presentations
     dataset['conferences'] = conferences
-
+    dataset['form'] = form
     # Render the annualreports template with the dataset dictionary.
     return render(request, 'admin/annualreports.html', dataset)
