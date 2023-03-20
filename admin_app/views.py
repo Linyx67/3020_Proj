@@ -615,7 +615,7 @@ def annualreports(request):
         year = form.cleaned_data['year']
 
         # Check if a user with the given first and last names exists.
-        if not CustomUser.objects.filter(first_name=firstname, last_name=lastname).exists():
+        if not CustomUser.objects.filter(first_name=firstname.capitalize(), last_name=lastname.capitalize()).exists():
             messages.error(request, 'Employee not found! Please try again.')
             dataset['form'] = form
             return render(request, 'admin/annualreports.html', dataset)
@@ -623,7 +623,7 @@ def annualreports(request):
         else:
             # If there is, retrieve the user object and the relevant data for that user in the given year.
             users = CustomUser.objects.get(
-                first_name=firstname, last_name=lastname)
+                first_name=firstname.capitalize(), last_name=lastname.capitalize())
             employee = Employee.objects.get(user_id=users.id)
             publications = Publications.objects.filter(
                 user_id=users.id, year=year)
