@@ -11,26 +11,6 @@ from .validate import max_value_current_year
 # Create your models here.
 
 
-class Notification(models.Model):
-    id = models.AutoField(primary_key=True)
-    stafff_id = models.ForeignKey(StaffUser, on_delete=models.CASCADE)
-    message = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    objects = models.Manager()
-
-
-class LeaveReport(models.Model):
-    id = models.AutoField(primary_key=True)
-    staff_id = models.ForeignKey(StaffUser, on_delete=models.CASCADE)
-    leave_date = models.CharField(max_length=255)
-    leave_message = models.TextField()
-    leave_status = models.IntegerField(default=0)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    objects = models.Manager()
-
-
 class Religion(models.Model):
     name = models.CharField(max_length=125)
     description = models.CharField(max_length=125, null=True, blank=True)
@@ -113,8 +93,10 @@ class Emergency(models.Model):
         verbose_name=_('Updated'), auto_now=True, null=True)
 
 
+# create the Employee model
 class Employee(models.Model):
 
+    # define gender choices
     MALE = 'male'
     FEMALE = 'female'
     OTHER = 'other'
@@ -127,6 +109,7 @@ class Employee(models.Model):
         (NOT_KNOWN, 'Not Known'),
     )
 
+    # define title choices
     MR = 'Mr'
     MRS = 'Mrs'
     MSS = 'Mss'
@@ -143,6 +126,7 @@ class Employee(models.Model):
         (MADAM, 'Madam'),
     )
 
+    # define employee type choices
     FULL_TIME = 'Full-Time'
     PART_TIME = 'Part-Time'
     CONTRACT = 'Contract'
@@ -155,58 +139,94 @@ class Employee(models.Model):
         (INTERN, 'Intern'),
     )
 
+    # define the fields for the model
     # PERSONAL DATA
+    # link to the user model
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=1)
-    title = models.CharField(_('Title'), max_length=10,
-                             default=MR, choices=TITLE, blank=False, null=True)
-    image = models.ImageField(_('Profile Image'), upload_to='profiles/', default='profiles/default.png', blank=True,
-                              null=True, help_text='upload image size less than 2.0MB')  # work on path username-date/image
+    # title of the employee
+    title = models.CharField(_('Title'), max_length=10, default=MR,
+                             choices=TITLE, blank=False, null=True)
+    # profile picture of the employee
+    image = models.ImageField(_('Profile Image'), upload_to='profiles/', default='profiles/default.png',
+                              blank=True, null=True, help_text='upload image size less than 2.0MB')
+    # first name of the employee
     firstname = models.CharField(
         _('Firstname'), max_length=125, null=False, blank=False)
+    # last name of the employee
     lastname = models.CharField(
         _('Lastname'), max_length=125, null=False, blank=False)
+    # other name of the employee
     othername = models.CharField(
         _('Othername (optional)'), max_length=125, null=True, blank=True)
-    sex = models.CharField(_('Gender'), max_length=10,
-                           default=NOT_KNOWN, choices=GENDER, blank=False)
+    # gender of the employee
+    sex = models.CharField(_('Gender'), max_length=10, default=NOT_KNOWN,
+                           choices=GENDER, blank=False)
+    # email address of the employee
     email = models.EmailField(
         _('Email'), max_length=255, default=None, blank=True, null=True)
+    # phone number of the employee
     tel = PhoneNumberField(null=False, blank=False,
                            verbose_name='Phone Number')
-    bio = models.CharField(_('Bio'), max_length=255,
-                           default='', null=True, blank=True)
-    birthday = models.DateField(
-        _('Date of Birth'), blank=False, null=True)
-
+    # biography of the employee
+    bio = models.CharField(_('Bio'), max_length=255, default='',
+                           null=True, blank=True)
+    # date of birth of the employee
+    birthday = models.DateField(_('Date of Birth'), blank=False, null=True)
+    # NIS number of the employee
     nisnumber = models.PositiveIntegerField(
         _('NIS Number'), null=True, blank=True)
-
-    employeetype = models.CharField(_('Employee Type'), max_length=15,
-                                    default=FULL_TIME, choices=EMPLOYEETYPE, blank=False, null=True)
+    # type of employment for the employee
+    employeetype = models.CharField(_('Employee Type'), max_length=15, default=FULL_TIME,
+                                    choices=EMPLOYEETYPE, blank=False, null=True)
     vitae = models.FileField(_('Cirriculum Vitae'), upload_to='vitae/', blank=True,
-                             null=True, help_text='upload in .docx or .pdf')
+                             null=True, help_text='upload in .docx or .pdf')  # curriculum vitae
 
+    """
+    is_blocked and is_deleted are boolean fields that indicate whether an employee is blocked or deleted.
+    _('Is Blocked') and _('Is Deleted') are translation strings for the field labels.
+    """
     is_blocked = models.BooleanField(
         _('Is Blocked'), help_text='button to toggle employee block and unblock', default=False)
     is_deleted = models.BooleanField(
         _('Is Deleted'), help_text='button to toggle employee deleted and undelete', default=False)
-
+    """
+    created and updated are datetime fields that store the date and time when an employee is created or updated.
+    verbose_name is the human-readable name for the field.
+    """
     created = models.DateTimeField(verbose_name=_(
         'Created'), auto_now_add=True, null=True)
     updated = models.DateTimeField(
         verbose_name=_('Updated'), auto_now=True, null=True)
 
     # PLUG MANAGERS
+    """
+    objects is a reference to the default manager for the model.
+    """
     objects = EmployeeManager()
 
+    """
+    Meta class contains some metadata for the model.
+    verbose_name and verbose_name_plural are human-readable names for the model.
+    ordering specifies the default ordering of the records.
+    """
     class Meta:
         verbose_name = _('Employee')
         verbose_name_plural = _('Employees')
         ordering = ['-created']
 
+    """
+    __str__ method is used to convert the model object to a string representation in the database.
+    Here, it returns the full name of the employee using the get_full_name property.
+    """
+
     def __str__(self):
         return self.get_full_name
 
+    """
+    get_full_name is a property that returns the full name of the employee.
+    It checks if firstname, lastname, and othername fields are available and returns the full name accordingly.
+    the @property decorator allows this function to be called as a model property would withoung using '()'
+    """
     @ property
     def get_full_name(self):
         fullname = ''
@@ -222,6 +242,10 @@ class Employee(models.Model):
             return fullname
         return
 
+    """
+    get_age is a property that returns the age of the employee.
+    It calculates the age using the birthday field and the current year.
+    """
     @ property
     def get_age(self):
         current_year = datetime.date.today().year
@@ -251,64 +275,81 @@ class Leave(models.Model):
         (STUDY, 'Study Leave'),
     )
 
-    DAYS = 30
+    DAYS = 30  # Default number of leave days per year
 
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=1)
-    startdate = models.DateField(verbose_name=_(
-        'Start Date'), help_text='leave start date is on ..', null=True, blank=False)
-    enddate = models.DateField(verbose_name=_(
-        'End Date'), help_text='coming back on ...', null=True, blank=False)
+    startdate = models.DateField(verbose_name=_('Start Date'), help_text='leave start date is on ..',
+                                 null=True, blank=False)  # Date when the leave period begins
+    enddate = models.DateField(verbose_name=_('End Date'), help_text='coming back on ...',
+                               null=True, blank=False)  # Date when the leave period ends
     leavetype = models.CharField(
-        choices=LEAVE_TYPE, max_length=25, default=SICK, null=True, blank=False)
+        choices=LEAVE_TYPE, max_length=25, default=SICK, null=True, blank=False)  # Type of leave
     reason = models.CharField(verbose_name=_('Reason for Leave'), max_length=255,
-                              help_text='add additional information for leave', null=True, blank=True)
+                              help_text='add additional information for leave', null=True, blank=True)  # Optional reason for the leave
+    # Number of leave days allocated to the user per year
     defaultdays = models.PositiveIntegerField(verbose_name=_(
         'Leave days per year counter'), default=DAYS, null=True, blank=True)
-    # hrcomments = models.ForeignKey('CommentLeave') #hide
 
-    # pending,approved,rejected,cancelled
+    # Leave status: pending, approved, rejected, cancelled
     status = models.CharField(max_length=12, default='pending')
-    is_approved = models.BooleanField(default=False)  # hide
+    # Flag to indicate if the leave has been approved (not used in this implementation)
+    is_approved = models.BooleanField(default=False)
 
+    # Date and time when the leave was last updated
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
+    # Date and time when the leave was created
     created = models.DateTimeField(auto_now=False, auto_now_add=True)
 
-    objects = LeaveManager()
+    objects = LeaveManager()  # Custom manager for the Leave model
 
     class Meta:
+        # set the verbose name for this model to 'Leave'
         verbose_name = _('Leave')
+        # set the verbose plural name for this model to 'Leaves'
         verbose_name_plural = _('Leaves')
-        ordering = ['-created']  # recent objects
+        # set the default ordering of objects to be by 'created' field, in descending order
+        ordering = ['-created']
 
     def __str__(self):
+        # define how this object is represented as a string
         return ('{0} - {1}'.format(self.leavetype, self.user))
 
     @ property
     def pretty_leave(self):
         '''
-        i don't like the __str__ of leave object - this is a pretty one
+        A more readable representation of the object, used for display purposes
         '''
         leave = self.leavetype
         user = self.user
+        # get the full name of the employee associated with this leave
         employee = user.employee_set.first().get_full_name
         return ('{0} - {1}'.format(employee, leave))
 
     @ property
     def leave_days(self):
+        '''
+        Calculate the number of days this leave is for
+        '''
         days_count = ''
         startdate = self.startdate
         enddate = self.enddate
-        if startdate > enddate:
+        if startdate > enddate:  # if startdate is after enddate, then the dates are invalid
             return
         dates = (enddate - startdate)
         return dates.days
 
     @ property
     def leave_approved(self):
+        '''
+        Check if this leave has been approved or not
+        '''
         return self.is_approved == True
 
     @ property
     def approve_leave(self):
+        '''
+        Approve this leave request
+        '''
         if not self.is_approved:
             self.is_approved = True
             self.status = 'approved'
@@ -316,6 +357,9 @@ class Leave(models.Model):
 
     @ property
     def unapprove_leave(self):
+        '''
+        Unapprove this leave request
+        '''
         if self.is_approved:
             self.is_approved = False
             self.status = 'pending'
@@ -323,6 +367,9 @@ class Leave(models.Model):
 
     @ property
     def leaves_cancel(self):
+        '''
+        Cancel this leave request
+        '''
         if self.is_approved or not self.is_approved:
             self.is_approved = False
             self.status = 'cancelled'
@@ -330,6 +377,9 @@ class Leave(models.Model):
 
     @ property
     def uncancel_leave(self):
+        '''
+        Revert the cancellation of this leave request
+        '''
         if self.is_approved or not self.is_approved:
             self.is_approved = False
             self.status = 'pending'
@@ -337,6 +387,9 @@ class Leave(models.Model):
 
     @ property
     def reject_leave(self):
+        '''
+        Reject this leave request
+        '''
         if self.is_approved or not self.is_approved:
             self.is_approved = False
             self.status = 'rejected'
@@ -344,67 +397,77 @@ class Leave(models.Model):
 
     @ property
     def is_rejected(self):
+        '''
+        Check if this leave request has been rejected
+        '''
         return self.status == 'rejected'
 
     @ property
     def get_full_name(self):
+        '''
+        Get the full name of the user associated with this leave request
+        '''
         user = self.user
         firstname = self.user.first_name
         lastname = self.user.last_name
         fullname = firstname+' '+lastname
         return fullname
-    # def save(self,*args,**kwargs):
-    # 	data = self.defaultdays
-    # 	days_left = data - self.leave_days
-    # 	self.defaultdays = days_left
-    # 	super().save(*args,**kwargs)
 
-
-# class Comment(models.Model):
-# 	leave = models.ForeignKey(Leave,on_delete=models.CASCADE,null=True,blank=True)
-# 	comment = models.CharField(max_length=255,null=True,blank=True)
-
-# 	updated = models.DateTimeField(auto_now=True, auto_now_add=False)
-# 	created = models.DateTimeField(auto_now=False, auto_now_add=True)
-
-
-# 	def __str__(self):
-# 		return self.leave
 
 class Publications(models.Model):
-
+    # Constants representing the different types of publications
     JOURNAL = 'Peer Reviewed Journal'
     CONFERENCE = 'Conference Paper'
     BOOK = 'Book'
 
+    # A tuple of choices for the publication type field
     PUBLICATION_TYPE = (
         (JOURNAL, 'Peer Reviewed Journal'),
         (CONFERENCE, 'Conference Paper'),
         (BOOK, 'Book'),
-
     )
+
+    # A foreign key to the CustomUser model
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=1)
+
+    # A character field to represent the title of the publication
     title = models.CharField(max_length=100, verbose_name=_(
         'Title'), null=True, blank=False)
+
+    # A character field to represent the academic year of the publication
     year = models.CharField(verbose_name=_(
         'Academic Year'), null=True, blank=False, max_length=9)
-    publicationtype = models.CharField(_('Publication Type'), max_length=25,
-                                       default=JOURNAL, choices=PUBLICATION_TYPE, blank=False, null=True)
+
+    # A character field to represent the type of the publication
+    publicationtype = models.CharField(_('Publication Type'), max_length=25, default=JOURNAL,
+                                       choices=PUBLICATION_TYPE, blank=False, null=True)
+
+    # A date time field representing when the publication was last updated
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
+
+    # A date time field representing when the publication was created
     created = models.DateTimeField(auto_now=False, auto_now_add=True)
 
+    # A custom manager for the Publications model
     objects = PublicationManager()
 
     class Meta:
+        # A human-readable name for the model in the admin panel
         verbose_name = _('Publication')
+
+        # A human-readable plural name for the model in the admin panel
         verbose_name_plural = _('Publications')
+
+        # The default sorting order for the model
         ordering = ['-created']
 
     def __str__(self):
+        # A string representation of the model
         return (self.user.first_name+' '+self.user.last_name)
 
-    @ property
+    @property
     def get_full_name(self):
+        # A method to get the full name of the user who created the publication
         user = self.user
         firstname = self.user.first_name
         lastname = self.user.last_name
@@ -413,23 +476,30 @@ class Publications(models.Model):
 
 
 class Awards(models.Model):
+    # A foreign key that refers to the user who received the award
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=1)
     title = models.CharField(max_length=100, verbose_name=_(
-        'Title'), null=True, blank=False)
+        'Title'), null=True, blank=False)  # A field that stores the title of the award
+    # A field that stores the year the award was received
     year = models.CharField(verbose_name=_(
         'Academic Year'), null=True, blank=False, max_length=9)
+    # A field that stores the last time the record was updated
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
+    # A field that stores the time the record was created
     created = models.DateTimeField(auto_now=False, auto_now_add=True)
 
     class Meta:
+        # A human-readable name for a single instance of the model
         verbose_name = _('Award')
+        # A human-readable name for multiple instances of the model
         verbose_name_plural = _('Awards')
-        ordering = ['-created']
+        ordering = ['-created']  # The default ordering for the model
 
     def __str__(self):
+        # Returns the full name of the user who received the award as a string
         return (self.user.first_name+' '+self.user.last_name)
 
-    @ property
+    @property
     def get_full_name(self):
         user = self.user
         firstname = self.user.first_name
@@ -439,40 +509,50 @@ class Awards(models.Model):
 
 
 class Conferences(models.Model):
+    # link to user who attended conference
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=1)
     title = models.CharField(max_length=100, verbose_name=_(
-        'Title'), null=True, blank=False)
+        'Title'), null=True, blank=False)  # title of conference
     year = models.CharField(verbose_name=_(
-        'Academic Year'), null=True, blank=False, max_length=9)
-    updated = models.DateTimeField(auto_now=True, auto_now_add=False)
-    created = models.DateTimeField(auto_now=False, auto_now_add=True)
+        'Academic Year'), null=True, blank=False, max_length=9)  # year of conference
+    updated = models.DateTimeField(
+        auto_now=True, auto_now_add=False)  # last updated timestamp
+    created = models.DateTimeField(
+        auto_now=False, auto_now_add=True)  # created timestamp
 
     class Meta:
-        verbose_name = _('Conference')
-        verbose_name_plural = _('Conferences')
-        ordering = ['-created']
+        verbose_name = _('Conference')  # singular name of the model
+        verbose_name_plural = _('Conferences')  # plural name of the model
+        ordering = ['-created']  # order by most recent conferences first
 
     def __str__(self):
+        # string representation of the object
         return (self.user.first_name+' '+self.user.last_name)
 
-    @ property
+    @property
     def get_full_name(self):
         user = self.user
         firstname = self.user.first_name
         lastname = self.user.last_name
         fullname = firstname+' '+lastname
-        return fullname
+        return fullname  # get the full name of the user who attended the conference
 
 
 class Development(models.Model):
+    # foreign key to the user model
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=1)
+    # title of the development
     title = models.CharField(max_length=100, verbose_name=_(
         'Title'), null=True, blank=False)
+    # starting year of the development
     year_start = models.IntegerField(verbose_name=_('Start Year'), null=True, validators=[
         MinValueValidator(1900), max_value_current_year])
+    # ending year of the development
     year_end = models.IntegerField(verbose_name=_('End Year'), null=True, validators=[
         MinValueValidator(1900), max_value_current_year])
+    # timestamp for last update
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
+    # timestamp for creation
     created = models.DateTimeField(auto_now=False, auto_now_add=True)
 
     class Meta:
@@ -485,6 +565,7 @@ class Development(models.Model):
 
     @ property
     def get_full_name(self):
+        # return the full name of the user associated with the development
         user = self.user
         firstname = self.user.first_name
         lastname = self.user.last_name
@@ -507,11 +588,12 @@ class Manuscripts(models.Model):
         ordering = ['-created']
 
     def __str__(self):
+        # Return the full name of the user
         return (self.user.first_name+' '+self.user.last_name)
 
-    @ property
+    @property
     def get_full_name(self):
-        user = self.user
+        # Return the full name of the user
         firstname = self.user.first_name
         lastname = self.user.last_name
         fullname = firstname+' '+lastname
@@ -533,11 +615,12 @@ class Presentations(models.Model):
         ordering = ['-created']
 
     def __str__(self):
+        # Return the full name of the user
         return (self.user.first_name+' '+self.user.last_name)
 
-    @ property
+    @property
     def get_full_name(self):
-        user = self.user
+        # Return the full name of the user
         firstname = self.user.first_name
         lastname = self.user.last_name
         fullname = firstname+' '+lastname
@@ -545,26 +628,42 @@ class Presentations(models.Model):
 
 
 class Consultancies(models.Model):
+    # The user who created the consultancy
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=1)
+
+    # The title of the consultancy
     title = models.CharField(max_length=100, verbose_name=_(
         'Title'), null=True, blank=False)
+
+    # The position of the user in the consultancy
     position = models.CharField(max_length=50, verbose_name=_(
         'Position'), null=True, blank=True)
+
+    # The period of the consultancy
     period = models.CharField(verbose_name=_(
         'Period'), null=True, max_length=50)
+
+    # The date and time when the consultancy was last updated
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
+
+    # The date and time when the consultancy was created
     created = models.DateTimeField(auto_now=False, auto_now_add=True)
 
     class Meta:
+        # The singular name of the model
         verbose_name = _('Consultancy')
+        # The plural name of the model
         verbose_name_plural = _('Consultancies')
+        # The default ordering for the model
         ordering = ['-created']
 
     def __str__(self):
+        # The string representation of the consultancy
         return (self.user.first_name+' '+self.user.last_name)
 
     @ property
     def get_full_name(self):
+        # The full name of the user who created the consultancy
         user = self.user
         firstname = self.user.first_name
         lastname = self.user.last_name
@@ -573,24 +672,29 @@ class Consultancies(models.Model):
 
 
 class Grants(models.Model):
+    # User who created the grant
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=1)
     title = models.CharField(max_length=100, verbose_name=_(
-        'Title'), null=True, blank=False)
+        'Title'), null=True, blank=False)  # Title of the grant
+    # Date and time the grant was last updated
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
+    # Date and time the grant was created
     created = models.DateTimeField(auto_now=False, auto_now_add=True)
 
     class Meta:
-        verbose_name = _('Grant')
-        verbose_name_plural = _('Grants')
+        verbose_name = _('Grant')  # Singular name of the model
+        verbose_name_plural = _('Grants')  # Plural name of the model
+        # Order grants by creation date in descending order
         ordering = ['-created']
 
     def __str__(self):
-        return (self.user.first_name+' '+self.user.last_name)
+        # Return the name of the user who created the grant
+        return (self.user.first_name + ' ' + self.user.last_name)
 
-    @ property
+    @property
     def get_full_name(self):
         user = self.user
         firstname = self.user.first_name
         lastname = self.user.last_name
-        fullname = firstname+' '+lastname
-        return fullname
+        fullname = firstname + ' ' + lastname
+        return fullname  # Return the full name of the user who created the grant

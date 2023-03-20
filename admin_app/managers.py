@@ -1,5 +1,4 @@
 from django.db import models
-import datetime
 
 
 class EmployeeManager(models.Manager):
@@ -60,13 +59,22 @@ class LeaveManager(models.Manager):
 
 class PublicationManager(models.Manager):
     def journals(self):
-
+        '''
+        This method returns a queryset containing all publications of type "Peer Reviewed Journal" 
+        in descending order of their creation date.
+        '''
         return super().get_queryset().filter(publicationtype='Peer Reviewed Journal').order_by('-created')
 
     def papers(self):
-
+        '''
+        This method returns a queryset containing all publications of type "Conference Paper" 
+        in descending order of their creation date.
+        '''
         return super().get_queryset().filter(publicationtype='Conference Paper').order_by('-created')
 
     def books(self):
-
+        '''
+        This method returns a queryset containing all publications of type "Book" 
+        in descending order of their creation date.
+        '''
         return super().get_queryset().filter(publicationtype='Book').order_by('-created')
