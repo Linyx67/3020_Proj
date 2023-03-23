@@ -72,11 +72,11 @@
 {% endblock stylesheet %}
 {% block content %}
 <link type="text/CSS" href="{% static 'css/light-bootstrap-dashboard.css' %}" rel="stylesheet"/>
-    <section class="row">
-        <section class="col col-lg-12">
-            <a href="{{request.META.HTTP_REFERER|escape}}" style="color:#0d6efd;">back</a>
-        </section>
+<section class="row">
+    <section class="col col-lg-12">
+        <span><a href="{{request.META.HTTP_REFERER|escape}}" style="color:#565656;">Back</a></span>
     </section>
+</section>
     {% if not all_pubs %}
         <p>No Publications</p>
     {% else %}

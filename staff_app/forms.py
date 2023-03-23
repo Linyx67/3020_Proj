@@ -6,6 +6,7 @@ from .functions import year_choices, academic_year_choices, year_choice
 from .models import (
     Emergency,
     Employee,
+    Requests,
     Leave,
     Awards,
     Publications,
@@ -67,6 +68,16 @@ class EmployeeCreateForm(forms.ModelForm):
         # 	if qry:
         # 		raise forms.ValidationError('Employee exists with username already')
         #   return user
+
+
+class RequestsCreateForm(forms.ModelForm):
+    class Meta:
+        model = Requests
+        exclude = ['user', 'updated', 'created']
+        widgets = {
+            'information': forms.Select(attrs={'class': 'form-control'}),
+            'message': forms.Textarea(attrs={'rows': 5, 'cols': 40, 'class': 'form-control'})
+        }
 
 
 class LeaveCreateForm(forms.ModelForm):

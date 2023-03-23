@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from .models import (
     Emergency,
+    Requests,
     Employee,
     Leave,
     Awards,
@@ -23,6 +24,7 @@ from .models import (
 # Register your models here.
 admin.site.register(Employee)
 admin.site.register(Emergency)
+admin.site.register(Requests)
 admin.site.register(Leave)
 admin.site.register(Awards)
 admin.site.register(Publications)

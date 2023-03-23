@@ -75,8 +75,62 @@ class Emergency(models.Model):
     updated = models.DateTimeField(
         verbose_name=_('Updated'), auto_now=True, null=True)
 
+# create requests module
 
+
+class Requests(models.Model):
+    STG = 'Study and Travel Grant'
+    IVA = 'Institutional Visit Allowance'
+    DTG = 'Development and Training Grant'
+    BOOK = 'Book Grant'
+    CLAIMFORM = 'Claim Form'
+    PENSION = 'Pension Plans'
+
+    # choices for type of information to request
+    INFORMATION = (
+        (STG, 'Study and Travel Grant'),
+        (IVA, 'Institutional Visit Allowance'),
+        (DTG, 'Development and Training Grant'),
+        (BOOK, 'Book Grant'),
+        (CLAIMFORM, 'Claim Form'),
+        (PENSION, 'Pension Plans'),
+    )
+    # link to the user model
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=1)
+    information = models.CharField(_('Information'), max_length=40, default=STG,
+                                   choices=INFORMATION, blank=False)
+    message = models.CharField(_('Message'), max_length=255, default='',
+                               null=True, blank=True)
+    created = models.DateTimeField(verbose_name=_(
+        'Created'), auto_now_add=True, null=True)
+    updated = models.DateTimeField(
+        verbose_name=_('Updated'), auto_now=True, null=True)
+
+    class Meta:
+        # A human-readable name for the model in the admin panel
+        verbose_name = _('Request')
+
+        # A human-readable plural name for the model in the admin panel
+        verbose_name_plural = _('Requests')
+
+        # The default sorting order for the model
+        ordering = ['-created']
+
+    def __str__(self):
+        # A string representation of the model
+        return (self.user.first_name+' '+self.user.last_name)
+
+    @property
+    def get_full_name(self):
+        # A method to get the full name of the user who created the publication
+        user = self.user
+        firstname = self.user.first_name
+        lastname = self.user.last_name
+        fullname = firstname+' '+lastname
+        return fullname
 # create the Employee model
+
+
 class Employee(models.Model):
 
     # define gender choices

@@ -72,14 +72,14 @@
 <link type="text/CSS" href="{% static 'css/light-bootstrap-dashboard.css' %}" rel="stylesheet"/>
     <section class="row">
         <section class="col col-lg-12">
-            <a href="{{request.META.HTTP_REFERER|escape}}" style="color:#0d6efd;">back</a>
+            <span><a href="{{request.META.HTTP_REFERER|escape}}" style="color:#565656;">Back</a></span>
         </section>
     </section>
     <section class="row margin-bottom">
         <div class="container-fluid">
             <section class="col-lg-4 col-md-4 col-sm-12">
                 <div class="employee-box sec-box">
-                    <a href="">
+                    <a href="{% url 'admin_app:employees' %} ">
                     <span>Employees</span>
                     </a>
                     <span class="count-object">{{ all_employees.count }}</span> 
