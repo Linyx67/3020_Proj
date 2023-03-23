@@ -1,5 +1,5 @@
 from django.db import models
-from django.core.validators import MinValueValidator
+from django.core.validators import MinValueValidator, FileExtensionValidator
 import datetime
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -162,7 +162,7 @@ class Employee(models.Model):
     employeetype = models.CharField(_('Employee Type'), max_length=15, default=FULL_TIME,
                                     choices=EMPLOYEETYPE, blank=False, null=True)
     vitae = models.FileField(_('Cirriculum Vitae'), upload_to='vitae/', blank=True,
-                             null=True, help_text='upload in .docx or .pdf')  # curriculum vitae
+                             null=True, validators=[FileExtensionValidator(allowed_extensions=['pdf', 'docx'])], help_text='upload in .docx or .pdf')  # curriculum vitae
 
     """
     is_blocked and is_deleted are boolean fields that indicate whether an employee is blocked or deleted.

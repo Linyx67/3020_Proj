@@ -1,21 +1,51 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}Employees | Add{% endblock title %}
-{% block stylesheet %}{% endblock stylesheet %}
+{% block stylesheet %}
+.container{
+    display:grid;
+    aligh-items:center;
+    justify-content:center;
+    margin-top: 20px;
+    gap:2rem;
+}
+{% endblock stylesheet %}
 {% block content %}
-    <form action="." method="post"enctype="multipart/form-data">{% csrf_token %}
-        File:
-        <input type="file" name="file"/>
-        <input type="submit" value="UPLOAD" />
-    </form>
-    {% if failed %}
-        <p>There was an error adding the following users: </p>
-        {% for instance in failed  %}
-            <p>{{instance}}</p>
-        {% endfor %}
-        <p>Adjust the emails in the file or enter them manually to proceed</p>
-        <p>The following users already exist</p>
-        {% for instance in exists %}
-            <p>{{instance}}</p>
-        {% endfor %}
+
+    <div class="container">
+    
+        <section>
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>Upload .txt file with employee email addresses</h2>
+                </div>
+            </div>
+        </section>
+        <form action="." method="POST" enctype="multipart/form-data">{% csrf_token %}
+            <div class="input-group">
+                <input type="file" class="form-control" name="file" accept=".txt" >
+                <input class="btn btn-outline-primary" type="submit" value="Upload">
+            </div>
+        </form>
+        {% if messages %}
+        <div class="col-12">
+            {% for message in messages %}
+                {% if message.tags == "error" %}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <b>{{ message }}</b>
+                    <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endif %}
+                {% if message.tags == "success" %}
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <b>{{ message }}</b>
+                    <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endif %}
+            {% endfor %}
+        </div>
     {% endif %}
+        
+   
+    </div>
 {% endblock content %}

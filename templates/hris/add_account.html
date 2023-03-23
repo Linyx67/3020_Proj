@@ -1,12 +1,32 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}Employees | Add{% endblock title %}
-{% block stylesheet %}{% endblock stylesheet %}
+{% block stylesheet %}
+.container{
+    display: grid;
+    align-items: center;
+    margin-top: 50px;
+    gap:2rems;
+}
+#email{
+    margin-top: 20px;
+}
+{% endblock stylesheet %}
 {% block content %}
+<link type="text/CSS" href="{% static 'css/light-bootstrap-dashboard.css' %}" rel="stylesheet"/>
+<div class="container">
+    <section>
+        <div class="row">
+            <div class="col-md-12">
+                <h3>Enter the email address of the employee you want to add</h3>
+            </div>
+        </div>
+    </section>
     <form action="{% url 'hris:add-account'%}" method="POST">{% csrf_token %}
         <input id="email" class="form-control" type="email" name="email_address" placeholder="Email" required>
-        <div class="d-flex justify-content-center">
-            <input class="btn btn-primary" type="submit" id="register" name="create" value="Add">
-            <!--submission button -->
+        <div class="d-flex justify-content-center" id="email">
+            <input class="btn btn-primary" type="submit" value="Add">
+            
         </div>
     </form>
     {% if messages %}
@@ -27,4 +47,5 @@
             {% endfor %}
         </div>
     {% endif %}
+</div>
 {% endblock content %}

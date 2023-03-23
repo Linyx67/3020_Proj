@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% block title %}Staff | Profile{% endblock title %}
 {% load humanize %}
+{% load static %}
 {% block stylesheet %}
 .rounded-circle-image{
     border-radius: 50% !important;
@@ -104,6 +105,7 @@ a:link {
 
 {% endblock stylesheet %}
 {% block content %}
+<link type="text/CSS" href="{% static 'css/light-bootstrap-dashboard.css' %}" rel="stylesheet"/>
     <section class="content">
         <section class="container-fluid">
             <section class="row">

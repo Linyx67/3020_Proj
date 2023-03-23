@@ -1,8 +1,8 @@
 from django.shortcuts import (
     render,
-    HttpResponse,
     redirect,
     HttpResponseRedirect,
+    HttpResponse
 )
 from django.contrib.auth import (
     logout,
@@ -16,7 +16,6 @@ from .models import (
 )
 from django.contrib.auth.hashers import make_password
 from django.contrib import messages
-from staff_app import views
 from staff_app.models import Employee
 # Create your views here.
 
@@ -152,11 +151,14 @@ def add_accounts(request):
     # initialize lists to store failed and existing email addresses
     failed = []
     exists = []
-
+    if failed:
+        print("working")
     # if file is uploaded
-    if request.FILES:
+    if request.method == 'POST':
+
         # read the uploaded file
         file = request.FILES['file'].read()
+
         # split the file into lines
         emails = file.splitlines()
 
@@ -199,7 +201,16 @@ def add_accounts(request):
             employee.lastname = lastname.capitalize()
             employee.email = email
             employee.save()
-
+        # if any email failed or already exists an error message will be displayed
+        if failed or exists:
+            messages.error(
+                request, "Failed to create the following accounts because the email address is invalid or the user already exists")
+            for fail in failed:
+                messages.error(request, fail)
+            for exist in exists:
+                messages.error(request, exist)
+        else:
+            messages.success(request, "All Accounts successfully created")
     # create dictionary to store lists of failed and existing email addresses and return to the user interface
     context = {
         "failed": failed,
@@ -231,6 +242,9 @@ def add_account(request):
     if user_exists:
         # If a user already exists with this email address, display an error message and render the page again
         messages.error(request, 'User with this email already exists')
+        return render(request, 'hris/add_account.html')
+    elif not email.endswith('@sta.uwi.edu'):
+        messages.error(request, 'Invalid email address')
         return render(request, 'hris/add_account.html')
     else:
         # If a user does not exist with this email address, create a new user with default password
