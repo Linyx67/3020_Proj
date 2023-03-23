@@ -6,7 +6,6 @@ from .functions import year_choices, academic_year_choices, year_choice
 from .models import (
     Emergency,
     Employee,
-    Religion,
     Leave,
     Awards,
     Publications,
@@ -15,7 +14,11 @@ from .models import (
     Manuscripts,
     Development,
     Presentations,
-    Grants
+    Grants,
+    Specialisation,
+    Supervision,
+    Research,
+    Roles
 )
 
 # Employee
@@ -197,4 +200,48 @@ class GrantsCreateForm(forms.ModelForm):
         exclude = ['created', 'updated', 'user']
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+
+
+class RolesCreateFrom(forms.ModelForm):
+    class Meta:
+        model = Roles
+        exclude = ['created', 'updated', 'user']
+        widgets = {
+            'role': forms.TextInput(attrs={'class': 'form-control'}),
+            'association': forms.TextInput(attrs={'class': 'form-control'}),
+            'data': forms.SelectDateWidget(years=year_choice(), attrs={'class': 'form-control'}),
+        }
+
+
+class ResearchCreateForm(forms.ModelForm):
+    class Meta:
+        model = Research
+        exclude = ['created', 'updated', 'user']
+        widgets = {
+            'research': forms.TextInput(attrs={'class': 'form-control'}),
+            'interest': forms.Textarea(attrs={'class': 'form-control'}),
+
+        }
+
+
+class SupervisionCreateForm(forms.ModelForm):
+    class Meta:
+        model = Supervision
+        exclude = ['created', 'updated', 'user']
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'form-control'}),
+            'firstname': forms.TextInput(attrs={'class': 'form-control'}),
+            'lastname': forms.TextInput(attrs={'class': 'form-control'}),
+            'level': forms.Select(attrs={'class': 'form-control'}),
+            'year': forms.Select(choices=academic_year_choices(), attrs={'class': 'form-control'}),
+        }
+
+
+class SpecialisationCreateForm(forms.ModelForm):
+    class Meta:
+        model = Specialisation
+        exclude = ['created', 'updated', 'user']
+        widgets = {
+            'area': forms.TextInput(attrs={'class': 'form-control'}),
         }

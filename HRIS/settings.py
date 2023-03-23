@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'django_filters',
     'bootstrapform',
 
+
     # own
     'admin_app',
     'staff_app',

@@ -11,23 +11,6 @@ from .validate import max_value_current_year
 # Create your models here.
 
 
-class Religion(models.Model):
-    name = models.CharField(max_length=125)
-    description = models.CharField(max_length=125, null=True, blank=True)
-
-    created = models.DateTimeField(
-        verbose_name=_('Created'), auto_now_add=True)
-    updated = models.DateTimeField(verbose_name=_('Updated'), auto_now=True)
-
-    class Meta:
-        verbose_name = _('Religion')
-        verbose_name_plural = _('Religions')
-        ordering = ['name', 'created']
-
-    def __str__(self):
-        return self.name
-
-
 class Emergency(models.Model):
     FATHER = 'Father'
     MOTHER = 'Mother'
@@ -698,3 +681,139 @@ class Grants(models.Model):
         lastname = self.user.last_name
         fullname = firstname + ' ' + lastname
         return fullname  # Return the full name of the user who created the grant
+
+
+class Roles(models.Model):
+    # User who created the role
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=1)
+    role = models.CharField(max_length=100, verbose_name=_(
+        'Role'), null=True, blank=False)  # name of the role
+    association = models.CharField(max_length=100, verbose_name=_(
+        'Association'), null=True, blank=False)  # associaiton of the role
+    date = models.DateField(_('Date'), blank=False, null=True)
+    # Date and time the entry was last updated
+    updated = models.DateTimeField(auto_now=True, auto_now_add=False)
+    # Date and time the entry was created
+    created = models.DateTimeField(auto_now=False, auto_now_add=True)
+
+    class Meta:
+        verbose_name = _('Role')  # Singular name of the model
+        verbose_name_plural = _('Roles')  # Plural name of the model
+        # Order grants by creation date in descending order
+        ordering = ['-created']
+
+    def __str__(self):
+        # Return the name of the user who created the entry
+        return (self.user.first_name + ' ' + self.user.last_name)
+
+    @property
+    def get_full_name(self):
+        user = self.user
+        firstname = self.user.first_name
+        lastname = self.user.last_name
+        fullname = firstname + ' ' + lastname
+        return fullname  # Return the full name of the user who created the entry
+
+
+class Research(models.Model):
+    # User who created the entry
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=1)
+    research = models.CharField(max_length=200, verbose_name=_(
+        'Research'), null=True, blank=False)  # name of the research
+    interest = models.CharField(max_length=200, verbose_name=_(
+        'Interest'), null=True, blank=False)  # interest in the research
+
+    # Date and time the entry was last updated
+    updated = models.DateTimeField(auto_now=True, auto_now_add=False)
+    # Date and time the entry was created
+    created = models.DateTimeField(auto_now=False, auto_now_add=True)
+
+    class Meta:
+        verbose_name = _('Research')  # Singular name of the model
+        verbose_name_plural = _('Research')  # Plural name of the model
+        # Order grants by creation date in descending order
+        ordering = ['-created']
+
+    def __str__(self):
+        # Return the name of the user who created the entry
+        return (self.user.first_name + ' ' + self.user.last_name)
+
+    @property
+    def get_full_name(self):
+        user = self.user
+        firstname = self.user.first_name
+        lastname = self.user.last_name
+        fullname = firstname + ' ' + lastname
+        return fullname  # Return the full name of the user who created the entry
+
+
+class Supervision(models.Model):
+
+    levels = ((1, 1), (2, 2), (3, 3), (4, 4,), (5, 5))
+    # User who created the entry
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=1)
+    title = models.CharField(max_length=100, verbose_name=_(
+        'Title'), null=True, blank=False)  # title of the thesis or project
+    # first name of the student supervised
+    firstname = models.CharField(
+        _('First name'), max_length=125, null=False, blank=False)
+    # last name of the student supervised
+    lastname = models.CharField(
+        _('Last name'), max_length=125, null=False, blank=False)
+    # degree level of the student
+    level = models.IntegerField(
+        _('Degree Level'), blank=False, null=True, choices=levels, default=1)
+    # academic year of the project /thesis
+    year = models.CharField(verbose_name=_(
+        'Academic Year'), null=True, blank=False, max_length=9)
+    # Date and time the entry was last updated
+    updated = models.DateTimeField(auto_now=True, auto_now_add=False)
+    # Date and time the entry was created
+    created = models.DateTimeField(auto_now=False, auto_now_add=True)
+
+    class Meta:
+        verbose_name = _('Supervision')  # Singular name of the model
+        verbose_name_plural = _('Supervision')  # Plural name of the model
+        # Order grants by creation date in descending order
+        ordering = ['-created']
+
+    def __str__(self):
+        # Return the name of the user who created the entry
+        return (self.user.first_name + ' ' + self.user.last_name)
+
+    @property
+    def get_full_name(self):
+        user = self.user
+        firstname = self.user.first_name
+        lastname = self.user.last_name
+        fullname = firstname + ' ' + lastname
+        return fullname  # Return the full name of the user who created the entry
+
+
+class Specialisation(models.Model):
+    # User who created the entry
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=1)
+    area = models.CharField(max_length=100, verbose_name=_(
+        'Area'), null=True, blank=False)  # area of academic specialisation
+
+    updated = models.DateTimeField(auto_now=True, auto_now_add=False)
+    # Date and time the entry was created
+    created = models.DateTimeField(auto_now=False, auto_now_add=True)
+
+    class Meta:
+        verbose_name = _('Specialisation')  # Singular name of the model
+        verbose_name_plural = _('Specialisation')  # Plural name of the model
+        # Order grants by creation date in descending order
+        ordering = ['-created']
+
+    def __str__(self):
+        # Return the name of the user who created the entry
+        return (self.user.first_name + ' ' + self.user.last_name)
+
+    @property
+    def get_full_name(self):
+        user = self.user
+        firstname = self.user.first_name
+        lastname = self.user.last_name
+        fullname = firstname + ' ' + lastname
+        return fullname  # Return the full name of the user who created the entry
