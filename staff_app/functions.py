@@ -4,11 +4,15 @@ from .models import (
     Awards,
     Publications,
     Conferences,
-    Development,
-    Manuscripts,
-    Presentations,
     Consultancies,
-    Grants
+    Manuscripts,
+    Development,
+    Presentations,
+    Grants,
+    Specialisation,
+    Supervision,
+    Research,
+    Roles
 )
 
 # These are helper functions that return year choices for forms.
@@ -67,6 +71,18 @@ def get_user_info(id):
     # Retrieve all Conferences objects for the given user ID
     conferences = Conferences.objects.filter(user_id=id)
 
+    # Retrieve all Specialisation objects for the given user ID
+    specialisation = Specialisation.objects.filter(user_id=id)
+
+    # Retrieve all Supervision objects for the given user ID
+    supervision = Supervision.objects.filter(user_id=id)
+
+    # Retrieve all Research objects for the given user ID
+    research = Research.objects.filter(user_id=id)
+
+    # Retrieve all Roles objects for the given user ID
+    roles = Roles.objects.filter(user_id=id)
+
     # Create a dictionary containing all the retrieved data
     dataset = {
         'employee': employee,
@@ -80,6 +96,10 @@ def get_user_info(id):
         'manuscripts': manuscripts,
         'development': development,
         'conferences': conferences,
+        'specialisation': specialisation,
+        'supervision': supervision,
+        'research': research,
+        'roles': roles,
     }
 
     # Return the dictionary

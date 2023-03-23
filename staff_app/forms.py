@@ -206,7 +206,7 @@ class GrantsCreateForm(forms.ModelForm):
         }
 
 
-class RolesCreateFrom(forms.ModelForm):
+class RolesCreateForm(forms.ModelForm):
     class Meta:
         model = Roles
         exclude = ['created', 'updated', 'user']

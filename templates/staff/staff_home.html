@@ -1,6 +1,25 @@
 {% extends 'base.html' %}
 {% block title %}Dashboard | Staff{% endblock title %}
+{% block stylesheet %}{% endblock stylesheet %}
 {% block content %}
-
-
+<section class="row">
+    <section class="col col-lg-12 col-md-12  col-sm-12">
+        {% if  messages %}
+                {% for message in messages %}
+                    {% if message.tags == "error" %}
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <b>{{ message }}</b>
+                            <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endif %}
+                    {% if message.tags == "success" %}
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <b>{{ message }}</b>
+                            <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endif %}
+                    {% endfor %}
+        {% endif %}
+    </section>
+</section>
 {% endblock content %}

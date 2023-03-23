@@ -21,11 +21,11 @@ from staff_app.models import (
 
 def rfi_api():
     '''
-    for model in [Employee, Awards, Publications, Conferences, Consultancies, Manuscripts, Development, Presentations, Grants, Specialisation, Supervision, Research, Roles]:
-        field_names = [f.name for f in model._meta.get_fields() if f.name !=['id','user','updated','created']]
-        print(field_names)
+    this function first gets all the ids of the active employyees then it checks to see if there are entries
+    in every database table relating to these employee ids. If there are no entries then it sends an email
+    to the employee urging them to update these tables.
     '''
-    ids = Employee.objects.values_list('user_id', flat=True)
+    ids = Employee.objects.all().values_list('user_id', flat=True)
     for id in ids:
         employee = Employee.objects.get(user_id=id)
         if not Development.objects.filter(user_id=id).exists():
