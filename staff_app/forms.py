@@ -4,7 +4,6 @@ from django.contrib.auth.forms import UserChangeForm
 from hris_app.models import CustomUser
 from .functions import year_choices, academic_year_choices, year_choice
 from .models import (
-    Emergency,
     Employee,
     Requests,
     Leave,
@@ -104,13 +103,6 @@ class LeaveCreateForm(forms.ModelForm):
         elif startdate >= enddate:  # TRUE -> FUTURE DATE > PAST DATE,FALSE other wise
             raise forms.ValidationError("Selected dates are wrong")
         return enddate
-
-
-class EmergencyCreateForm(forms.ModelForm):
-
-    class Meta:
-        model = Emergency
-        fields = ['employee', 'fullname', 'tel', 'location', 'relationship']
 
 
 class PublicationsCreateForm(forms.ModelForm):
