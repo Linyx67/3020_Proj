@@ -427,6 +427,51 @@ a:link {
                                                         {% endif %}
                                                     </div>
                                                 </a>
+                                                <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>University Service Roles</span> 
+                                                    <div>
+                                                        {% if roles %}
+                                                            {% for role in roles %}
+                                                                {{role.title}} - {{role.date}}<br>Association - {{role.association}}
+                                                            {% endfor %}
+                                                        {% else %}
+                                                            NONE
+                                                        {% endif %}
+                                                    </div>
+                                                </a>
+                                                <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>Research Interests</span> 
+                                                    <div>
+                                                        {% if research %}
+                                                            {% for object in research %}
+                                                                {{object.research}} <br>Interest-{{object.interest}}
+                                                            {% endfor %}
+                                                        {% else %}
+                                                            NONE
+                                                        {% endif %}
+                                                    </div>
+                                                </a>
+                                                <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>Postgraduate Supervision</span> 
+                                                    <div>
+                                                        {% if supervision %}
+                                                            {% for object in supervision %}
+                                                                Student - {{object.firstname}} {{object.lastname}}<br>Degree Level-{{object.level}}
+                                                                <br>Title of Thesis/Project - {{object.title}}<br>Year - {{object.year}}<br>
+                                                            {% endfor %}
+                                                        {% else %}
+                                                            NONE
+                                                        {% endif %}
+                                                    </div>
+                                                </a>
+                                                <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>Academic Specialisation</span> 
+                                                    <div>
+                                                        {% if specialisation %}
+                                                            {% for object in specialisation %}
+                                                                {{object.area}}                                                           
+                                                            {% endfor %}
+                                                        {% else %}
+                                                            NONE
+                                                        {% endif %}
+                                                    </div>
+                                                </a>
                                                 <div>
                                                     <span>last update - {{employee.updated|naturaltime }}</span>
                                                 </div>

@@ -39,7 +39,7 @@ class EmployeeCreateForm(forms.ModelForm):
             'nisnumber': forms.TextInput(attrs={'class': 'form-control'}),
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
             'birthday': forms.SelectDateWidget(years=year_choice(), attrs={'class': 'form-control'}),
-            'image': forms.FileInput(attrs={'class': 'form-control', 'onchange': 'previewImage(this);'}),
+            'image': forms.FileInput(attrs={'class': 'form-control'}),
             'vitae': forms.FileInput(attrs={'class': 'form-control'}),
             'title': forms.Select(attrs={'class': 'form-control'}),
             'sex': forms.Select(attrs={'class': 'form-control'}),

@@ -141,8 +141,8 @@ def edit_award(request, id):
         instance.user = request.user
         instance.save()
         # Redirect to the awards view
-        messages.success(request, "Added successfully")
-        return render(request, 'staff/staff_profile.html')
+        messages.success(request, "Saved successfully")
+        return redirect('staff:profile')
 
     # Pass the form to the template for rendering
     context = {

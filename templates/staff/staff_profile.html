@@ -97,10 +97,11 @@ a:link {
 }
 
 #file:link {
-    color: blue;
+    color: #565656;
     background-color: transparent;
     text-decoration: underline;
     padding: 10px 15px;
+    
 }
 
 {% endblock stylesheet %}
@@ -305,19 +306,18 @@ a:link {
                                                         </div>
                                                     </a>
                                                                                                      
-                                                    <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" role="tab" aria-controls="">
-                                                        <span>Cirriculum Vitae</span>
-                                                        {% if employee.vitae %}
-                                                            <div>
+                                                    <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" role="tab" aria-controls=""><span>Cirriculum Vitae</span>
+                                                        <div>
+                                                            {% if employee.vitae %}
                                                                 {{ employee.vitae | cut:'vitae/' }}
-                                                            </div>
-                                                            <div><a id="file" href="{% url 'admin_app:download' employee.user_id %}">download</a><a id ="file" href="{% url 'staff:profile-update'%}">Edit Profile</a></div>
-                                                        {% else %}
-                                                            <div>
+                                                                <a id="file" href="{% url 'admin_app:download' employee.user_id %}">download</a><a id ="file" href="{% url 'staff:profile-update'%}">Edit Profile</a>
+                                                            {% else %}
+                                                                
                                                                 NONE
                                                                 <a id ="file" href="{% url 'staff:profile-update'%}">Edit Profile</a></span>
-                                                            </div>
-                                                        {% endif %}
+                                                            
+                                                            {% endif %}
+                                                        </div>
                                                     </a>                                     
                                                 </div>                                               
                                             </div>
@@ -329,19 +329,21 @@ a:link {
                                                             {% for dev in development  %}
                                                                 {{dev.title}} - {{dev.period}}
                                                             {% endfor %}
+                                                            <a id ="file" href="{% url 'staff:development-add'%}">Edit</a>
                                                         {% else %}
-                                                            NONE
+                                                            NONE<a id ="file" href="{% url 'staff:development-add'%}">Add</a></span>
                                                         {% endif %}
                                                     </div>
                                                 </a>
-                                                <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span style="">Awards</span>
+                                                <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>Awards </span>
                                                     <div>
                                                         {% if  awards %}
                                                             {% for award in awards  %}
                                                                 {{award.title}} - {{award.year}}<br>
                                                             {% endfor %}
+                                                            <a id ="file" href="{% url 'staff:award'%}">Edit</a>
                                                         {% else %}
-                                                            NONE
+                                                            NONE<a id ="file" href="{% url 'staff:award-add'%}">Add</a>
                                                         {% endif %}
                                                     </div>
                                                 </a>
@@ -352,8 +354,9 @@ a:link {
                                                             {% for journal in journals  %}
                                                                 {{journal.title}} - {{journal.year}}<br>
                                                             {% endfor %}
+                                                            <a id ="file" href="{% url 'staff:publication'%}">Edit</a>
                                                         {% else %}
-                                                            NONE
+                                                            NONE<a id ="file" href="{% url 'staff:publication-add'%}">Add</a>
                                                         {% endif %}
                                                     </div>
                                                 </a>
@@ -363,8 +366,9 @@ a:link {
                                                             {% for paper in papers  %}
                                                                 {{paper.title}} - {{paper.year}}<br>
                                                             {% endfor %}
+                                                            <a id ="file" href="{% url 'staff:publication'%}">Edit</a>
                                                         {% else %}
-                                                            NONE
+                                                            NONE <a id ="file" href="{% url 'staff:publication-add'%}">Add</a>
                                                         {% endif %}
                                                     </div>
                                                 </a>
@@ -375,8 +379,9 @@ a:link {
                                                             {% for book in books  %}
                                                                 {{book.title}} - {{book.year}}<br>
                                                             {% endfor %}
+                                                            <a id ="file" href="{% url 'staff:publication'%}">Edit</a>
                                                         {% else %}
-                                                            NONE
+                                                            NONE <a id ="file" href="{% url 'staff:publication-add'%}">Add</a>
                                                         {% endif %}
                                                     </div>
                                                 </a>                                      
@@ -385,10 +390,11 @@ a:link {
                                                     <div>
                                                         {% if presentations %}
                                                             {% for presentation in presentations %}
-                                                                {{presentation.title}} - {{presentation.year}}
+                                                                {{presentation.title}} - {{presentation.year}}<br>
                                                             {% endfor %}
+                                                            <a id ="file" href="{% url 'staff:presentation'%}">Edit</a>
                                                         {% else %}
-                                                            NONE
+                                                            NONE<a id ="file" href="{% url 'staff:presentation-add'%}">Add</a>
                                                         {% endif %}
                                                     </div>
                                                 </a>
@@ -403,8 +409,9 @@ a:link {
                                                                     {{manuscript.title}} - Under Review
                                                                 {% endif %}
                                                             {% endfor %}
+                                                            <a id ="file" href="{% url 'staff:manuscript'%}">Edit</a>
                                                         {% else %}
-                                                            NONE
+                                                            NONE<a id ="file" href="{% url 'staff:manuscript-add'%}">Add</a>
                                                         {% endif %}
                                                     </div>
                                                 </a>
@@ -415,8 +422,9 @@ a:link {
                                                             {% for conference in conferences %}
                                                                 {{conference.title}} - {{conference.year}}
                                                             {% endfor %}
+                                                            <a id ="file" href="{% url 'staff:conference'%}">Edit</a>
                                                         {% else %}
-                                                            NONE
+                                                            NONE<a id ="file" href="{% url 'staff:conference-add'%}">Add</a>
                                                         {% endif %}
                                                     </div>
                                                 </a>
@@ -427,8 +435,9 @@ a:link {
                                                             {% for consult in consultancies %}
                                                                 {{consult.title}} - {{consult.period}}<br>Position - {{consult.position}}
                                                             {% endfor %}
+                                                            <a id ="file" href="{% url 'staff:consultancy'%}">Edit</a>
                                                         {% else %}
-                                                            NONE
+                                                            NONE<a id ="file" href="{% url 'staff:consultancy-add'%}">Add</a>
                                                         {% endif %}
                                                     </div>
                                                 </a>
@@ -439,8 +448,58 @@ a:link {
                                                             {% for grant in grants %}
                                                                 {{grant.title}}
                                                             {% endfor %}
+                                                            <a id ="file" href="{% url 'staff:grant'%}">Edit</a>
                                                         {% else %}
-                                                            NONE
+                                                            NONE<a id ="file" href="{% url 'staff:grant-add'%}">Add</a>
+                                                        {% endif %}
+                                                    </div>
+                                                </a>
+                                                <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>University Service Roles</span> 
+                                                    <div>
+                                                        {% if roles %}
+                                                            {% for role in roles %}
+                                                                {{role.title}} - {{role.date}}<br>Association - {{role.association}}
+                                                            {% endfor %}
+                                                            <a id ="file" href="{% url 'staff:role'%}">Edit</a>
+                                                        {% else %}
+                                                            NONE<a id ="file" href="{% url 'staff:role-add'%}">Add</a>
+                                                        {% endif %}
+                                                    </div>
+                                                </a>
+                                                <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>Research Interests</span> 
+                                                    <div>
+                                                        {% if research %}
+                                                            {% for object in research %}
+                                                                {{object.research}} <br>Interest-{{object.interest}}
+                                                            {% endfor %}
+                                                            <a id ="file" href="{% url 'staff:research'%}">Edit</a>
+                                                        {% else %}
+                                                            NONE<a id ="file" href="{% url 'staff:research-add'%}">Add</a>
+                                                        {% endif %}
+                                                    </div>
+                                                </a>
+                                                <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>Postgraduate Supervision</span> 
+                                                    <div>
+                                                        {% if supervision %}
+                                                            {% for object in supervision %}
+                                                                Student - {{object.firstname}} {{object.lastname}}<br>Degree Level-{{object.level}}
+                                                                <br>Title of Thesis/Project - {{object.title}}<br>Year - {{object.year}}<br>
+                                                            {% endfor %}
+                                                            <a id ="file" href="{% url 'staff:supervision'%}">Edit</a>
+                                                        {% else %}
+                                                            NONE<a id ="file" href="{% url 'staff:supervision-add'%}">Add</a>
+                                                        {% endif %}
+                                                    </div>
+                                                </a>
+                                                <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>Academic Specialisation</span> 
+                                                    <div>
+                                                        {% if specialisation %}
+                                                            {% for object in specialisation %}
+                                                                {{object.area}}                                                           
+                                                            {% endfor %}
+                                                            <a id ="file" href="{% url 'staff:specialisation'%}">Edit</a>
+                                                        {% else %}
+                                                            NONE<a id ="file" href="{% url 'staff:specialisation-add'%}">Add</a>
                                                         {% endif %}
                                                     </div>
                                                 </a>

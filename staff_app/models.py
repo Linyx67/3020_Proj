@@ -673,6 +673,8 @@ class Grants(models.Model):
         fullname = firstname + ' ' + lastname
         return fullname  # Return the full name of the user who created the grant
 
+# university public and professional service roles
+
 
 class Roles(models.Model):
     # User who created the role
