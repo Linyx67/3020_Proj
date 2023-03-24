@@ -276,14 +276,15 @@ a:link {
                                                             {% else %}
                                                                 NONE
                                                             {% endif %}
-                                                        </div>
-                                                        <a id="file" href="{% url 'admin_app:annualreport-pdf' employee.user_id%}">download</a> 
+                                                        </div>                                                    
                                                     </a>
-                                                       
                                                     <div>
                                                         <span>last update - {{employee.updated|naturaltime }}</span>
                                                     </div>
-                                            
+                                                    <form  method="POST" action="{% url 'admin_app:annualreport-pdf' employee.user_id%}">{% csrf_token %}
+                                                        <input type="hidden" name="year" value="{{year}}">
+                                                        <input class="btn btn-primary" type="submit" value="download">
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>

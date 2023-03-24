@@ -37,6 +37,7 @@ class Requests(models.Model):
                                    choices=INFORMATION, blank=False)
     message = models.CharField(_('Message'), max_length=255, default='',
                                null=True, blank=True)
+    status = models.CharField(max_length=12, default='pending')
     created = models.DateTimeField(verbose_name=_(
         'Created'), auto_now_add=True, null=True)
     updated = models.DateTimeField(

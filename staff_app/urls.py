@@ -60,7 +60,8 @@ urlpatterns = [
     path('research_delete/<int:id>/',
          views.research_delete, name="research-delete"),
 
-    path('request/', views.rfi, name="request-add"),
+    path('requests/', views.rfi, name="requests"),
+    path('requests_add/', views.rfi_add, name="request-add"),
 
     path('role_add/', views.roles_add, name="role-add"),
     path('role_edit/<int:id>/', views.roles_edit, name="role-edit"),

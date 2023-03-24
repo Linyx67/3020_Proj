@@ -602,7 +602,9 @@ def annualreports(request):
     year = ''
     users = CustomUser.objects.none()
     employee = Employee.objects.none()
-    publications = Publications.objects.none()
+    journals = Publications.objects.none()
+    papers = Publications.objects.none()
+    books = Publications.objects.none()
     presentations = Presentations.objects.none()
     conferences = Conferences.objects.none()
     awards = Awards.objects.none()
@@ -625,8 +627,9 @@ def annualreports(request):
             users = CustomUser.objects.get(
                 first_name=firstname.capitalize(), last_name=lastname.capitalize())
             employee = Employee.objects.get(user_id=users.id)
-            publications = Publications.objects.filter(
-                user_id=users.id, year=year)
+            journals = Publications.objects.journals().filter(user_id=users.id, year=year)
+            papers = Publications.objects.papers().filter(user_id=users.id, year=year)
+            books = Publications.objects.books().filter(user_id=users.id, year=year)
             presentations = Presentations.objects.filter(
                 user_id=users.id, year=year)
             conferences = Conferences.objects.filter(
@@ -637,7 +640,9 @@ def annualreports(request):
     dataset['employee'] = employee
     dataset['year'] = year
     dataset['awards'] = awards
-    dataset['publications'] = publications
+    dataset['journals'] = journals
+    dataset['papers'] = papers
+    dataset['books'] = books
     dataset['presentations'] = presentations
     dataset['conferences'] = conferences
     dataset['form'] = form
@@ -647,6 +652,7 @@ def annualreports(request):
 
 def annualreport_pdf(request, id):
     # create bytestream buffer
+    year = request.POST.get('year')
     buf = io.BytesIO()
 
     # create a canvas
@@ -659,22 +665,23 @@ def annualreport_pdf(request, id):
 
     # getting information for the report
     if Employee.objects.filter(user_id=id).exists():
+
         employee = Employee.objects.get(user_id=id)
         journals = Publications.objects.journals().filter(
-            user_id=id)
+            user_id=id, year=year)
         papers = Publications.objects.papers().filter(
-            user_id=id)
+            user_id=id, year=year)
         books = Publications.objects.books().filter(
-            user_id=id)
+            user_id=id, year=year)
         presentations = Presentations.objects.filter(
-            user_id=id)
+            user_id=id, year=year)
         conferences = Conferences.objects.filter(
-            user_id=id)
-        awards = Awards.objects.filter(user_id=id)
+            user_id=id, year=year)
+        awards = Awards.objects.filter(user_id=id,  year=year)
 
     # lines of text
     lines = [
-        "Report for Academic Year ",
+        "Report for Academic Year "+year,
         "===========================================================",
         " ",
         "Name: "+employee.title+' '+employee.firstname+' '+employee.lastname,
@@ -772,6 +779,6 @@ def annualreport_pdf(request, id):
     buf.seek(0)
 
     response = FileResponse(buf, as_attachment=True,
-                            filename=employee.firstname+'_'+employee.lastname+'_annualreport.pdf')
+                            filename=f'{year}_{employee.firstname}_{employee.lastname}_report.pdf')
 
     return response

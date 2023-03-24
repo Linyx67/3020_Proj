@@ -155,7 +155,10 @@ def add_accounts(request):
         print("working")
     # if file is uploaded
     if request.method == 'POST':
-
+        # checks if file is a txt file
+        if not request.FILES['file'].name.endswith('.txt'):
+            messages.error(request, 'Please upload a .txt file')
+            return render(request, 'hris/batch_add.html')
         # read the uploaded file
         file = request.FILES['file'].read()
 

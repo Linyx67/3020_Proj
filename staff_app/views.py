@@ -10,6 +10,7 @@ from hris_app.models import StaffUser, CustomUser
 from django.db.models import Q
 from .models import (
     Employee,
+    Requests,
     Leave,
     Awards,
     Publications,
@@ -323,10 +324,24 @@ def view_leave(request):
     }
     return render(request, "staff/staff_leave_view.html", context)
 
-# add Request for Information
+# view requests
 
 
 def rfi(request):
+    # Check if user is authenticated
+    if not request.user.is_authenticated:
+        return redirect('hris:home')
+
+    rfis = Requests.objects.filter(user_id=request.user.id)
+
+    context = {
+        "object": rfis
+    }
+    return render(request, "staff/staff_rfi_view.html", context)
+# add Request for Information
+
+
+def rfi_add(request):
     # Check if user is authenticated
     if not request.user.is_authenticated:
         return redirect('hris:home')
@@ -340,13 +355,14 @@ def rfi(request):
         instance.user = request.user
         instance.save()
         messages.success(request, "Request Submitted successfully")
-        return redirect('staff:staff-home')
+        return redirect('staff:requests')
 
     # If form is not valid, render the staff_leave_add template with the form as context
     context = {
         'form': form
     }
     return render(request, "staff/staff_rfi.html", context)
+
 
 # add conference attended
 
