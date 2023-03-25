@@ -18,7 +18,10 @@ from .models import (
     Specialisation,
     Supervision,
     Research,
-    Roles
+    Roles,
+    Honours,
+    Contributions,
+    Activities
 )
 
 # Employee
@@ -37,6 +40,7 @@ class EmployeeCreateForm(forms.ModelForm):
             'othername': forms.TextInput(attrs={'class': 'form-control'}),
             'tel': forms.TextInput(attrs={'class': 'form-control'}),
             'nisnumber': forms.TextInput(attrs={'class': 'form-control'}),
+            'employeeid': forms.TextInput(attrs={'class': 'form-control'}),
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
             'birthday': forms.SelectDateWidget(years=year_choice(), attrs={'class': 'form-control'}),
             'image': forms.FileInput(attrs={'class': 'form-control'}),
@@ -57,9 +61,16 @@ class EmployeeCreateForm(forms.ModelForm):
     def clean_nisnumber(self, *args, **kwargs):
         nisnumber = self.cleaned_data.get("nisnumber")
         if len(str(nisnumber)) > 9:
-            raise forms.ValidationError("This is not a valis NIS Number")
+            raise forms.ValidationError("This is not a valid NIS Number")
         else:
             return nisnumber
+
+    def clean_employeeid(self, *args, **kwargs):
+        employeeid = self.cleaned_data.get("employeeid")
+        if len(str(employeeid)) > 9:
+            raise forms.ValidationError("This is not a valid ID")
+        else:
+            return employeeid
         # def clean_user(self):
         # 	user = self.cleaned_data['user'] #returns <User object>,not id as in [views <-> templates]
 
@@ -247,4 +258,35 @@ class SpecialisationCreateForm(forms.ModelForm):
         exclude = ['created', 'updated', 'user']
         widgets = {
             'area': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+
+
+class HonoursCreateForm(forms.ModelForm):
+    class Meta:
+        model = Honours
+        exclude = ['created', 'updated', 'user']
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'form-control'}),
+            'competition': forms.TextInput(attrs={'class': 'form-control'}),
+            'year': forms.Select(choices=academic_year_choices(), attrs={'class': 'form-control'}),
+        }
+
+
+class ActivitiesCreateForm(forms.ModelForm):
+    class Meta:
+        model = Activities
+        exclude = ['created', 'updated', 'user']
+        widgets = {
+            'activity': forms.TextInput(attrs={'class': 'form-control'}),
+
+        }
+
+
+class ContributionsCreateForm(forms.ModelForm):
+    class Meta:
+        model = Contributions
+        exclude = ['created', 'updated', 'user']
+        widgets = {
+            'contribution': forms.TextInput(attrs={'class': 'form-control'}),
+            'year': forms.Select(choices=academic_year_choices(), attrs={'class': 'form-control'}),
         }

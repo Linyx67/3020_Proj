@@ -27,7 +27,7 @@ def year_choice():
 
 
 def academic_year_choices():
-    return [((str(r)+'/'+str(r+1)), (str(r)+'/'+str(r+1))) for r in range(datetime.date.today().year, 1950, -1)]
+    return [((str(r)+'/'+str(r+1)), (str(r)+'/'+str(r+1))) for r in range(datetime.date.today().year, 1980, -1)]
 
 
 # function to retrieve all relevant user info for displaying on a user's profile page

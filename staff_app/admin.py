@@ -15,7 +15,10 @@ from .models import (
     Roles,
     Research,
     Specialisation,
-    Supervision
+    Supervision,
+    Honours,
+    Contributions,
+    Activities
 
 )
 
@@ -36,3 +39,6 @@ admin.site.register(Roles)
 admin.site.register(Research)
 admin.site.register(Supervision)
 admin.site.register(Specialisation)
+admin.site.register(Honours)
+admin.site.register(Activities)
+admin.site.register(Contributions)

@@ -23,7 +23,10 @@ from .models import (
     Specialisation,
     Supervision,
     Research,
-    Roles
+    Roles,
+    Honours,
+    Contributions,
+    Activities
 )
 from .functions import get_user_info
 from .forms import (
@@ -41,7 +44,10 @@ from .forms import (
     RolesCreateForm,
     ResearchCreateForm,
     SupervisionCreateForm,
-    SpecialisationCreateForm
+    SpecialisationCreateForm,
+    HonoursCreateForm,
+    ActivitiesCreateForm,
+    ContributionsCreateForm
 )
 # Create your views here.
 
@@ -1052,6 +1058,213 @@ def specialisation_delete(request, id):
     specialisation = get_object_or_404(Specialisation, id=id)
     # Delete the specialisation object
     specialisation.delete()
+    messages.success(request, "Deleted successfully")
+    # Redirect to the profile page
+    return redirect('staff:profile')
+
+# add Professional Activity
+
+
+def activity_add(request):
+    # Check if user is authenticated
+    if not request.user.is_authenticated:
+        return redirect('hris:home')
+
+    # Create a Professional Activity CreateForm object based on the request's POST data
+    form = ActivitiesCreateForm(request.POST or None)
+
+    # If form is valid, save the form and redirect to the staff profile page
+    if form.is_valid():
+        instance = form.save(commit='false')
+        instance.user = request.user
+        instance.save()
+        messages.success(request, "Added successfully")
+        return redirect('staff:profile')
+
+    # If form is not valid, render the staff professional activity template with the form as context
+    context = {
+        'form': form
+    }
+    return render(request, "staff/staff_activity.html", context)
+
+# edit Professional Activity
+
+
+def activity_edit(request, id):
+    # Check if user is authenticated
+    if not request.user.is_authenticated:
+        return redirect('hris:home')
+    # Get the professional activity object with the specified id
+    activity = get_object_or_404(Activities, id=id)
+
+    # Create a new instance of the Professional Activity create form, passing in the professional activity object as an instance
+    form = ActivitiesCreateForm(request.POST or None, instance=activity)
+
+    # Check if the form is valid
+    if form.is_valid():
+        # Save the form data to the database
+        instance = form.save(commit='false')
+        instance.user = request.user
+        instance.save()
+        messages.success(request, "Saved successfully")
+        # Redirect to the profile page
+        return redirect('staff:profile')
+
+    # If the form is not valid, render the add professional activity  template with the form object
+    context = {
+        'form': form
+    }
+    return render(request, "staff/staff_activity.html", context)
+
+# delete Professional Activity
+
+
+def activity_delete(request, id):
+    # Check if user is authenticated
+    if not request.user.is_authenticated:
+        return redirect('hris:home')
+    # Get the professional activity object with the specified id
+    activity = get_object_or_404(Activities, id=id)
+    # Delete the professional activity object
+    activity.delete()
+    messages.success(request, "Deleted successfully")
+    # Redirect to the profile page
+    return redirect('staff:profile')
+
+# add Honours or Certificates
+
+
+def honour_add(request):
+    # Check if user is authenticated
+    if not request.user.is_authenticated:
+        return redirect('hris:home')
+
+    # Create a Honours or Certificates CreateForm object based on the request's POST data
+    form = HonoursCreateForm(request.POST or None)
+
+    # If form is valid, save the form and redirect to the staff profile page
+    if form.is_valid():
+        instance = form.save(commit='false')
+        instance.user = request.user
+        instance.save()
+        messages.success(request, "Added successfully")
+        return redirect('staff:profile')
+
+    # If form is not valid, render the staff honours or certificates template with the form as context
+    context = {
+        'form': form
+    }
+    return render(request, "staff/staff_honours.html", context)
+
+# edit Honours or Certificates
+
+
+def honour_edit(request, id):
+    # Check if user is authenticated
+    if not request.user.is_authenticated:
+        return redirect('hris:home')
+    # Get the honours or certificates object with the specified id
+    honour = get_object_or_404(Honours, id=id)
+
+    # Create a new instance of the Honours or Certificates create form, passing in the honours or certificates object as an instance
+    form = HonoursCreateForm(request.POST or None, instance=honour)
+
+    # Check if the form is valid
+    if form.is_valid():
+        # Save the form data to the database
+        instance = form.save(commit='false')
+        instance.user = request.user
+        instance.save()
+        messages.success(request, "Saved successfully")
+        # Redirect to the profile page
+        return redirect('staff:profile')
+
+    # If the form is not valid, render the add honours or certificates  template with the form object
+    context = {
+        'form': form
+    }
+    return render(request, "staff/staff_honours.html", context)
+
+# delete Honours or Certificates
+
+
+def honour_delete(request, id):
+    # Check if user is authenticated
+    if not request.user.is_authenticated:
+        return redirect('hris:home')
+    # Get the honours or certificates object with the specified id
+    honour = get_object_or_404(Honours, id=id)
+    # Delete the honours or certificates object
+    honour.delete()
+    messages.success(request, "Deleted successfully")
+    # Redirect to the profile page
+    return redirect('staff:profile')
+
+# add Contributions to the department, faculty, university
+
+
+def contribution_add(request):
+    # Check if user is authenticated
+    if not request.user.is_authenticated:
+        return redirect('hris:home')
+
+    # Create a Contributions to the department, faculty, university CreateForm object based on the request's POST data
+    form = ContributionsCreateForm(request.POST or None)
+
+    # If form is valid, save the form and redirect to the staff profile page
+    if form.is_valid():
+        instance = form.save(commit='false')
+        instance.user = request.user
+        instance.save()
+        messages.success(request, "Added successfully")
+        return redirect('staff:profile')
+
+    # If form is not valid, render the staff contributions to the department, faculty, university template with the form as context
+    context = {
+        'form': form
+    }
+    return render(request, "staff/staff_contributions.html", context)
+
+# edit Contributions to the department, faculty, university
+
+
+def contribution_edit(request, id):
+    # Check if user is authenticated
+    if not request.user.is_authenticated:
+        return redirect('hris:home')
+    # Get the contributions to the department, faculty, university object with the specified id
+    contribution = get_object_or_404(Contributions, id=id)
+
+    # Create a new instance of the Contributions to the department, faculty, university create form, passing in the contributions to the department, faculty, university object as an instance
+    form = ContributionsCreateForm(request.POST or None, instance=contribution)
+
+    # Check if the form is valid
+    if form.is_valid():
+        # Save the form data to the database
+        instance = form.save(commit='false')
+        instance.user = request.user
+        instance.save()
+        messages.success(request, "Saved successfully")
+        # Redirect to the profile page
+        return redirect('staff:profile')
+
+    # If the form is not valid, render the add contributions to the department, faculty, university  template with the form object
+    context = {
+        'form': form
+    }
+    return render(request, "staff/staff_contributions.html", context)
+
+# delete Contributions to the department, faculty, university
+
+
+def contribution_delete(request, id):
+    # Check if user is authenticated
+    if not request.user.is_authenticated:
+        return redirect('hris:home')
+    # Get the contributions to the department, faculty, university object with the specified id
+    contribution = get_object_or_404(Contributions, id=id)
+    # Delete the contributions to the department, faculty, university object
+    contribution.delete()
     messages.success(request, "Deleted successfully")
     # Redirect to the profile page
     return redirect('staff:profile')
