@@ -80,6 +80,27 @@ urlpatterns = [
     path('specialisation_delete/<int:id>/',
          views.specialisation_delete, name="specialisation-delete"),
 
+    path('activity_add/', views.activity_add,
+         name="activity-add"),
+    path('activity_edit/<int:id>/',
+         views.activity_edit, name="activity-edit"),
+    path('activity_delete/<int:id>/',
+         views.activity_delete, name="activity-delete"),
+
+    path('honour_add/', views.honour_add,
+         name="honour-add"),
+    path('honour_edit/<int:id>/',
+         views.honour_edit, name="honour-edit"),
+    path('honour_delete/<int:id>/',
+         views.honour_delete, name="honour-delete"),
+
+    path('contribution_add/', views.contribution_add,
+         name="contribution-add"),
+    path('contribution_edit/<int:id>/',
+         views.contribution_edit, name="contribution-edit"),
+    path('contribution_delete/<int:id>/',
+         views.contribution_delete, name="contribution-delete"),
+
     path('leave_add/', views.add_leave, name="add-leave"),
     path('leave/', views.view_leave, name="leave"),
 
