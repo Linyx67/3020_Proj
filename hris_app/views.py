@@ -121,16 +121,14 @@ def doRegistration(request):
     user.last_name = last_name
     user.save()
 
-    # Create associated objects based on user type
-    if user_type == CustomUser.STAFF:
-        StaffUser.objects.create(admin=user)
-        employee = Employee.objects.create(user_id=user.id)
-        employee.firstname = first_name
-        employee.lastname = last_name
-        employee.email = email_id
-        employee.save()
-    elif user_type == CustomUser.ADMINISTRATOR:
-        AdminUser.objects.create(admin=user)
+    # Create staff object
+
+    StaffUser.objects.create(admin=user)
+    employee = Employee.objects.create(user_id=user.id)
+    employee.firstname = first_name
+    employee.lastname = last_name
+    employee.email = email_id
+    employee.save()
 
     # Render login page
     return render(request, 'hris/login.html')
@@ -276,29 +274,95 @@ def add_account(request):
         messages.success(request, 'Successfully added user')
         return render(request, "hris/add_account.html")
 
-    # This return statement is unreachable because it's after the "return render" statement
-    return render(request, "hris/add_account.html")
+
+# add new admin account
+
+
+def add_admin(request):
+    # Only authenticated superusers can add accounts
+    if not (request.user.is_authenticated and request.user.is_superuser):
+        return redirect('hris:home')
+
+    # Get the email address from the request
+    email = request.POST.get('email_address')
+
+    # Check if a user with this email address already exists
+    user_exists = CustomUser.objects.filter(email=email).exists()
+    if user_exists:
+        # If a user already exists with this email address, display an error message and render the page again
+        messages.error(request, 'User with this email already exists')
+        return render(request, 'hris/add_account.html')
+    elif not email.endswith('@sta.uwi.edu'):
+        messages.error(request, 'Invalid email address')
+        return render(request, 'hris/add_account.html')
+    else:
+        # If a user does not exist with this email address, create a new user with default password
+        firstname = request.POST.get('firstname')
+        lastname = request.POST.get('lastname')
+        user = CustomUser()
+        user_type = 'admin'
+        user.username = email
+        user.email = email
+        user.password = make_password('password')  # default passowrd
+        user.user_type = user_type
+        user.first_name = firstname.capitalize()
+        user.last_name = lastname.capitalize()
+        user.save()
+        AdminUser.objects.create(admin=user)
+        employee = Employee.objects.create(user_id=user.id)
+        employee.firstname = firstname.capitalize()
+        employee.lastname = lastname.capitalize()
+        employee.email = email
+        employee.save()
+
+        # Display a success message and render the page again
+        messages.success(request, 'Successfully added user')
+        return render(request, "hris/add_account.html")
 
 
 def reset_account(request, id):
+    # Only authenticated superusers can reset an account
+    if not (request.user.is_authenticated and request.user.is_superuser):
+        return redirect('hris:home')
+    # get the user
+    user = CustomUser.objects.get(id=id)
+    email = user.email
+    firstname = user.first_name
+    lastname = user.last_name
+    # delete the user, this deletes all associated information as well
+    user.delete()
+
+    # recrete a blank account
+    new_account = CustomUser.objects.create()
+    user_type = 'staff'
+    new_account.username = email
+    new_account.email = email
+    new_account.password = make_password('password')  # default passowrd
+    new_account.user_type = user_type
+    user.first_name = firstname
+    user.last_name = lastname
+    user.save()
+    StaffUser.objects.create(admin=user)
+    employee = Employee.objects.create(user_id=user.id)
+    employee.firstname = firstname
+    employee.lastname = lastname
+    employee.email = email
+    employee.save()
+    messages.success(request, 'Successfully reset account')
     return redirect('admin_app:home')
 
 
 def reset_accounts(request, id):
+    # Only authenticated superusers can reset an account
+    if not (request.user.is_authenticated and request.user.is_superuser):
+        return redirect('hris:home')
     return redirect('admin_app:home')
 
 
 def get_user_type_from_email(email_id):
-    # """
-    # Returns CustomUser.user_type corresponding to the given email address
-    # email_id should be in following format:
-    # '<username>.<staff|student|hod>@<college_domain>'
-    # eg.: 'abhishek.staff@jecrc.com'
-    # """
 
     try:
-        email_id = email_id.split('@')[0]
-        email_user_type = 'staff'  # email_id.split('.')[1]
+        email_user_type = 'staff'
         return CustomUser.EMAIL_TO_USER_TYPE_MAP[email_user_type]
     except:
         return None

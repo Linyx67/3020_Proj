@@ -551,11 +551,19 @@ class Development(models.Model):
 
 
 class Manuscripts(models.Model):
+    IN_PREPARATION = 'in preparation'
+    IN_REVIEW = 'under review'
+
+    STATUS = (
+        (IN_PREPARATION, 'in preparation'),
+        (IN_REVIEW, 'in review'),
+    )
+
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=1)
     title = models.CharField(max_length=100, verbose_name=_(
         'Title'), null=True, blank=False)
-    in_preparation = models.BooleanField(_('In Preparation'), default=False)
-    in_review = models.BooleanField(_('In Review'), default=False)
+    status = models.CharField(_('Status'), max_length=25, default=IN_PREPARATION,
+                              choices=STATUS, blank=False, null=True)
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
     created = models.DateTimeField(auto_now=False, auto_now_add=True)
 

@@ -203,8 +203,7 @@ class ManuscriptsCreateForm(forms.ModelForm):
         exclude = ['created', 'updated', 'user']
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control'}),
-            'in_preparation': forms.CheckboxInput(attrs={'class': 'form-control'}),
-            'in_review': forms.CheckboxInput(attrs={'class': 'form-control'}),
+            'status': forms.Select(attrs={'class': 'form-control'}),
         }
 
 

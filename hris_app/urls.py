@@ -17,6 +17,8 @@ urlpatterns = [
     path('add_accounts/', views.add_account_view, name="add-account-view"),
     path('add_account/', views.add_account, name="add-account"),
 
+    path('add_admin/', views.add_admin, name="add-admin"),
+
     path('password_change/', auth_views.PasswordChangeView.as_view(),
          name="password_change"),
     path('password_change/done/', auth_views.PasswordChangeDoneView.as_view(),

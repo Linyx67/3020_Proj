@@ -12,7 +12,10 @@ from .models import (
     Specialisation,
     Supervision,
     Research,
-    Roles
+    Roles,
+    Activities,
+    Contributions,
+    Honours
 )
 
 # These are helper functions that return year choices for forms.
@@ -83,6 +86,15 @@ def get_user_info(id):
     # Retrieve all Roles objects for the given user ID
     roles = Roles.objects.filter(user_id=id)
 
+    # Retrieve all Activities objects for the given user ID
+    activities = Activities.objects.filter(user_id=id)
+
+    # Retrieve all Contributions objects for the given user ID
+    contributions = Contributions.objects.filter(user_id=id)
+
+    # retrieve all Honours objects for the given user ID
+    honours = Honours.objects.filter(user_id=id)
+
     # Create a dictionary containing all the retrieved data
     dataset = {
         'employee': employee,
@@ -100,6 +112,9 @@ def get_user_info(id):
         'supervision': supervision,
         'research': research,
         'roles': roles,
+        'honours': honours,
+        'activities': activities,
+        'contributions': contributions,
     }
 
     # Return the dictionary
