@@ -15,7 +15,7 @@ urlpatterns = [
     path('batch_add/', views.add_accounts, name="batch-add"),
     path('add_account/', views.add_account, name="add-account"),
 
-
+    # Django built in password change and reset functions
     path('password_change/', auth_views.PasswordChangeView.as_view(),
          name="password_change"),
     path('password_change/done/', auth_views.PasswordChangeDoneView.as_view(),
