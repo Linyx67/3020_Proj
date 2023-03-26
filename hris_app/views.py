@@ -2,7 +2,6 @@ from django.shortcuts import (
     render,
     redirect,
     HttpResponseRedirect,
-    HttpResponse
 )
 from django.contrib.auth import (
     logout,
@@ -17,15 +16,12 @@ from .models import (
 from django.contrib.auth.hashers import make_password
 from django.contrib import messages
 from staff_app.models import Employee
+from .forms import AddAccountForm
 # Create your views here.
 
 
 def home(request):
     return render(request, 'hris/home.html')
-
-
-def contact(request):
-    return render(request, 'contact.html')
 
 
 def loginUser(request):
@@ -121,9 +117,8 @@ def doRegistration(request):
     user.last_name = last_name
     user.save()
 
-    # Create staff object
+    # Create employee object
 
-    StaffUser.objects.create(admin=user)
     employee = Employee.objects.create(user_id=user.id)
     employee.firstname = first_name
     employee.lastname = last_name
@@ -149,8 +144,7 @@ def add_accounts(request):
     # initialize lists to store failed and existing email addresses
     failed = []
     exists = []
-    if failed:
-        print("working")
+
     # if file is uploaded
     if request.method == 'POST':
         # checks if file is a txt file
@@ -194,7 +188,6 @@ def add_accounts(request):
             user.first_name = firstname.capitalize()
             user.last_name = lastname.capitalize()
             user.save()
-            StaffUser.objects.create(admin=user)
 
             # create new employee and save to database
             employee = Employee.objects.create(user_id=user.id)
@@ -205,29 +198,23 @@ def add_accounts(request):
         # if any email failed or already exists an error message will be displayed
         if failed or exists:
             messages.error(
-                request, "Failed to create the following accounts because the email address is invalid or the user already exists")
+                request, "Failed to create the following accounts")
             for fail in failed:
                 messages.error(request, fail)
             for exist in exists:
                 messages.error(request, exist)
         else:
             messages.success(request, "All Accounts successfully created")
-    # create dictionary to store lists of failed and existing email addresses and return to the user interface
+    # create dictionary to store lists of failed and existing
+    # email addresses and return to the user interface
     context = {
         "failed": failed,
         "exists": exists
     }
     return render(request, "hris/batch_add.html", context)
 
-# function to render add accounts page
 
-
-def add_account_view(request):
-    if not (request.user.is_authenticated and request.user.is_superuser):
-        return redirect('hris:home')
-    return render(request, "hris/add_account.html")
-
-# function to add a new staff account by entering email address
+# function to add a new staff or admin account by entering email address
 
 
 def add_account(request):
@@ -235,89 +222,52 @@ def add_account(request):
     if not (request.user.is_authenticated and request.user.is_superuser):
         return redirect('hris:home')
 
-    # Get the email address from the request
-    email = request.POST.get('email_address')
+    form = AddAccountForm(request.POST or None)
 
-    # Check if a user with this email address already exists
-    user_exists = CustomUser.objects.filter(email=email).exists()
-    if user_exists:
-        # If a user already exists with this email address, display an error message and render the page again
-        messages.error(request, 'User with this email already exists')
-        return render(request, 'hris/add_account.html')
-    elif not email.endswith('@sta.uwi.edu'):
-        messages.error(request, 'Invalid email address')
-        return render(request, 'hris/add_account.html')
-    else:
-        # If a user does not exist with this email address, create a new user with default password
-        name = email.split('@')[0]
-        first = name.split('.')[0]
-        firstname = ''.join([i for i in first if not i.isdigit()])
-        last = name.split('.')[1]
-        lastname = ''.join([i for i in last if not i.isdigit()])
+    if form.is_valid():
+        firstname = form.cleaned_data['firstname']
+        lastname = form.cleaned_data['lastname']
+        email = form.cleaned_data['email']
+        type = form.cleaned_data['type']
+        user_exists = CustomUser.objects.filter(email=email).exists()
+
+        if user_exists:
+            # If a user already exists with this email address,
+            # display an error message and render the page again
+            messages.error(request, 'User with this email already exists')
+            return redirect('hris:add-account')
+        if not email.endswith('@sta.uwi.edu'):
+            messages.error(request, 'Invalid email address')
+            return redirect('hris:add-account')
+
         user = CustomUser()
-        user_type = get_user_type_from_email(email)
+        user_type = CustomUser.EMAIL_TO_USER_TYPE_MAP[type]
         user.username = email
         user.email = email
         user.password = make_password('password')  # default passowrd
         user.user_type = user_type
-        user.first_name = firstname.capitalize()
-        user.last_name = lastname.capitalize()
+        user.first_name = firstname
+        user.last_name = lastname
         user.save()
-        StaffUser.objects.create(admin=user)
-        employee = Employee.objects.create(user_id=user.id)
-        employee.firstname = firstname.capitalize()
-        employee.lastname = lastname.capitalize()
-        employee.email = email
-        employee.save()
+        if user_type == '1':
+            messages.success(request, 'Successfully added Admin account')
+            # Display a success message and render the page again
+            return redirect('hris:add-account')
 
-        # Display a success message and render the page again
-        messages.success(request, 'Successfully added user')
-        return render(request, "hris/add_account.html")
+        elif user_type == '2':
+            employee = Employee.objects.create(user_id=user.id)
+            employee.firstname = firstname.capitalize()
+            employee.lastname = lastname.capitalize()
+            employee.email = email
+            employee.save()
+            # Display a success message and render the page again
+            messages.success(request, 'Successfully added Staff account')
+            return redirect('hris:add-account')
 
-
-# add new admin account
-
-
-def add_admin(request):
-    # Only authenticated superusers can add accounts
-    if not (request.user.is_authenticated and request.user.is_superuser):
-        return redirect('hris:home')
-
-    # Get the email address from the request
-    email = request.POST.get('email_address')
-
-    # Check if a user with this email address already exists
-    user_exists = CustomUser.objects.filter(email=email).exists()
-    if user_exists:
-        # If a user already exists with this email address, display an error message and render the page again
-        messages.error(request, 'User with this email already exists')
-        return render(request, 'hris/add_account.html')
-    elif not email.endswith('@sta.uwi.edu'):
-        messages.error(request, 'Invalid email address')
-        return render(request, 'hris/add_account.html')
-    else:
-        # If a user does not exist with this email address, create a new user with default password
-        firstname = request.POST.get('firstname')
-        lastname = request.POST.get('lastname')
-        user = CustomUser()
-        user_type = 'admin'
-        user.username = email
-        user.email = email
-        user.password = make_password('password')  # default passowrd
-        user.user_type = user_type
-        user.first_name = firstname.capitalize()
-        user.last_name = lastname.capitalize()
-        user.save()
-        AdminUser.objects.create(admin=user)
-        employee = Employee.objects.create(user_id=user.id)
-        employee.firstname = firstname.capitalize()
-        employee.lastname = lastname.capitalize()
-        employee.email = email
-        employee.save()
-
-        # Display a success message and render the page again
-        messages.success(request, 'Successfully added user')
-        return render(request, "hris/add_account.html")
+    context = {
+        "form": form
+    }
+    return render(request, "hris/add_account.html", context)
 
 
 def reset_account(request, id):
@@ -333,8 +283,8 @@ def reset_account(request, id):
     user.delete()
 
     # recrete a blank account
-    new_account = CustomUser.objects.create()
-    user_type = 'staff'
+    new_account = CustomUser()
+    user_type = CustomUser.EMAIL_TO_USER_TYPE_MAP['staff']
     new_account.username = email
     new_account.email = email
     new_account.password = make_password('password')  # default passowrd
@@ -342,7 +292,6 @@ def reset_account(request, id):
     user.first_name = firstname
     user.last_name = lastname
     user.save()
-    StaffUser.objects.create(admin=user)
     employee = Employee.objects.create(user_id=user.id)
     employee.firstname = firstname
     employee.lastname = lastname

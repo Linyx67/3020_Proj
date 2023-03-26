@@ -71,13 +71,6 @@ class EmployeeCreateForm(forms.ModelForm):
             raise forms.ValidationError("This is not a valid ID")
         else:
             return employeeid
-        # def clean_user(self):
-        # 	user = self.cleaned_data['user'] #returns <User object>,not id as in [views <-> templates]
-
-        # 	qry = Employee.objects.filter(user = user)#check, whether any employee exist with username - avoid duplicate users - > many employees
-        # 	if qry:
-        # 		raise forms.ValidationError('Employee exists with username already')
-        #   return user
 
 
 class RequestsCreateForm(forms.ModelForm):
@@ -88,32 +81,6 @@ class RequestsCreateForm(forms.ModelForm):
             'information': forms.Select(attrs={'class': 'form-control'}),
             'message': forms.Textarea(attrs={'rows': 5, 'cols': 40, 'class': 'form-control'})
         }
-
-
-class LeaveCreateForm(forms.ModelForm):
-
-    class Meta:
-        model = Leave
-        exclude = ['user', 'defaultdays', 'status',
-                   'is_approved', 'updated', 'created']
-        widgets = {
-            'startdate': forms.SelectDateWidget(attrs={'placeholder': 'YYYY-MM-DD', 'class': 'form-control'}),
-            'enddate': forms.SelectDateWidget(attrs={'placeholder': 'YYYY-MM-DD', 'class': 'form-control'}),
-            'leavetype':  forms.Select(attrs={'class': 'form-control'}),
-            'reason': forms.Textarea(attrs={'rows': 12, 'cols': 40, 'class': 'form-control'})
-        }
-
-    def clean_enddate(self):
-        enddate = self.cleaned_data['enddate']
-        startdate = self.cleaned_data['startdate']
-        today_date = datetime.date.today()
-
-        if (startdate or enddate) < today_date:  # both dates must not be in the past
-            raise forms.ValidationError(
-                "Selected dates are incorrect,please select again")
-        elif startdate >= enddate:  # TRUE -> FUTURE DATE > PAST DATE,FALSE other wise
-            raise forms.ValidationError("Selected dates are wrong")
-        return enddate
 
 
 class PublicationsCreateForm(forms.ModelForm):
@@ -289,3 +256,29 @@ class ContributionsCreateForm(forms.ModelForm):
             'contribution': forms.TextInput(attrs={'class': 'form-control'}),
             'year': forms.Select(choices=academic_year_choices(), attrs={'class': 'form-control'}),
         }
+
+
+class LeaveCreateForm(forms.ModelForm):
+
+    class Meta:
+        model = Leave
+        exclude = ['user', 'defaultdays', 'status',
+                   'is_approved', 'updated', 'created']
+        widgets = {
+            'startdate': forms.SelectDateWidget(attrs={'placeholder': 'YYYY-MM-DD', 'class': 'form-control'}),
+            'enddate': forms.SelectDateWidget(attrs={'placeholder': 'YYYY-MM-DD', 'class': 'form-control'}),
+            'leavetype':  forms.Select(attrs={'class': 'form-control'}),
+            'reason': forms.Textarea(attrs={'rows': 12, 'cols': 40, 'class': 'form-control'})
+        }
+
+    def clean_enddate(self):
+        enddate = self.cleaned_data['enddate']
+        startdate = self.cleaned_data['startdate']
+        today_date = datetime.date.today()
+
+        if (startdate or enddate) < today_date:  # both dates must not be in the past
+            raise forms.ValidationError(
+                "Selected dates are incorrect,please select again")
+        elif startdate >= enddate:  # TRUE -> FUTURE DATE > PAST DATE,FALSE other wise
+            raise forms.ValidationError("Selected dates are wrong")
+        return enddate

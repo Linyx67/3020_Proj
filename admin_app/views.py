@@ -118,280 +118,6 @@ def download_vitae(request, id):
 # function for obtaining all leave requests.
 
 
-def leaves_list(request):
-    # check if the user is authenticated and is a superuser, else redirect to the home page
-    if not (request.user.is_authenticated and request.user.is_superuser):
-        return redirect('hris:home')
-
-    # get all leaves
-    leaves = Leave.objects.all()
-
-    # create a context dictionary with the list of leaves and the page title
-    context = {
-        'leave_list': leaves,
-        'title': 'ALL LEAVES'
-    }
-
-    # render the 'admin/leaves_view.html' template with the context dictionary
-    return render(request, "admin/leaves_view.html", context)
-
-
-# view function for obtaining all the pending leave requests.
-
-
-def leaves_pending_list(request):
-    # Check if the user is authenticated and is a superuser, otherwise redirect to home page
-    if not (request.user.is_authenticated and request.user.is_superuser):
-        return redirect('hris:home')
-
-    # Retrieve all pending leaves from the Leave model
-    leaves = Leave.objects.all_pending_leaves()
-
-    # Create a context dictionary containing the pending leaves and a title for the page
-    context = {
-        'leave_list': leaves,
-        'title': 'PENDING LEAVES'
-    }
-
-    # Render the pending leaves template with the context dictionary as a parameter
-    return render(request, "admin/leaves_view.html", context)
-
-
-# view function for obtaining all the approved leave requests.
-
-
-def leaves_approved_list(request):
-    # check if the user is authenticated and a superuser
-    if not (request.user.is_authenticated and request.user.is_superuser):
-        return redirect('hris:home')
-
-    # get all approved leaves
-    leaves = Leave.objects.all_approved_leaves()
-
-    # create context dictionary with the leave list and title
-    context = {
-        'leave_list': leaves,
-        'title': 'approved leave list'
-    }
-
-    # render the leaves_approved template with the context
-    return render(request, 'admin/leaves_approved.html', context)
-
-# function to get all cancelled leaves.
-
-
-def cancel_leaves_list(request):
-    # Check if the user is authenticated and a superuser
-    if not (request.user.is_authenticated and request.user.is_superuser):
-        return redirect('hris:home')
-
-    # Get all cancelled leaves
-    leaves = Leave.objects.all_cancelled_leaves()
-
-    # Create a dictionary to store data to be passed to the template
-    context = {
-        'leave_list_cancel': leaves,  # the cancelled leaves queryset
-        'title': 'Cancel leave list'  # title for the page
-    }
-
-    # Render the template with the context dictionary
-    return render(request, 'admin/leaves_cancelled.html', context)
-
-
-# function to display the all the rejected leaves
-
-
-def leave_rejected_list(request):
-    # Check if the user is authenticated and is a superuser, otherwise redirect to home page
-    if not (request.user.is_authenticated and request.user.is_superuser):
-        return redirect('hris:home')
-
-    # Get all rejected leave requests
-    leave = Leave.objects.all_rejected_leaves()
-
-    # Create a dictionary containing the leave list
-    dataset = {'leave_list_rejected': leave}
-
-    # Render the leave list view
-    return render(request, 'admin/leaves_rejected.html', dataset)
-
-
-# function to view the details of a leave request of a paritcualar employee
-
-
-def leaves_view(request, id):
-    # check if user is authenticated and is a superuser, redirect to home page if not
-    if not (request.user.is_authenticated and request.user.is_superuser):
-        return redirect('hris:home')
-
-    # get the leave object with the given id or return a 404 error if not found
-    leave = get_object_or_404(Leave, id=id)
-
-    # get the employee object associated with the user who made the leave request
-    employee = Employee.objects.filter(user=leave.user)[0]
-
-    # create a context dictionary containing the leave and employee objects, and a title string
-    context = {'leave': leave,
-               'employee': employee,
-               'title': '{0}-{1} leave'.format(leave.user.username, leave.status)
-               }
-
-    # render the leave_detail.html template with the context dictionary and return the resulting HTML
-    return render(request, 'admin/leave_detail.html', context)
-
-
-# function used to approve a leave request
-
-
-def approve_leave(request, id):
-    # Check if the user is authenticated and is a superuser, if not redirect to home page
-    if not (request.user.is_authenticated and request.user.is_superuser):
-        return redirect('hris:home')
-
-    # Get the leave object with the given id or return a 404 error page
-    leave = get_object_or_404(Leave, id=id)
-
-    # Approve the leave and save changes to the database
-    leave.approve_leave()
-
-    # Send an email notification to the user who requested the leave
-    email = leave.user.username
-    send_mail(
-        'Leave Request Approved',
-        'Dear {0},\n\nCongratulations! Your leave request has been approved!\n\nRegards,\nAdministration.'.format(
-            leave.get_full_name),
-        'hr.system.x@gmail.com',
-        [email],
-        fail_silently=False,
-    )
-
-    # Redirect to the detail view of the approved leave and display a success message
-    messages.success(request, 'Leave successfully approved for {0}'.format(
-        leave.get_full_name), extra_tags='alert alert-success alert-dismissible show')
-
-    return redirect('admin_app:leave-employee', id=id)
-
-
-# function used to unapprove a leave request
-
-
-def unapprove_leave(request, id):
-    # Check if user is authenticated and a superuser, otherwise redirect to home page
-    if not (request.user.is_authenticated and request.user.is_superuser):
-        return redirect('hris:home')
-
-    # Get the leave instance by id
-    leave = get_object_or_404(Leave, id=id)
-
-    # Mark the leave as unapproved
-    leave.unapprove_leave
-
-    # Redirect to the leave list page
-    return redirect('admin_app:leaves')
-
-
-# function used to cancel a leave request.
-
-
-def cancel_leave(request, id):
-    # Check if the user is authenticated and a superuser
-    if not (request.user.is_authenticated and request.user.is_superuser):
-        # Redirect to the home page if the user is not authenticated or not a superuser
-        return redirect('hris:home')
-
-    # Get the leave object with the provided id or raise a 404 error if not found
-    leave = get_object_or_404(Leave, id=id)
-
-    # Cancel the leave
-    leave.leaves_cancel
-
-    # Add a success message to the request
-    messages.success(request, 'Leave is canceled',
-                     extra_tags='alert alert-success alert-dismissible show')
-
-    # Redirect to the cancelled leaves page
-    return redirect('admin_app:leaves-cancelled')
-
-
-# This function is used to uncancel a cancelled leave request by changing its status to "pending"
-def uncancel_leave(request, id):
-    # check if user is authenticated and is a superuser, otherwise redirect to home page
-    if not (request.user.is_authenticated and request.user.is_superuser):
-        return redirect('hris:home')
-
-    # get the leave object with the given id, otherwise raise a 404 error
-    leave = get_object_or_404(Leave, id=id)
-
-    # change the leave status to 'pending', set is_approved to False, and save the changes
-    leave.status = 'pending'
-    leave.is_approved = False
-    leave.save()
-
-    # display success message to the user
-    messages.success(request, 'Leave is uncanceled,now in pending list',
-                     extra_tags='alert alert-success alert-dismissible show')
-
-    # redirect the user to the cancelled leaves list
-    return redirect('admin_app:leaves-cancelled')
-
-
-# This function is to reject a leave request by an employee.
-
-def reject_leave(request, id):
-
-    # Check if the user is authenticated and a superuser
-    if not (request.user.is_authenticated and request.user.is_superuser):
-        return redirect('hris:home')
-
-    # Get the leave object from the provided id or throw 404 error
-    leave = get_object_or_404(Leave, id=id)
-
-    # Update leave status to rejected
-    leave.reject_leave
-
-    # Get the email address of the user whose leave is rejected
-    email = leave.user.username
-
-    # Send email notification to the user whose leave is rejected
-    send_mail(
-        'Leave Request Rejected',
-        'Dear {0},\n\nWe regret to inform you that your leave request has been rejected.\n\nRegards,\nAdministration.'.format(
-            leave.get_full_name),
-        'hr.system.x@gmail.com',
-        [email],
-        fail_silently=False,
-    )
-
-    # Redirect to the rejected leaves page
-    messages.success(request, 'Leave is rejected',
-                     extra_tags='alert alert-success alert-dismissible show')
-    return redirect('admin_app:leaves-rejected')
-
-
-# Define the view function for unrejecting a leave.
-
-def unreject_leave(request, id):
-    # Check if the user is authenticated and a superuser, if not, redirect to home
-    if not (request.user.is_authenticated and request.user.is_superuser):
-
-        return redirect('hris:home')
-
-    # Get the Leave object with the given id, or raise a 404 error if not found
-    leave = get_object_or_404(Leave, id=id)
-
-    # Set the status of the Leave object to 'pending' and is_approved to False and save the leave
-    leave.status = 'pending'
-    leave.is_approved = False
-    leave.save()
-
-    # Show a success message
-    messages.success(request, 'Leave is now in pending list ',
-                     extra_tags='alert alert-success alert-dismissible show')
-
-    # Redirect to the 'leaves-rejected' page
-    return redirect('admin_app:leaves-rejected')
-
-
 # Define the view function for displaying the all awards.
 
 def awards(request):
@@ -782,3 +508,277 @@ def annualreport_pdf(request, id):
                             filename=f'{year}_{employee.firstname}_{employee.lastname}_report.pdf')
 
     return response
+
+
+def leaves_list(request):
+    # check if the user is authenticated and is a superuser, else redirect to the home page
+    if not (request.user.is_authenticated and request.user.is_superuser):
+        return redirect('hris:home')
+
+    # get all leaves
+    leaves = Leave.objects.all()
+
+    # create a context dictionary with the list of leaves and the page title
+    context = {
+        'leave_list': leaves,
+        'title': 'ALL LEAVES'
+    }
+
+    # render the 'admin/leaves_view.html' template with the context dictionary
+    return render(request, "admin/leaves_view.html", context)
+
+
+# view function for obtaining all the pending leave requests.
+
+
+def leaves_pending_list(request):
+    # Check if the user is authenticated and is a superuser, otherwise redirect to home page
+    if not (request.user.is_authenticated and request.user.is_superuser):
+        return redirect('hris:home')
+
+    # Retrieve all pending leaves from the Leave model
+    leaves = Leave.objects.all_pending_leaves()
+
+    # Create a context dictionary containing the pending leaves and a title for the page
+    context = {
+        'leave_list': leaves,
+        'title': 'PENDING LEAVES'
+    }
+
+    # Render the pending leaves template with the context dictionary as a parameter
+    return render(request, "admin/leaves_view.html", context)
+
+
+# view function for obtaining all the approved leave requests.
+
+
+def leaves_approved_list(request):
+    # check if the user is authenticated and a superuser
+    if not (request.user.is_authenticated and request.user.is_superuser):
+        return redirect('hris:home')
+
+    # get all approved leaves
+    leaves = Leave.objects.all_approved_leaves()
+
+    # create context dictionary with the leave list and title
+    context = {
+        'leave_list': leaves,
+        'title': 'approved leave list'
+    }
+
+    # render the leaves_approved template with the context
+    return render(request, 'admin/leaves_approved.html', context)
+
+# function to get all cancelled leaves.
+
+
+def cancel_leaves_list(request):
+    # Check if the user is authenticated and a superuser
+    if not (request.user.is_authenticated and request.user.is_superuser):
+        return redirect('hris:home')
+
+    # Get all cancelled leaves
+    leaves = Leave.objects.all_cancelled_leaves()
+
+    # Create a dictionary to store data to be passed to the template
+    context = {
+        'leave_list_cancel': leaves,  # the cancelled leaves queryset
+        'title': 'Cancel leave list'  # title for the page
+    }
+
+    # Render the template with the context dictionary
+    return render(request, 'admin/leaves_cancelled.html', context)
+
+
+# function to display the all the rejected leaves
+
+
+def leave_rejected_list(request):
+    # Check if the user is authenticated and is a superuser, otherwise redirect to home page
+    if not (request.user.is_authenticated and request.user.is_superuser):
+        return redirect('hris:home')
+
+    # Get all rejected leave requests
+    leave = Leave.objects.all_rejected_leaves()
+
+    # Create a dictionary containing the leave list
+    dataset = {'leave_list_rejected': leave}
+
+    # Render the leave list view
+    return render(request, 'admin/leaves_rejected.html', dataset)
+
+
+# function to view the details of a leave request of a paritcualar employee
+
+
+def leaves_view(request, id):
+    # check if user is authenticated and is a superuser, redirect to home page if not
+    if not (request.user.is_authenticated and request.user.is_superuser):
+        return redirect('hris:home')
+
+    # get the leave object with the given id or return a 404 error if not found
+    leave = get_object_or_404(Leave, id=id)
+
+    # get the employee object associated with the user who made the leave request
+    employee = Employee.objects.filter(user=leave.user)[0]
+
+    # create a context dictionary containing the leave and employee objects, and a title string
+    context = {'leave': leave,
+               'employee': employee,
+               'title': '{0}-{1} leave'.format(leave.user.username, leave.status)
+               }
+
+    # render the leave_detail.html template with the context dictionary and return the resulting HTML
+    return render(request, 'admin/leave_detail.html', context)
+
+
+# function used to approve a leave request
+
+
+def approve_leave(request, id):
+    # Check if the user is authenticated and is a superuser, if not redirect to home page
+    if not (request.user.is_authenticated and request.user.is_superuser):
+        return redirect('hris:home')
+
+    # Get the leave object with the given id or return a 404 error page
+    leave = get_object_or_404(Leave, id=id)
+
+    # Approve the leave and save changes to the database
+    leave.approve_leave()
+
+    # Send an email notification to the user who requested the leave
+    email = leave.user.username
+    send_mail(
+        'Leave Request Approved',
+        'Dear {0},\n\nCongratulations! Your leave request has been approved!\n\nRegards,\nAdministration.'.format(
+            leave.get_full_name),
+        'hr.system.x@gmail.com',
+        [email],
+        fail_silently=False,
+    )
+
+    # Redirect to the detail view of the approved leave and display a success message
+    messages.success(request, 'Leave successfully approved for {0}'.format(
+        leave.get_full_name), extra_tags='alert alert-success alert-dismissible show')
+
+    return redirect('admin_app:leave-employee', id=id)
+
+
+# function used to unapprove a leave request
+
+
+def unapprove_leave(request, id):
+    # Check if user is authenticated and a superuser, otherwise redirect to home page
+    if not (request.user.is_authenticated and request.user.is_superuser):
+        return redirect('hris:home')
+
+    # Get the leave instance by id
+    leave = get_object_or_404(Leave, id=id)
+
+    # Mark the leave as unapproved
+    leave.unapprove_leave
+
+    # Redirect to the leave list page
+    return redirect('admin_app:leaves')
+
+
+# function used to cancel a leave request.
+
+
+def cancel_leave(request, id):
+    # Check if the user is authenticated and a superuser
+    if not (request.user.is_authenticated and request.user.is_superuser):
+        # Redirect to the home page if the user is not authenticated or not a superuser
+        return redirect('hris:home')
+
+    # Get the leave object with the provided id or raise a 404 error if not found
+    leave = get_object_or_404(Leave, id=id)
+
+    # Cancel the leave
+    leave.leaves_cancel
+
+    # Add a success message to the request
+    messages.success(request, 'Leave is canceled',
+                     extra_tags='alert alert-success alert-dismissible show')
+
+    # Redirect to the cancelled leaves page
+    return redirect('admin_app:leaves-cancelled')
+
+
+# This function is used to uncancel a cancelled leave request by changing its status to "pending"
+def uncancel_leave(request, id):
+    # check if user is authenticated and is a superuser, otherwise redirect to home page
+    if not (request.user.is_authenticated and request.user.is_superuser):
+        return redirect('hris:home')
+
+    # get the leave object with the given id, otherwise raise a 404 error
+    leave = get_object_or_404(Leave, id=id)
+
+    # change the leave status to 'pending', set is_approved to False, and save the changes
+    leave.status = 'pending'
+    leave.is_approved = False
+    leave.save()
+
+    # display success message to the user
+    messages.success(request, 'Leave is uncanceled,now in pending list',
+                     extra_tags='alert alert-success alert-dismissible show')
+
+    # redirect the user to the cancelled leaves list
+    return redirect('admin_app:leaves-cancelled')
+
+
+# This function is to reject a leave request by an employee.
+
+def reject_leave(request, id):
+
+    # Check if the user is authenticated and a superuser
+    if not (request.user.is_authenticated and request.user.is_superuser):
+        return redirect('hris:home')
+
+    # Get the leave object from the provided id or throw 404 error
+    leave = get_object_or_404(Leave, id=id)
+
+    # Update leave status to rejected
+    leave.reject_leave
+
+    # Get the email address of the user whose leave is rejected
+    email = leave.user.username
+
+    # Send email notification to the user whose leave is rejected
+    send_mail(
+        'Leave Request Rejected',
+        'Dear {0},\n\nWe regret to inform you that your leave request has been rejected.\n\nRegards,\nAdministration.'.format(
+            leave.get_full_name),
+        'hr.system.x@gmail.com',
+        [email],
+        fail_silently=False,
+    )
+
+    # Redirect to the rejected leaves page
+    messages.success(request, 'Leave is rejected',
+                     extra_tags='alert alert-success alert-dismissible show')
+    return redirect('admin_app:leaves-rejected')
+
+
+# Define the view function for unrejecting a leave.
+
+def unreject_leave(request, id):
+    # Check if the user is authenticated and a superuser, if not, redirect to home
+    if not (request.user.is_authenticated and request.user.is_superuser):
+
+        return redirect('hris:home')
+
+    # Get the Leave object with the given id, or raise a 404 error if not found
+    leave = get_object_or_404(Leave, id=id)
+
+    # Set the status of the Leave object to 'pending' and is_approved to False and save the leave
+    leave.status = 'pending'
+    leave.is_approved = False
+    leave.save()
+
+    # Show a success message
+    messages.success(request, 'Leave is now in pending list ',
+                     extra_tags='alert alert-success alert-dismissible show')
+
+    # Redirect to the 'leaves-rejected' page
+    return redirect('admin_app:leaves-rejected')

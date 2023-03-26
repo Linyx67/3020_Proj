@@ -22,8 +22,8 @@
             </div>
         </div>
     </section>
-    <form action="{% url 'hris:add-account'%}" method="POST">{% csrf_token %}
-        <input id="email" class="form-control" type="email" name="email_address" placeholder="Email" required>
+    <form action="." method="POST">{% csrf_token %}
+       {{form.as_p}}
         <div class="d-flex justify-content-center" id="email">
             <input class="btn btn-primary" type="submit" value="Add">
             

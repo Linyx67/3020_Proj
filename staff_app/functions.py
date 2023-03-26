@@ -17,16 +17,23 @@ from .models import (
     Contributions,
     Honours
 )
+from hris_app.models import CustomUser
 
 # These are helper functions that return year choices for forms.
+
+# creates a list of tuples of choices from 1900 to current year
 
 
 def year_choices():
     return [(r, r) for r in range(datetime.date.today().year+1, 1900, -1)]
 
+# creates a list of choices from 1900 to current year
+
 
 def year_choice():
     return [r for r in range(datetime.date.today().year+1, 1900, -1)]
+
+# creates a list of choices for academic year from 1980/1981 to current academic year
 
 
 def academic_year_choices():
@@ -35,6 +42,7 @@ def academic_year_choices():
 
 # function to retrieve all relevant user info for displaying on a user's profile page
 def get_user_info(id):
+
     # Check if Employee with given user ID exists
     if Employee.objects.filter(user_id=id).exists():
         # If it exists, retrieve the Employee object
@@ -66,7 +74,7 @@ def get_user_info(id):
 
     # Retrieve all Manuscripts objects for the given user ID, ordered by the 'in_preparation' field
     manuscripts = Manuscripts.objects.filter(
-        user_id=id).order_by('in_preparation')
+        user_id=id).order_by('status')
 
     # Retrieve all Development objects for the given user ID
     development = Development.objects.filter(user_id=id)

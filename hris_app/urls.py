@@ -7,17 +7,14 @@ app_name = 'hris'
 urlpatterns = [
 
     path('', views.home, name="home"),
-    path('contact', views.contact, name="contact"),
     path('login', views.loginUser, name="login"),
     path('logout', views.logout_user, name="logout"),
     path('registration', views.registration, name="registration"),
     path('doLogin', views.doLogin, name="doLogin"),
     path('doRegistration', views.doRegistration, name="doRegistration"),
     path('batch_add/', views.add_accounts, name="batch-add"),
-    path('add_accounts/', views.add_account_view, name="add-account-view"),
     path('add_account/', views.add_account, name="add-account"),
 
-    path('add_admin/', views.add_admin, name="add-admin"),
 
     path('password_change/', auth_views.PasswordChangeView.as_view(),
          name="password_change"),

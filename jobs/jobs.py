@@ -1,6 +1,4 @@
-from django .conf import settings
-import time
-import json
+
 from django.core.mail import send_mail
 from staff_app.models import (
     Employee,
@@ -15,7 +13,10 @@ from staff_app.models import (
     Specialisation,
     Supervision,
     Research,
-    Roles
+    Roles,
+    Activities,
+    Contributions,
+    Honours
 )
 
 
