@@ -11,7 +11,6 @@ from django.db.models import Q
 from .models import (
     Employee,
     Requests,
-    Leave,
     Awards,
     Publications,
     Conferences,

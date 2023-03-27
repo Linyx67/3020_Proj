@@ -167,16 +167,14 @@ a:link {
                 </section><!-- /profile-wrappper -->
                 <section class="col col-lg-8" >
                         <!-- ACCORDIAN - COLLAPSIBLE -->
-                        <!-- 1 Personal Detail -->
-                        <!-- 2 -- Family -->
-                        <!-- 3--  Emergency -->
-                        <!-- 4 -- Bank Account -->
+                        <!-- 1 Personal Information -->
+                       
                     <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
 
                     <!-- PERSONAL INFORMATION -->
                         <div class="panel panel-default">
                             <div class="panel-heading" role="tab" id="headingOne">
-                                <h4 class="panel-title">
+                                <h4 class="panel-title text-center">
                                     <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne" >
                                         PERSONAL INFORMATION 
                                     </a>
@@ -231,16 +229,6 @@ a:link {
                                                                 
                                                         </div>
                                                     </a>                                                  
-                                                    <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>Gender</span> 
-                                                        <div>
-                                                            {% if employee.sex %}
-
-                                                            {{ employee.sex }}
-                                                            {% else %}
-                                                                Undefined
-                                                            {% endif %}
-                                                        </div>
-                                                    </a>
                                                                                                                                                             
                                                     <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>Email </span>
                                                         <div>
@@ -251,28 +239,7 @@ a:link {
                                                             {% endif %}                                                          
                                                         </div>
                                                     </a>
-                                                                                                                                                           
-                                                    <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>Contact</span> 
-                                                        <div> 
-                                                            {% if employee.tel %}
-                                                                {{ employee.tel  }}
-                                                            {% else %}
-                                                                NONE
-                                                            {% endif %}
-                                                            
-                                                        </div>
-                                                    </a>
-                                                                                                      
-                                                    <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>Bio</span> 
-                                                        <div>
-                                                            {% if employee.bio %}
-                                                                {{ employee.bio }} 
-                                                            {% else %}
-                                                                NONE
-                                                            {% endif %}                                                                                                                   
-                                                        </div>
-                                                    </a>
-                                                                                                       
+                                                                                                                          
                                                     <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>Date of Birth</span>
                                                         <div>
                                                             {% if employee.birthday %}
@@ -282,209 +249,68 @@ a:link {
                                                             {% endif %}
                                                         </div>
                                                     </a>
-                                                                                                       
-                                                    <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>NIS</span> 
-                                                        <div>
-                                                            {% if employee.nisnumber %}
-                                                                {{ employee.nisnumber|stringformat:"09d" }}
-                                                            {% else %}
-                                                                NONE
-                                                            {% endif %}
-                                                            
-                                                        </div>
-                                                    </a>
-                                                                                                     
-                                                    <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" role="tab" aria-controls="">
-                                                        <span>Cirriculum Vitae</span>
-                                                        {% if employee.vitae %}
-                                                            <div>
-                                                                {{ employee.vitae | cut:'vitae/' }}
-                                                            </div>
-                                                            <a id="file" href="{% url 'admin_app:download' employee.user_id %}">download</a>
-                                                        {% else %}
-                                                            <div>
-                                                                NONE
-                                                            </div>
-                                                        {% endif %}
-                                                    </a>
-                                                    
-                                                    
+                                                                                    
                                                 </div>
 
                                         
                                             </div>
                                     <!-- Here working -->
                                             <div class="col col-lg-6">
-                                                <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>Professional Development</span> 
+                                                <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>Gender</span> 
                                                     <div>
-                                                        {% if development %}
-                                                            {% for dev in development  %}
-                                                                {{dev.title}} - {{dev.period}}
-                                                            {% endfor %}
-                                                        {% else %}
-                                                            NONE
-                                                        {% endif %}
-                                                    </div>
-                                                </a>
-                                                <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span style="">Awards</span>
-                                                    <div>
-                                                        {% if  awards %}
-                                                            {% for award in awards  %}
-                                                                {{award.title}} - {{award.year}}<br>
-                                                            {% endfor %}
-                                                        {% else %}
-                                                            NONE
-                                                        {% endif %}
-                                                    </div>
-                                                </a>
-                                                
-                                                <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span style="">Peer Revieved Journals</span>
-                                                    <div>
-                                                        {% if journals %}
-                                                            {% for journal in journals  %}
-                                                                {{journal.title}} - {{journal.year}}<br>
-                                                            {% endfor %}
-                                                        {% else %}
-                                                            NONE
-                                                        {% endif %}
-                                                    </div>
-                                                </a>
-                                                <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span style="">Conference Papers</span>
-                                                    <div>
-                                                        {% if papers %}
-                                                            {% for paper in papers  %}
-                                                                {{paper.title}} - {{paper.year}}<br>
-                                                            {% endfor %}
-                                                        {% else %}
-                                                            NONE
-                                                        {% endif %}
-                                                    </div>
-                                                </a>
+                                                        {% if employee.sex %}
 
-                                                <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span style="">Books</span>
-                                                    <div>
-                                                        {% if books %}
-                                                            {% for book in books  %}
-                                                                {{book.title}} - {{book.year}}<br>
-                                                            {% endfor %}
+                                                        {{ employee.sex }}
                                                         {% else %}
-                                                            NONE
+                                                            Undefined
                                                         {% endif %}
                                                     </div>
                                                 </a>
-
-                                                <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>Technical Presentations</span> 
-                                                    <div>
-                                                        {% if presentations %}
-                                                            {% for presentation in presentations %}
-                                                                {{presentation.title}} - {{presentation.year}}
-                                                            {% endfor %}
+                                                <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>Contact</span> 
+                                                    <div> 
+                                                        {% if employee.tel %}
+                                                            {{ employee.tel  }}
                                                         {% else %}
                                                             NONE
                                                         {% endif %}
+                                                        
                                                     </div>
                                                 </a>
-
-                                                <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>Manuscripts</span> 
+                                                <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>Bio</span> 
                                                     <div>
-                                                        {% if manuscripts %}
-                                                            {% for manuscript in manuscripts %}
-                                                                {% if manuscript.in_preparation %}
-                                                                    {{manuscript.title}} - In Preparation
-                                                                {% else %}
-                                                                    {{manuscript.title}} - Under Review
-                                                                {% endif %}
-                                                            {% endfor %}
+                                                        {% if employee.bio %}
+                                                            {{ employee.bio }} 
                                                         {% else %}
                                                             NONE
-                                                        {% endif %}
+                                                        {% endif %}                                                                                                                   
                                                     </div>
                                                 </a>
-
-                                                <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>Conferences Attended</span> 
+                                                <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>NIS</span> 
                                                     <div>
-                                                        {% if conferences %}
-                                                            {% for conference in conferences %}
-                                                                {{conference.title}} - {{conference.year}}
-                                                            {% endfor %}
+                                                        {% if employee.nisnumber %}
+                                                            {{ employee.nisnumber|stringformat:"09d" }}
                                                         {% else %}
                                                             NONE
                                                         {% endif %}
+                                                        
                                                     </div>
                                                 </a>
-
-                                                <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>Professional Consultancies</span> 
-                                                    <div>
-                                                        {% if consultancies %}
-                                                            {% for consult in consultancies %}
-                                                                {{consult.title}} - {{consult.period}}<br>Position - {{consult.position}}
-                                                            {% endfor %}
-                                                        {% else %}
+                                                <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" role="tab" aria-controls="">
+                                                    <span>Cirriculum Vitae</span>
+                                                    {% if employee.vitae %}
+                                                        <div>
+                                                            {{ employee.vitae | cut:'vitae/' }}
+                                                        </div>
+                                                        <a id="file" href="{% url 'admin_app:download' employee.user_id %}">download</a>
+                                                    {% else %}
+                                                        <div>
                                                             NONE
-                                                        {% endif %}
-                                                    </div>
-                                                </a>
-
-                                                <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>Research Grants</span> 
-                                                    <div>
-                                                        {% if grants %}
-                                                            {% for grant in grants %}
-                                                                {{grant.title}}
-                                                            {% endfor %}
-                                                        {% else %}
-                                                            NONE
-                                                        {% endif %}
-                                                    </div>
-                                                </a>
-                                                <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>University Service Roles</span> 
-                                                    <div>
-                                                        {% if roles %}
-                                                            {% for role in roles %}
-                                                                {{role.title}} - {{role.date}}<br>Association - {{role.association}}
-                                                            {% endfor %}
-                                                        {% else %}
-                                                            NONE
-                                                        {% endif %}
-                                                    </div>
-                                                </a>
-                                                <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>Research Interests</span> 
-                                                    <div>
-                                                        {% if research %}
-                                                            {% for object in research %}
-                                                                {{object.research}} <br>Interest-{{object.interest}}
-                                                            {% endfor %}
-                                                        {% else %}
-                                                            NONE
-                                                        {% endif %}
-                                                    </div>
-                                                </a>
-                                                <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>Postgraduate Supervision</span> 
-                                                    <div>
-                                                        {% if supervision %}
-                                                            {% for object in supervision %}
-                                                                Student - {{object.firstname}} {{object.lastname}}<br>Degree Level-{{object.level}}
-                                                                <br>Title of Thesis/Project - {{object.title}}<br>Year - {{object.year}}<br>
-                                                            {% endfor %}
-                                                        {% else %}
-                                                            NONE
-                                                        {% endif %}
-                                                    </div>
-                                                </a>
-                                                <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="" role="tab" aria-controls=""><span>Academic Specialisation</span> 
-                                                    <div>
-                                                        {% if specialisation %}
-                                                            {% for object in specialisation %}
-                                                                {{object.area}}                                                           
-                                                            {% endfor %}
-                                                        {% else %}
-                                                            NONE
-                                                        {% endif %}
-                                                    </div>
+                                                        </div>
+                                                    {% endif %}
                                                 </a>
                                                 <div>
                                                     <span>last update - {{employee.updated|naturaltime }}</span>
                                                 </div>
-                                        
                                             </div>
                                         </div>
                                     </div>
@@ -496,6 +322,306 @@ a:link {
             </section><!-- /Row -->
 
         </section> <!-- /container --> 
+        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
 
+                    <!-- Publications -->
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingTwo">
+                    <h4 class="panel-title text-center">
+                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo" >
+                            Publications
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                    <div class="panel-body">
+                        <section class="container-fluid">
+                            <div class="table-responsive table-shadow">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                         <div class="download-print-action">
+                                              <a href=""></a>
+                                              
+                                        </div>
+                                    </div>
+                                </div>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                          <th scope="col">Title</th>
+                                          <th scope="col">Type</th>
+                                          <th scope="col">Year</th>
+                                          <th scope="col">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% if not object %}
+                                            <tr>
+                                            <td>No Entries</td>
+                                            </tr>
+                                        {% else %}
+                                            {% for obj in object %}
+                                            <tr>
+                                            
+                                                <td>{{obj.title}}</td>                 
+                                                <td>{{obj.publicationtype}}</td>
+                                                <td>{{obj.year}}</td>
+                                                <td><a href="{% url 'staff:publication-edit' obj.id %}">Edit</a><br> 
+                                                    <a href="{% url 'staff:publication-delete' obj.id %}">Delete</a>
+                                                </td>
+                                                
+                                            
+                                            </tr>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </tbody>
+                        
+                                </table>
+                            
+                        
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+            <!-- Awards -->
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingThree">
+                    <h4 class="panel-title text-center">
+                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree" >
+                            Awards
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                    <div class="panel-body">
+                        <section class="container-fluid">
+                            
+                        </section>
+                    </div>
+                </div>
+            </div>
+            <!-- Honours -->
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingFour">
+                    <h4 class="panel-title text-center" >
+                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="true" aria-controls="collapseFour" >
+                            Honours and Certificates
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
+                    <div class="panel-body">
+                        <section class="container-fluid">
+                            
+                        </section>
+                    </div>
+                </div>
+            </div>
+             <!-- Technical Presentations -->
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingFive">
+                    <h4 class="panel-title text-center" >
+                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFive" aria-expanded="true" aria-controls="collapseFive" >
+                            Technical Presentations
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseFive" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFive">
+                    <div class="panel-body">
+                        <section class="container-fluid">
+                            
+                        </section>
+                    </div>
+                </div>
+            </div>
+             <!-- Manuscripts -->
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingSix">
+                    <h4 class="panel-title text-center" >
+                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseSix" aria-expanded="true" aria-controls="collapseSix" >
+                            Unpublished Manuscripts
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseSix" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSix">
+                    <div class="panel-body">
+                        <section class="container-fluid">
+                            
+                        </section>
+                    </div>
+                </div>
+            </div>
+             <!-- Specialisation -->
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingSeven">
+                    <h4 class="panel-title text-center" >
+                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseSeven" aria-expanded="true" aria-controls="collapseSeven" >
+                            Academic Specialisation
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseSeven" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSeven">
+                    <div class="panel-body">
+                        <section class="container-fluid">
+                            
+                        </section>
+                    </div>
+                </div>
+            </div>
+            <!-- Development -->
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingEight">
+                    <h4 class="panel-title text-center" >
+                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseEight" aria-expanded="true" aria-controls="collapseEight" >
+                            Professional Development
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseEight" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingEight">
+                    <div class="panel-body">
+                        <section class="container-fluid">
+                            
+                        </section>
+                    </div>
+                </div>
+            </div>
+            <!-- Supervision -->
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingNine">
+                    <h4 class="panel-title text-center" >
+                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseNine" aria-expanded="true" aria-controls="collapseNine" >
+                            Post Graduate Supervision
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseNine" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingNine">
+                    <div class="panel-body">
+                        <section class="container-fluid">
+                            
+                        </section>
+                    </div>
+                </div>
+            </div>
+             <!-- Grants -->
+             <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingTen">
+                    <h4 class="panel-title text-center" >
+                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTen" aria-expanded="true" aria-controls="collapseTen" >
+                            Research Grants
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseTen" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTen">
+                    <div class="panel-body">
+                        <section class="container-fluid">
+                            
+                        </section>
+                    </div>
+                </div>
+            </div>
+             <!-- Consultancies -->
+             <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingEleven">
+                    <h4 class="panel-title text-center" >
+                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseEleven" aria-expanded="true" aria-controls="collapseEleven" >
+                            Professional Consultancies
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseEleven" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingEleven">
+                    <div class="panel-body">
+                        <section class="container-fluid">
+                            
+                        </section>
+                    </div>
+                </div>
+            </div>
+            <!-- Roles -->
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingTwelve">
+                    <h4 class="panel-title text-center" >
+                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwelve" aria-expanded="true" aria-controls="collapseTwelve" >
+                            University Public and Professional Service Roles
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseTwelve" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwelve">
+                    <div class="panel-body">
+                        <section class="container-fluid">
+                            
+                        </section>
+                    </div>
+                </div>
+            </div>
+            <!-- Contributions -->
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingThirteen">
+                    <h4 class="panel-title text-center" >
+                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThirteen" aria-expanded="true" aria-controls="collapseThirteen" >
+                            Contributions to the Faculty or University
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseThirteen" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThirteen">
+                    <div class="panel-body">
+                        <section class="container-fluid">
+                            
+                        </section>
+                    </div>
+                </div>
+            </div>
+             <!-- Interests -->
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingFourteen">
+                    <h4 class="panel-title text-center" >
+                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFourteen" aria-expanded="true" aria-controls="collapseFourteen" >
+                            Research Interests
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseFourteen" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFourteen">
+                    <div class="panel-body">
+                        <section class="container-fluid">
+                            
+                        </section>
+                    </div>
+                </div>
+            </div>
+             <!-- Conferences -->
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingFifteen">
+                    <h4 class="panel-title text-center" >
+                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFifteen" aria-expanded="true" aria-controls="collapseFifteen" >
+                            Conferences Attended
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseFifteen" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFifteen">
+                    <div class="panel-body">
+                        <section class="container-fluid">
+                            
+                        </section>
+                    </div>
+                </div>
+            </div>
+             <!-- Activities -->
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingSixteen">
+                    <h4 class="panel-title text-center" >
+                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseSixteen" aria-expanded="true" aria-controls="collapseSixteen" >
+                            Other Professional Activities
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseSixteen" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSixteen">
+                    <div class="panel-body">
+                        <section class="container-fluid">
+                            
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /accordion -->
     </section><!-- /content -->
  {% endblock %}
