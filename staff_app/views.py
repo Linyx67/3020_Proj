@@ -215,7 +215,8 @@ def add_publication(request):
         # Redirect to the publications page
         return redirect('staff:publication')
 
-    # If the form is not valid, render the staff_publications_edit template with the form object
+    # If the form is not valid, render the staff_publications_edit
+    # template with the form object
     context = {
         'form': form
     }
@@ -231,7 +232,8 @@ def edit_publication(request, id):
     # Get the publication object with the specified id
     publications = get_object_or_404(Publications, id=id)
 
-    # Create a new instance of the PublicationsCreateForm, passing in the publication object as an instance
+    # Create a new instance of the PublicationsCreateForm,
+    # passing in the publication object as an instance
     form = PublicationsCreateForm(request.POST or None, instance=publications)
 
     # Check if the form is valid
@@ -244,7 +246,8 @@ def edit_publication(request, id):
         # Redirect to the publications page
         return redirect('staff:publication')
 
-    # If the form is not valid, render the staff_publications_edit template with the form object
+    # If the form is not valid, render the staff_publications_edit
+    # template with the form object
     context = {
         'form': form
     }
@@ -277,13 +280,16 @@ def view_publications(request):
 
     # Check if the logged-in user has any publications
     if Publications.objects.filter(user_id=request.user.id).exists():
-        # If there are publications, retrieve them and store them in the "publications" variable
+        # If there are publications, retrieve them and
+        # store them in the "publications" variable
         publications = Publications.objects.filter(user_id=request.user.id)
     else:
-        # If there are no publications, store an empty list in the "publications" variable
+        # If there are no publications,
+        # store an empty list in the "publications" variable
         publications = []
 
-    # Pass the "publications" variable to the "staff/staff_publications.html" template as "object"
+    # Pass the "publications" variable to the
+    # "staff/staff_publications.html" template as "object"
     context = {
         "object": publications
     }

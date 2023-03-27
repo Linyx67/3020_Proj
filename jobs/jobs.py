@@ -138,3 +138,30 @@ def rfi_api():
                 [employee.email],
                 fail_silently=False,
             )
+        if not Contributions.objects.filter(user_id=id).exists():
+            send_mail(
+                'Request For Infomation',
+                'Dear {0},\n\nIt seems as though you have not entered your Contibutions to the Departmant, Faculty and University Information as yet. If you do not know where to find this it is under the profile section of the site. Please update this information as soon as possible.\n\nRegards,\nAdministration.'.format(
+                    employee.get_full_name),
+                'hr.system.x@gmail.com',
+                [employee.email],
+                fail_silently=False,
+            )
+        if not Honours.objects.filter(user_id=id).exists():
+            send_mail(
+                'Request For Infomation',
+                'Dear {0},\n\nIt seems as though you have not entered your Honours and Certificates Information as yet. If you do not know where to find this it is under the profile section of the site. Please update this information as soon as possible.\n\nRegards,\nAdministration.'.format(
+                    employee.get_full_name),
+                'hr.system.x@gmail.com',
+                [employee.email],
+                fail_silently=False,
+            )
+        if not Activities.objects.filter(user_id=id).exists():
+            send_mail(
+                'Request For Infomation',
+                'Dear {0},\n\nIt seems as though you have not entered your Professional Activities Information as yet. If you do not know where to find this it is under the profile section of the site. Please update this information as soon as possible.\n\nRegards,\nAdministration.'.format(
+                    employee.get_full_name),
+                'hr.system.x@gmail.com',
+                [employee.email],
+                fail_silently=False,
+            )

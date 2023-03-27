@@ -4,7 +4,7 @@ from django.shortcuts import (
     get_object_or_404
 )
 
-from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.core.paginator import Paginator
 from django.core.mail import send_mail
 from django.contrib import messages
 from django.db.models import Q
@@ -27,7 +27,10 @@ from staff_app.models import (
     Manuscripts,
     Presentations,
     Consultancies,
-    Grants
+    Grants,
+    Activities,
+    Honours,
+    Contributions
 )
 from .forms import ReportForm
 from staff_app.functions import get_user_info
@@ -49,17 +52,20 @@ def home(request):
 
 
 def employees(request):
-    # Ensure only superusers can view the employees page, else redirect to home page
+    # Ensure only superusers can view the employees page,
+    # else redirect to home page
     if not (request.user.is_authenticated and request.user.is_superuser):
         return redirect('hris:home')
 
-    # Create an empty dictionary to store the data that will be passed to the template
+    # Create an empty dictionary to store the data
+    # that will be passed to the template
     dataset = dict()
 
     # Retrieve all employees from the database and order them by first name
     employees = Employee.objects.all().order_by('firstname')
 
-    # Search functionality: retrieve the search query from the GET request, and filter the employees accordingly
+    # Search functionality: retrieve the search query
+    # from the GET request, and filter the employees accordingly
     query = request.GET.get('search')
     if query:
         # Replace any whitespace characters with "." to allow for partial matches
@@ -73,7 +79,9 @@ def employees(request):
     page = request.GET.get('page')
     employees_paginated = paginator.get_page(page)
 
-    # Add the paginated employees list, total number of employees, blocked employees, and title to the dataset
+    # Add the paginated employees list,
+    # total number of employees, blocked employees,
+    # and title to the dataset
     dataset['employee_list'] = employees_paginated
     dataset['all_employees'] = Employee.objects.all_employees()
     blocked_employees = Employee.objects.all_blocked_employees()
@@ -319,11 +327,13 @@ def pubs_books(request):
 
 # Define the annualreports view function
 def annualreports(request):
-    # Check if the user is authenticated and is a superuser. If not, redirect to the home page.
+    # Check if the user is authenticated and is a superuser.
+    # If not, redirect to the home page.
     if not (request.user.is_authenticated and request.user.is_superuser):
         return redirect('hris:home')
 
-    # Initialize an empty dictionary and create empty queryset variables for the relevant models.
+    # Initialize an empty dictionary and create empty queryset
+    # variables for the relevant models.
     dataset = dict()
     year = ''
     users = CustomUser.objects.none()
@@ -334,6 +344,8 @@ def annualreports(request):
     presentations = Presentations.objects.none()
     conferences = Conferences.objects.none()
     awards = Awards.objects.none()
+    honours = Honours.objects.none()
+    contributions = Contributions.objects.none()
     form = ReportForm(request.POST or None)
     # Check if there are any GET parameters (first_name, last_name, and year).
     if form.is_valid():
@@ -345,11 +357,11 @@ def annualreports(request):
         # Check if a user with the given first and last names exists.
         if not CustomUser.objects.filter(first_name=firstname.capitalize(), last_name=lastname.capitalize()).exists():
             messages.error(request, 'Employee not found! Please try again.')
-            dataset['form'] = form
-            return render(request, 'admin/annualreports.html', dataset)
+            return redirect('admin_app:annualreports')
 
         else:
-            # If there is, retrieve the user object and the relevant data for that user in the given year.
+            # If there is, retrieve the user object and the relevant data for that
+            # user in the given year.
             users = CustomUser.objects.get(
                 first_name=firstname.capitalize(), last_name=lastname.capitalize())
             employee = Employee.objects.get(user_id=users.id)
@@ -361,6 +373,9 @@ def annualreports(request):
             conferences = Conferences.objects.filter(
                 user_id=users.id, year=year)
             awards = Awards.objects.filter(user_id=users.id, year=year)
+            honours = Honours.objects.filter(user_id=users.id, year=year)
+            contributions = Contributions.objects.filter(
+                user_id=users.id, year=year)
 
     # Add the retrieved data to the dataset dictionary.
     dataset['employee'] = employee
@@ -371,6 +386,8 @@ def annualreports(request):
     dataset['books'] = books
     dataset['presentations'] = presentations
     dataset['conferences'] = conferences
+    dataset['honours'] = honours
+    dataset['contributions'] = contributions
     dataset['form'] = form
     # Render the annualreports template with the dataset dictionary.
     return render(request, 'admin/annualreports.html', dataset)

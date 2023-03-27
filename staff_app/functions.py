@@ -40,7 +40,8 @@ def academic_year_choices():
     return [((str(r)+'/'+str(r+1)), (str(r)+'/'+str(r+1))) for r in range(datetime.date.today().year, 1980, -1)]
 
 
-# function to retrieve all relevant user info for displaying on a user's profile page
+# function to retrieve all relevant user info for displaying on
+# a user's profile page
 def get_user_info(id):
 
     # Check if Employee with given user ID exists
@@ -54,13 +55,16 @@ def get_user_info(id):
     # Retrieve all Awards objects for the given user ID
     awards = Awards.objects.filter(user_id=id)
 
-    # Retrieve all Publications objects that are journals for the given user ID
+    # Retrieve all Publications objects that are
+    # journals for the given user ID
     journals = Publications.objects.journals().filter(user_id=id)
 
-    # Retrieve all Publications objects that are papers for the given user ID
+    # Retrieve all Publications objects
+    # that are papers for the given user ID
     papers = Publications.objects.papers().filter(user_id=id)
 
-    # Retrieve all Publications objects that are books for the given user ID
+    # Retrieve all Publications
+    # objects that are books for the given user ID
     books = Publications.objects.books().filter(user_id=id)
 
     # Retrieve all Grants objects for the given user ID
@@ -72,7 +76,8 @@ def get_user_info(id):
     # Retrieve all Presentations objects for the given user ID
     presentations = Presentations.objects.filter(user_id=id)
 
-    # Retrieve all Manuscripts objects for the given user ID, ordered by the 'in_preparation' field
+    # Retrieve all Manuscripts objects for the given user ID,
+    # ordered by the 'status' field
     manuscripts = Manuscripts.objects.filter(
         user_id=id).order_by('status')
 
