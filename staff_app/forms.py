@@ -190,7 +190,7 @@ class RolesCreateForm(forms.ModelForm):
         widgets = {
             'role': forms.TextInput(attrs={'class': 'form-control'}),
             'association': forms.TextInput(attrs={'class': 'form-control'}),
-            'data': forms.SelectDateWidget(years=year_choice(), attrs={'class': 'form-control'}),
+            'date': forms.SelectDateWidget(years=year_choice(), attrs={'class': 'form-control'}),
         }
 
 

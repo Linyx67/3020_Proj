@@ -23,12 +23,7 @@ from staff_app.models import (
     Awards,
     Publications,
     Conferences,
-    Development,
-    Manuscripts,
     Presentations,
-    Consultancies,
-    Grants,
-    Activities,
     Honours,
     Contributions
 )

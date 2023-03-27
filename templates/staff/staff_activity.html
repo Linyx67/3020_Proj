@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load humanize %}
-{% block title %}Staff | Publications{% endblock title %}
+{% block title %}Staff | Professional Activities{% endblock title %}
 {% block stylesheet %}
 .table-shadow{
     background: white;
@@ -71,6 +71,7 @@
     background-color: #f0f2f0;
 }
 {% endblock stylesheet %}
+
 {% block content %}
 <link type="text/CSS" href="{% static 'css/light-bootstrap-dashboard.css' %}" rel="stylesheet"/>
 <section class="row">
@@ -78,13 +79,30 @@
         <span><a href="{{request.META.HTTP_REFERER|escape}}" style="color:#565656;">Back</a></span>
     </section>
 </section>
-    
+{% if messages %}
+        <div class="col-12">
+            {% for message in messages %}
+                {% if message.tags == "error" %}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <b>{{ message }}</b>
+                    <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endif %}
+                {% if message.tags == "success" %}
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <b>{{ message }}</b>
+                    <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+{% endif %}
     <section class="row margin-bottom">
         <div class="container-fluid">
         <section class="col-lg-4 col-md-4 col-sm-12">
             <div class="employee-box sec-box">
                 <a href="">
-                <span>Total Publications</span>
+                <span>Total Entries</span>
                 </a>
                 {% if object %}
                     <span class="count-object">{{ object.count }}</span>
@@ -98,12 +116,12 @@
     <div class="table-responsive table-shadow">
         <div class="text-center table-description">
             <h4 class="title-h3" style="color: #60a0b3 !important;
-            text-shadow: 1px 0px rgba(0,0,0,0.11)"> Publications</h4>
+            text-shadow: 1px 0px rgba(0,0,0,0.11)"> Professional Activities</h4>
         </div>
         <div class="container-fluid">
             <div class="row">
                  <div class="download-print-action">
-                      <a href="{% url 'staff:publication-add' %}">Add</a>
+                    <a href="{% url 'staff:activity-add' %}">Add</a>
                       
                 </div>
             </div>
@@ -111,9 +129,7 @@
         <table class="table">
             <thead>
                 <tr>
-                  <th scope="col">Title</th>
-                  <th scope="col">Type</th>
-                  <th scope="col">Year</th>
+                  <th scope="col">Activity</th>
                   <th scope="col">Actions</th>
                 </tr>
             </thead>
@@ -126,11 +142,9 @@
                     {% for obj in object %}
                     <tr>
                     
-                        <td>{{obj.title}}</td>                 
-                        <td>{{obj.publicationtype}}</td>
-                        <td>{{obj.year}}</td>
-                        <td><a href="{% url 'staff:publication-edit' obj.id %}">Edit</a><br> 
-                            <a href="{% url 'staff:publication-delete' obj.id %}">Delete</a>
+                        <td>{{obj.activity}}</td>  
+                        <td><a href="{% url 'staff:activity-edit' obj.id %}">Edit</a><br>
+                            <a href="{% url 'staff:activity-delete' obj.id %}">Delete</a>
                         </td>
                         
                     
@@ -140,9 +154,8 @@
             </tbody>
 
         </table>
-    
+
+        {% endif %}
 
     </div>
-
-</section>
 {% endblock content %}

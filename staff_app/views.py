@@ -295,47 +295,6 @@ def view_publications(request):
     }
     return render(request, "staff/staff_publications.html", context)
 
-
-def add_leave(request):
-    # Check if user is authenticated
-    if not request.user.is_authenticated:
-        return redirect('hris:home')
-
-    # Create a LeaveCreateForm object based on the request's POST data
-    form = LeaveCreateForm(request.POST or None)
-
-    # If form is valid, save the leave request and redirect to the staff view page
-    if form.is_valid():
-        instance = form.save(commit='false')
-        instance.user = request.user
-        instance.save()
-        messages.success(request, "Leave request submitted successfully")
-        return redirect('staff:staff-home')
-
-    # If form is not valid, render the staff_leave_add template with the form as context
-    context = {
-        'form': form
-    }
-    return render(request, "staff/staff_leave_add.html", context)
-
-
-def view_leave(request):
-    # Redirect unauthenticated users to the home page
-    if not request.user.is_authenticated:
-        return redirect('hris:home')
-
-    # Get all leave records for the current user
-    if Leave.objects.filter(user_id=request.user.id).exists():
-        leave = Leave.objects.filter(user_id=request.user.id)
-    else:
-        leave = []
-
-    # Pass leave records to the template
-    context = {
-        "object": leave
-    }
-    return render(request, "staff/staff_leave_view.html", context)
-
 # view requests
 
 
@@ -376,6 +335,19 @@ def rfi_add(request):
     return render(request, "staff/staff_rfi.html", context)
 
 
+# view conference entries
+def conferences_view(request):
+    # Check if user is authenticated
+    if not request.user.is_authenticated:
+        return redirect('hris:home')
+
+    conferences = Conferences.objects.filter(user_id=request.user.id)
+
+    context = {
+        "object": conferences
+    }
+    return render(request, "staff/staff_conferences.html", context)
+
 # add conference attended
 
 
@@ -393,13 +365,13 @@ def conferences_add(request):
         instance.user = request.user
         instance.save()
         messages.success(request, "Added successfully")
-        return redirect('staff:profile')
+        return redirect('staff:conference')
 
     # If form is not valid, render the staff_leave_add template with the form as context
     context = {
         'form': form
     }
-    return render(request, "staff/staff_conferences.html", context)
+    return render(request, "staff/staff_conferences_edit.html", context)
 
 # edit conference entry
 
@@ -419,13 +391,13 @@ def conferences_edit(request, id):
         instance.save()
         messages.success(request, "Saved successfully")
         # Redirect to the profile page
-        return redirect('staff:profile')
+        return redirect('staff:conference')
 
     # If the form is not valid, render the add conference  template with the form object
     context = {
         'form': form
     }
-    return render(request, "staff/staff_conferences.html", context)
+    return render(request, "staff/staff_conferences_edit.html", context)
 
 # delete conference entry
 
@@ -443,8 +415,21 @@ def conferences_delete(request, id):
     conference.delete()
     messages.success(request, "Deleted successfully")
     # Redirect to the profile page
-    return redirect('staff:profile')
+    return redirect('staff:conference')
 
+
+# view technical presentation entries
+def presentations_view(request):
+    # Check if user is authenticated
+    if not request.user.is_authenticated:
+        return redirect('hris:home')
+
+    presentations = Presentations.objects.filter(user_id=request.user.id)
+
+    context = {
+        "object": presentations
+    }
+    return render(request, "staff/staff_presentations.html", context)
 # add technical presentation
 
 
@@ -462,13 +447,13 @@ def presentations_add(request):
         instance.user = request.user
         instance.save()
         messages.success(request, "Added successfully")
-        return redirect('staff:profile')
+        return redirect('staff:presentations')
 
     # If form is not valid, render the staff presentations template with the form as context
     context = {
         'form': form
     }
-    return render(request, "staff/staff_presentations.html", context)
+    return render(request, "staff/staff_presentations_edit.html", context)
 
 # edit presentation entry
 
@@ -488,13 +473,13 @@ def presentations_edit(request, id):
         instance.save()
         messages.success(request, "Saved successfully")
         # Redirect to the profile page
-        return redirect('staff:profile')
+        return redirect('staff:presentations')
 
     # If the form is not valid, render the add presentation  template with the form object
     context = {
         'form': form
     }
-    return render(request, "staff/staff_presentations.html", context)
+    return render(request, "staff/staff_presentations_edit.html", context)
 
 
 # delete presentations
@@ -513,7 +498,22 @@ def presentations_delete(request, id):
     presentation.delete()
     messages.success(request, "Deleted successfully")
     # Redirect to the profile page
-    return redirect('staff:profile')
+    return redirect('staff:presentations')
+
+# view professional development entries
+
+
+def development_view(request):
+    # Check if user is authenticated
+    if not request.user.is_authenticated:
+        return redirect('hris:home')
+
+    development = Development.objects.filter(user_id=request.user.id)
+
+    context = {
+        "object": development
+    }
+    return render(request, "staff/staff_development.html", context)
 
 # add professional development entry
 
@@ -532,13 +532,13 @@ def development_add(request):
         instance.user = request.user
         instance.save()
         messages.success(request, "Added successfully")
-        return redirect('staff:profile')
+        return redirect('staff:development')
 
     # If form is not valid, render the staff developent template with the form as context
     context = {
         'form': form
     }
-    return render(request, "staff/staff_development.html", context)
+    return render(request, "staff/staff_development_edit.html", context)
 
 # edit professional development entry
 
@@ -558,13 +558,13 @@ def development_edit(request, id):
         instance.save()
         messages.success(request, "Saved successfully")
         # Redirect to the profile page
-        return redirect('staff:profile')
+        return redirect('staff:development')
 
     # If the form is not valid, render the add development  template with the form object
     context = {
         'form': form
     }
-    return render(request, "staff/staff_development.html", context)
+    return render(request, "staff/staff_development_edit.html", context)
 
 # delete professional development entry
 
@@ -582,7 +582,22 @@ def development_delete(request, id):
     development.delete()
     messages.success(request, "Deleted successfully")
     # Redirect to the profile page
-    return redirect('staff:profile')
+    return redirect('staff:development')
+
+# view consultancies
+
+
+def consultancies_view(request):
+    # Check if user is authenticated
+    if not request.user.is_authenticated:
+        return redirect('hris:home')
+
+    consultancies = Consultancies.objects.filter(user_id=request.user.id)
+
+    context = {
+        "object": consultancies
+    }
+    return render(request, "staff/staff_consultancies.html", context)
 
 # add Consultancy entry
 
@@ -601,13 +616,13 @@ def consultancies_add(request):
         instance.user = request.user
         instance.save()
         messages.success(request, "Added successfully")
-        return redirect('staff:profile')
+        return redirect('staff:consultancies')
 
     # If form is not valid, render the staff consultancies template with the form as context
     context = {
         'form': form
     }
-    return render(request, "staff/staff_consultancies.html", context)
+    return render(request, "staff/staff_consultancies_edit.html", context)
 
 # edit Consultancy entry
 
@@ -627,13 +642,13 @@ def consultancies_edit(request, id):
         instance.save()
         messages.success(request, "Saved successfully")
         # Redirect to the profile page
-        return redirect('staff:profile')
+        return redirect('staff:consultancies')
 
     # If the form is not valid, render the add consultancy  template with the form object
     context = {
         'form': form
     }
-    return render(request, "staff/staff_consultancies.html", context)
+    return render(request, "staff/staff_consultancies_edit.html", context)
 
 # delete Consultancy entry
 
@@ -651,7 +666,22 @@ def consultancies_delete(request, id):
     consultancy.delete()
     messages.success(request, "Deleted successfully")
     # Redirect to the profile page
-    return redirect('staff:profile')
+    return redirect('staff:consultancies')
+
+# view manuscript entries
+
+
+def manuscripts_view(request):
+    # Check if user is authenticated
+    if not request.user.is_authenticated:
+        return redirect('hris:home')
+
+    manuscripts = Manuscripts.objects.filter(user_id=request.user.id)
+
+    context = {
+        "object": manuscripts
+    }
+    return render(request, "staff/staff_manuscripts.html", context)
 
 # add Manuscripts entry
 
@@ -670,13 +700,13 @@ def manuscripts_add(request):
         instance.user = request.user
         instance.save()
         messages.success(request, "Added successfully")
-        return redirect('staff:profile')
+        return redirect('staff:manuscripts')
 
     # If form is not valid, render the staff manuscripts template with the form as context
     context = {
         'form': form
     }
-    return render(request, "staff/staff_manuscripts.html", context)
+    return render(request, "staff/staff_manuscripts_edit.html", context)
 
 # edit Manuscripts entry
 
@@ -699,13 +729,13 @@ def manuscripts_edit(request, id):
         instance.save()
         messages.success(request, "Saved successfully")
         # Redirect to the profile page
-        return redirect('staff:profile')
+        return redirect('staff:manuscripts')
 
     # If the form is not valid, render the add manuscript  template with the form object
     context = {
         'form': form
     }
-    return render(request, "staff/staff_manuscripts.html", context)
+    return render(request, "staff/staff_manuscripts_edit.html", context)
 
 # delete Manuscripts entry
 
@@ -720,7 +750,22 @@ def manuscripts_delete(request, id):
     manuscript.delete()
     messages.success(request, "Deleted successfully")
     # Redirect to the profile page
-    return redirect('staff:profile')
+    return redirect('staff:manuscripts')
+
+# view grants entries
+
+
+def grants_view(request):
+    # Check if user is authenticated
+    if not request.user.is_authenticated:
+        return redirect('hris:home')
+
+    grants = Grants.objects.filter(user_id=request.user.id)
+
+    context = {
+        "object": grants
+    }
+    return render(request, "staff/staff_grants.html", context)
 
 # add grants entry
 
@@ -739,13 +784,13 @@ def grants_add(request):
         instance.user = request.user
         instance.save()
         messages.success(request, "Added successfully")
-        return redirect('staff:profile')
+        return redirect('staff:grants')
 
     # If form is not valid, render the staff grants template with the form as context
     context = {
         'form': form
     }
-    return render(request, "staff/staff_grants.html", context)
+    return render(request, "staff/staff_grants_edit.html", context)
 
 # edit grants entry
 
@@ -768,13 +813,13 @@ def grants_edit(request, id):
         instance.save()
         messages.success(request, "Saved successfully")
         # Redirect to the profile page
-        return redirect('staff:profile')
+        return redirect('staff:grants')
 
     # If the form is not valid, render the add grant  template with the form object
     context = {
         'form': form
     }
-    return render(request, "staff/staff_grants.html", context)
+    return render(request, "staff/staff_grants_edit.html", context)
 
 # delete grants entry
 
@@ -789,7 +834,22 @@ def grants_delete(request, id):
     grant.delete()
     messages.success(request, "Deleted successfully")
     # Redirect to the profile page
-    return redirect('staff:profile')
+    return redirect('staff:grants')
+
+# view Professional Role entries
+
+
+def roles_view(request):
+    # Check if user is authenticated
+    if not request.user.is_authenticated:
+        return redirect('hris:home')
+
+    roles = Roles.objects.filter(user_id=request.user.id)
+
+    context = {
+        "object": roles
+    }
+    return render(request, "staff/staff_roles.html", context)
 
 # add Professional Role entry
 
@@ -808,13 +868,13 @@ def roles_add(request):
         instance.user = request.user
         instance.save()
         messages.success(request, "Added successfully")
-        return redirect('staff:profile')
+        return redirect('staff:roles')
 
     # If form is not valid, render the staff roles template with the form as context
     context = {
         'form': form
     }
-    return render(request, "staff/staff_roles.html", context)
+    return render(request, "staff/staff_roles_edit.html", context)
 
 # edit Professional Role entry
 
@@ -837,13 +897,13 @@ def roles_edit(request, id):
         instance.save()
         messages.success(request, "Saved successfully")
         # Redirect to the profile page
-        return redirect('staff:profile')
+        return redirect('staff:roles')
 
     # If the form is not valid, render the add role  template with the form object
     context = {
         'form': form
     }
-    return render(request, "staff/staff_roles.html", context)
+    return render(request, "staff/staff_roles_edit.html", context)
 
 # delete Professional Role entry
 
@@ -858,11 +918,25 @@ def roles_delete(request, id):
     role.delete()
     messages.success(request, "Deleted successfully")
     # Redirect to the profile page
-    return redirect('staff:profile')
+    return redirect('staff:roles')
+
+# view Research Interest entries
+
+
+def research_view(request):
+    # Check if user is authenticated
+    if not request.user.is_authenticated:
+        return redirect('hris:home')
+
+    research = Research.objects.filter(user_id=request.user.id)
+
+    context = {
+        "object": research
+    }
+    return render(request, "staff/staff_research.html", context)
+
 
 # add Research Interest entry
-
-
 def research_add(request):
     # Check if user is authenticated
     if not request.user.is_authenticated:
@@ -877,13 +951,13 @@ def research_add(request):
         instance.user = request.user
         instance.save()
         messages.success(request, "Added successfully")
-        return redirect('staff:profile')
+        return redirect('staff:research')
 
     # If form is not valid, render the staff research template with the form as context
     context = {
         'form': form
     }
-    return render(request, "staff/staff_research.html", context)
+    return render(request, "staff/staff_research_edit.html", context)
 
 # edit Research Interest entry
 
@@ -906,13 +980,13 @@ def research_edit(request, id):
         instance.save()
         messages.success(request, "Saved successfully")
         # Redirect to the profile page
-        return redirect('staff:profile')
+        return redirect('staff:research')
 
     # If the form is not valid, render the add research  template with the form object
     context = {
         'form': form
     }
-    return render(request, "staff/staff_research.html", context)
+    return render(request, "staff/staff_research_edit.html", context)
 
 # delete Research Interest entry
 
@@ -927,7 +1001,22 @@ def research_delete(request, id):
     research.delete()
     messages.success(request, "Deleted successfully")
     # Redirect to the profile page
-    return redirect('staff:profile')
+    return redirect('staff:research')
+
+# view Supervision entries
+
+
+def supervision_view(request):
+    # Check if user is authenticated
+    if not request.user.is_authenticated:
+        return redirect('hris:home')
+
+    supervision = Supervision.objects.filter(user_id=request.user.id)
+
+    context = {
+        "object": supervision
+    }
+    return render(request, "staff/staff_supervision.html", context)
 
 # add Supervision entry
 
@@ -946,13 +1035,13 @@ def supervision_add(request):
         instance.user = request.user
         instance.save()
         messages.success(request, "Added successfully")
-        return redirect('staff:profile')
+        return redirect('staff:supervision')
 
     # If form is not valid, render the staff supervision template with the form as context
     context = {
         'form': form
     }
-    return render(request, "staff/staff_supervision.html", context)
+    return render(request, "staff/staff_supervision_edit.html", context)
 
 # edit Supervision entry
 
@@ -975,13 +1064,13 @@ def supervision_edit(request, id):
         instance.save()
         messages.success(request, "Saved successfully")
         # Redirect to the profile page
-        return redirect('staff:profile')
+        return redirect('staff:supervision')
 
     # If the form is not valid, render the add supervision  template with the form object
     context = {
         'form': form
     }
-    return render(request, "staff/staff_supervision.html", context)
+    return render(request, "staff/staff_supervision_edit.html", context)
 
 # delete Supervision entry
 
@@ -996,7 +1085,22 @@ def supervision_delete(request, id):
     supervision.delete()
     messages.success(request, "Deleted successfully")
     # Redirect to the profile page
-    return redirect('staff:profile')
+    return redirect('staff:supervision')
+
+# view Specialisation entries
+
+
+def specialisation_view(request):
+    # Check if user is authenticated
+    if not request.user.is_authenticated:
+        return redirect('hris:home')
+
+    specialisation = Specialisation.objects.filter(user_id=request.user.id)
+
+    context = {
+        "object": specialisation
+    }
+    return render(request, "staff/staff_specialisation.html", context)
 
 # add Specialisation entry
 
@@ -1015,13 +1119,13 @@ def specialisation_add(request):
         instance.user = request.user
         instance.save()
         messages.success(request, "Added successfully")
-        return redirect('staff:profile')
+        return redirect('staff:specialisation')
 
     # If form is not valid, render the staff specialisation template with the form as context
     context = {
         'form': form
     }
-    return render(request, "staff/staff_specialisation.html", context)
+    return render(request, "staff/staff_specialisation_edit.html", context)
 
 # edit Specialisation entry
 
@@ -1045,13 +1149,13 @@ def specialisation_edit(request, id):
         instance.save()
         messages.success(request, "Saved successfully")
         # Redirect to the profile page
-        return redirect('staff:profile')
+        return redirect('staff:specialisation')
 
     # If the form is not valid, render the add specialisation  template with the form object
     context = {
         'form': form
     }
-    return render(request, "staff/staff_specialisation.html", context)
+    return render(request, "staff/staff_specialisation_edit.html", context)
 
 # delete Specialisation entry
 
@@ -1066,7 +1170,22 @@ def specialisation_delete(request, id):
     specialisation.delete()
     messages.success(request, "Deleted successfully")
     # Redirect to the profile page
-    return redirect('staff:profile')
+    return redirect('staff:specialisation')
+
+# view Professional Activity entries
+
+
+def activity_view(request):
+    # Check if user is authenticated
+    if not request.user.is_authenticated:
+        return redirect('hris:home')
+
+    activity = Activities.objects.filter(user_id=request.user.id)
+
+    context = {
+        "object": activity
+    }
+    return render(request, "staff/staff_activity.html", context)
 
 # add Professional Activity
 
@@ -1085,13 +1204,13 @@ def activity_add(request):
         instance.user = request.user
         instance.save()
         messages.success(request, "Added successfully")
-        return redirect('staff:profile')
+        return redirect('staff:activity')
 
     # If form is not valid, render the staff professional activity template with the form as context
     context = {
         'form': form
     }
-    return render(request, "staff/staff_activity.html", context)
+    return render(request, "staff/staff_activity_edit.html", context)
 
 # edit Professional Activity
 
@@ -1114,13 +1233,13 @@ def activity_edit(request, id):
         instance.save()
         messages.success(request, "Saved successfully")
         # Redirect to the profile page
-        return redirect('staff:profile')
+        return redirect('staff:activity')
 
     # If the form is not valid, render the add professional activity  template with the form object
     context = {
         'form': form
     }
-    return render(request, "staff/staff_activity.html", context)
+    return render(request, "staff/staff_activity_edit.html", context)
 
 # delete Professional Activity
 
@@ -1135,7 +1254,22 @@ def activity_delete(request, id):
     activity.delete()
     messages.success(request, "Deleted successfully")
     # Redirect to the profile page
-    return redirect('staff:profile')
+    return redirect('staff:activity')
+
+# view honours or certificates entries
+
+
+def honour_view(request):
+    # Check if user is authenticated
+    if not request.user.is_authenticated:
+        return redirect('hris:home')
+
+    honours = Honours.objects.filter(user_id=request.user.id)
+
+    context = {
+        "object": honours
+    }
+    return render(request, "staff/staff_honours.html", context)
 
 # add Honours or Certificates
 
@@ -1154,13 +1288,13 @@ def honour_add(request):
         instance.user = request.user
         instance.save()
         messages.success(request, "Added successfully")
-        return redirect('staff:profile')
+        return redirect('staff:honours')
 
     # If form is not valid, render the staff honours or certificates template with the form as context
     context = {
         'form': form
     }
-    return render(request, "staff/staff_honours.html", context)
+    return render(request, "staff/staff_honours_edit.html", context)
 
 # edit Honours or Certificates
 
@@ -1183,13 +1317,13 @@ def honour_edit(request, id):
         instance.save()
         messages.success(request, "Saved successfully")
         # Redirect to the profile page
-        return redirect('staff:profile')
+        return redirect('staff:honours')
 
     # If the form is not valid, render the add honours or certificates  template with the form object
     context = {
         'form': form
     }
-    return render(request, "staff/staff_honours.html", context)
+    return render(request, "staff/staff_honours_edit.html", context)
 
 # delete Honours or Certificates
 
@@ -1204,7 +1338,22 @@ def honour_delete(request, id):
     honour.delete()
     messages.success(request, "Deleted successfully")
     # Redirect to the profile page
-    return redirect('staff:profile')
+    return redirect('staff:honours')
+
+# view Contributions to the department, faculty, university entries
+
+
+def contribution_view(request):
+    # Check if user is authenticated
+    if not request.user.is_authenticated:
+        return redirect('hris:home')
+
+    contributions = Contributions.objects.filter(user_id=request.user.id)
+
+    context = {
+        "object": contributions
+    }
+    return render(request, "staff/staff_contributions.html", context)
 
 # add Contributions to the department, faculty, university
 
@@ -1223,13 +1372,13 @@ def contribution_add(request):
         instance.user = request.user
         instance.save()
         messages.success(request, "Added successfully")
-        return redirect('staff:profile')
+        return redirect('staff:contributions')
 
     # If form is not valid, render the staff contributions to the department, faculty, university template with the form as context
     context = {
         'form': form
     }
-    return render(request, "staff/staff_contributions.html", context)
+    return render(request, "staff/staff_contributions_edit.html", context)
 
 # edit Contributions to the department, faculty, university
 
@@ -1252,13 +1401,13 @@ def contribution_edit(request, id):
         instance.save()
         messages.success(request, "Saved successfully")
         # Redirect to the profile page
-        return redirect('staff:profile')
+        return redirect('staff:contributions')
 
     # If the form is not valid, render the add contributions to the department, faculty, university  template with the form object
     context = {
         'form': form
     }
-    return render(request, "staff/staff_contributions.html", context)
+    return render(request, "staff/staff_contributions_edit.html", context)
 
 # delete Contributions to the department, faculty, university
 
@@ -1273,4 +1422,47 @@ def contribution_delete(request, id):
     contribution.delete()
     messages.success(request, "Deleted successfully")
     # Redirect to the profile page
-    return redirect('staff:profile')
+    return redirect('staff:contributions')
+
+
+'''
+def add_leave(request):
+    # Check if user is authenticated
+    if not request.user.is_authenticated:
+        return redirect('hris:home')
+
+    # Create a LeaveCreateForm object based on the request's POST data
+    form = LeaveCreateForm(request.POST or None)
+
+    # If form is valid, save the leave request and redirect to the staff view page
+    if form.is_valid():
+        instance = form.save(commit='false')
+        instance.user = request.user
+        instance.save()
+        messages.success(request, "Leave request submitted successfully")
+        return redirect('staff:staff-home')
+
+    # If form is not valid, render the staff_leave_add template with the form as context
+    context = {
+        'form': form
+    }
+    return render(request, "staff/staff_leave_add.html", context)
+
+
+def view_leave(request):
+    # Redirect unauthenticated users to the home page
+    if not request.user.is_authenticated:
+        return redirect('hris:home')
+
+    # Get all leave records for the current user
+    if Leave.objects.filter(user_id=request.user.id).exists():
+        leave = Leave.objects.filter(user_id=request.user.id)
+    else:
+        leave = []
+
+    # Pass leave records to the template
+    context = {
+        "object": leave
+    }
+    return render(request, "staff/staff_leave_view.html", context)
+    '''
