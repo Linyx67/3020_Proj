@@ -351,26 +351,21 @@ a:link {
                                           <th scope="col">Title</th>
                                           <th scope="col">Type</th>
                                           <th scope="col">Year</th>
-                                          <th scope="col">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {% if not object %}
+                                        {% if not publications %}
                                             <tr>
                                             <td>No Entries</td>
                                             </tr>
                                         {% else %}
-                                            {% for obj in object %}
+                                            {% for pub in publications %}
                                             <tr>
                                             
-                                                <td>{{obj.title}}</td>                 
-                                                <td>{{obj.publicationtype}}</td>
-                                                <td>{{obj.year}}</td>
-                                                <td><a href="{% url 'staff:publication-edit' obj.id %}">Edit</a><br> 
-                                                    <a href="{% url 'staff:publication-delete' obj.id %}">Delete</a>
-                                                </td>
-                                                
-                                            
+                                                <td>{{pub.title}}</td>                 
+                                                <td>{{pub.publicationtype}}</td>
+                                                <td>{{pub.year}}</td>
+                                                                                                                                     
                                             </tr>
                                             {% endfor %}
                                         {% endif %}
@@ -396,7 +391,45 @@ a:link {
                 <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
                     <div class="panel-body">
                         <section class="container-fluid">
+                            <div class="table-responsive table-shadow">
                             
+                                <div class="container-fluid">
+                                    <div class="row">
+                                         <div class="download-print-action">
+                                        
+                                              
+                                        </div>
+                                    </div>
+                                </div>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                          <th scope="col">Title</th>
+                                          <th scope="col">Year</th>
+                                          
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% if not awards %}
+                                            <tr>
+                                            <td>No Entries</td>
+                                            </tr>
+                                        {% else %}
+                                            {% for award in awards %}
+                                            <tr>
+                                            
+                                                <td>{{award.title}}</td>                 
+                                                <td>{{award.year}}</td>
+                                            
+                                            </tr>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </tbody>
+                        
+                                </table>
+                            
+                        
+                            </div>
                         </section>
                     </div>
                 </div>

@@ -56,6 +56,7 @@ def get_user_info(id):
     awards = Awards.objects.filter(user_id=id)
 
     # Retrieve all Publications objects that are
+    publications = Publications.objects.filter(user_id=id)
     # journals for the given user ID
     journals = Publications.objects.journals().filter(user_id=id)
 
@@ -112,6 +113,7 @@ def get_user_info(id):
     dataset = {
         'employee': employee,
         'awards': awards,
+        'publications': publications,
         'journals': journals,
         'papers': papers,
         'books': books,
