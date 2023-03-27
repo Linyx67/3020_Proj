@@ -78,7 +78,24 @@
         <span><a href="{{request.META.HTTP_REFERER|escape}}" style="color:#565656;">Back</a></span>
     </section>
 </section>
-    
+{% if messages %}
+        <div class="col-12">
+            {% for message in messages %}
+                {% if message.tags == "error" %}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <b>{{ message }}</b>
+                    <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endif %}
+                {% if message.tags == "success" %}
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <b>{{ message }}</b>
+                    <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+{% endif %}
     <section class="row margin-bottom">
         <div class="container-fluid">
         <section class="col-lg-4 col-md-4 col-sm-12">

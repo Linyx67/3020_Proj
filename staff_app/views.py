@@ -119,13 +119,13 @@ def add_award(request):
         instance.save()
         messages.success(request, "Saved successfully")
         # Redirect to the awards view
-        return redirect('staff:view_awards')
+        return redirect('staff:award')
 
     # Pass the form to the template for rendering
     context = {
         'form': form
     }
-    return render(request, "staff/staff_awards_edit.html", context)
+    return render(request, "staff/staff_edit.html", context)
 
 
 def edit_award(request, id):
@@ -148,13 +148,13 @@ def edit_award(request, id):
         instance.save()
         # Redirect to the awards view
         messages.success(request, "Saved successfully")
-        return redirect('staff:profile')
+        return redirect('staff:award')
 
     # Pass the form to the template for rendering
     context = {
         'form': form
     }
-    return render(request, "staff/staff_awards_edit.html", context)
+    return render(request, "staff/staff_edit.html", context)
 
 # delete award
 
@@ -172,7 +172,7 @@ def delete_award(request, id):
     awards.delete()
     messages.success(request, "Deleted successfully")
     # Redirect to the awards view
-    return redirect('staff:view_awards')
+    return redirect('staff:award')
 
 
 def view_awards(request):
@@ -220,7 +220,7 @@ def add_publication(request):
     context = {
         'form': form
     }
-    return render(request, "staff/staff_publications_edit.html", context)
+    return render(request, "staff/staff_edit.html", context)
 
 
 def edit_publication(request, id):
@@ -251,7 +251,7 @@ def edit_publication(request, id):
     context = {
         'form': form
     }
-    return render(request, "staff/staff_publications_edit.html", context)
+    return render(request, "staff/staff_edit.html", context)
 
 # delete publication
 
@@ -371,7 +371,7 @@ def conferences_add(request):
     context = {
         'form': form
     }
-    return render(request, "staff/staff_conferences_edit.html", context)
+    return render(request, "staff/staff_edit.html", context)
 
 # edit conference entry
 
@@ -397,7 +397,7 @@ def conferences_edit(request, id):
     context = {
         'form': form
     }
-    return render(request, "staff/staff_conferences_edit.html", context)
+    return render(request, "staff/staff_edit.html", context)
 
 # delete conference entry
 
@@ -453,7 +453,7 @@ def presentations_add(request):
     context = {
         'form': form
     }
-    return render(request, "staff/staff_presentations_edit.html", context)
+    return render(request, "staff/staff_edit.html", context)
 
 # edit presentation entry
 
@@ -479,7 +479,7 @@ def presentations_edit(request, id):
     context = {
         'form': form
     }
-    return render(request, "staff/staff_presentations_edit.html", context)
+    return render(request, "staff/staff_edit.html", context)
 
 
 # delete presentations
@@ -538,7 +538,7 @@ def development_add(request):
     context = {
         'form': form
     }
-    return render(request, "staff/staff_development_edit.html", context)
+    return render(request, "staff/staff_edit.html", context)
 
 # edit professional development entry
 
@@ -564,7 +564,7 @@ def development_edit(request, id):
     context = {
         'form': form
     }
-    return render(request, "staff/staff_development_edit.html", context)
+    return render(request, "staff/staff_edit.html", context)
 
 # delete professional development entry
 
@@ -622,7 +622,7 @@ def consultancies_add(request):
     context = {
         'form': form
     }
-    return render(request, "staff/staff_consultancies_edit.html", context)
+    return render(request, "staff/staff_edit.html", context)
 
 # edit Consultancy entry
 
@@ -648,7 +648,7 @@ def consultancies_edit(request, id):
     context = {
         'form': form
     }
-    return render(request, "staff/staff_consultancies_edit.html", context)
+    return render(request, "staff/staff_edit.html", context)
 
 # delete Consultancy entry
 
@@ -706,7 +706,7 @@ def manuscripts_add(request):
     context = {
         'form': form
     }
-    return render(request, "staff/staff_manuscripts_edit.html", context)
+    return render(request, "staff/staff_edit.html", context)
 
 # edit Manuscripts entry
 
@@ -735,7 +735,7 @@ def manuscripts_edit(request, id):
     context = {
         'form': form
     }
-    return render(request, "staff/staff_manuscripts_edit.html", context)
+    return render(request, "staff/staff_edit.html", context)
 
 # delete Manuscripts entry
 
@@ -790,7 +790,7 @@ def grants_add(request):
     context = {
         'form': form
     }
-    return render(request, "staff/staff_grants_edit.html", context)
+    return render(request, "staff/staff_edit.html", context)
 
 # edit grants entry
 
@@ -819,7 +819,7 @@ def grants_edit(request, id):
     context = {
         'form': form
     }
-    return render(request, "staff/staff_grants_edit.html", context)
+    return render(request, "staff/staff_edit.html", context)
 
 # delete grants entry
 
@@ -874,7 +874,7 @@ def roles_add(request):
     context = {
         'form': form
     }
-    return render(request, "staff/staff_roles_edit.html", context)
+    return render(request, "staff/staff_edit.html", context)
 
 # edit Professional Role entry
 
@@ -903,7 +903,7 @@ def roles_edit(request, id):
     context = {
         'form': form
     }
-    return render(request, "staff/staff_roles_edit.html", context)
+    return render(request, "staff/staff_edit.html", context)
 
 # delete Professional Role entry
 
@@ -957,7 +957,7 @@ def research_add(request):
     context = {
         'form': form
     }
-    return render(request, "staff/staff_research_edit.html", context)
+    return render(request, "staff/staff_edit.html", context)
 
 # edit Research Interest entry
 
@@ -986,7 +986,7 @@ def research_edit(request, id):
     context = {
         'form': form
     }
-    return render(request, "staff/staff_research_edit.html", context)
+    return render(request, "staff/staff_edit.html", context)
 
 # delete Research Interest entry
 
@@ -1041,7 +1041,7 @@ def supervision_add(request):
     context = {
         'form': form
     }
-    return render(request, "staff/staff_supervision_edit.html", context)
+    return render(request, "staff/staff_edit.html", context)
 
 # edit Supervision entry
 
@@ -1070,7 +1070,7 @@ def supervision_edit(request, id):
     context = {
         'form': form
     }
-    return render(request, "staff/staff_supervision_edit.html", context)
+    return render(request, "staff/staff_edit.html", context)
 
 # delete Supervision entry
 
@@ -1125,7 +1125,7 @@ def specialisation_add(request):
     context = {
         'form': form
     }
-    return render(request, "staff/staff_specialisation_edit.html", context)
+    return render(request, "staff/staff_edit.html", context)
 
 # edit Specialisation entry
 
@@ -1155,7 +1155,7 @@ def specialisation_edit(request, id):
     context = {
         'form': form
     }
-    return render(request, "staff/staff_specialisation_edit.html", context)
+    return render(request, "staff/staff_edit.html", context)
 
 # delete Specialisation entry
 
@@ -1210,7 +1210,7 @@ def activity_add(request):
     context = {
         'form': form
     }
-    return render(request, "staff/staff_activity_edit.html", context)
+    return render(request, "staff/staff_edit.html", context)
 
 # edit Professional Activity
 
@@ -1239,7 +1239,7 @@ def activity_edit(request, id):
     context = {
         'form': form
     }
-    return render(request, "staff/staff_activity_edit.html", context)
+    return render(request, "staff/staff_edit.html", context)
 
 # delete Professional Activity
 
@@ -1294,7 +1294,7 @@ def honour_add(request):
     context = {
         'form': form
     }
-    return render(request, "staff/staff_honours_edit.html", context)
+    return render(request, "staff/staff_edit.html", context)
 
 # edit Honours or Certificates
 
@@ -1323,7 +1323,7 @@ def honour_edit(request, id):
     context = {
         'form': form
     }
-    return render(request, "staff/staff_honours_edit.html", context)
+    return render(request, "staff/staff_edit.html", context)
 
 # delete Honours or Certificates
 
@@ -1378,7 +1378,7 @@ def contribution_add(request):
     context = {
         'form': form
     }
-    return render(request, "staff/staff_contributions_edit.html", context)
+    return render(request, "staff/staff_edit.html", context)
 
 # edit Contributions to the department, faculty, university
 
@@ -1407,7 +1407,7 @@ def contribution_edit(request, id):
     context = {
         'form': form
     }
-    return render(request, "staff/staff_contributions_edit.html", context)
+    return render(request, "staff/staff_edit.html", context)
 
 # delete Contributions to the department, faculty, university
 
