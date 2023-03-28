@@ -506,12 +506,12 @@ def annualreport_pdf(request, id):
     buf = io.BytesIO()
 
     # create a canvas
-    c = canvas.Canvas(buf, pagesize=letter, bottomup=0)
+    c = canvas.Canvas(buf, bottomup=0)
 
     # create a text object
     textob = c.beginText()
     textob.setTextOrigin(inch, inch)
-    textob.setFont("Helvetica", 14)
+    textob.setFont("Helvetica", 12)
 
     # getting information for the report
     if Employee.objects.filter(user_id=id).exists():
@@ -528,6 +528,9 @@ def annualreport_pdf(request, id):
         conferences = Conferences.objects.filter(
             user_id=id, year=year)
         awards = Awards.objects.filter(user_id=id,  year=year)
+        honours = Honours.objects.filter(user_id=id, year=year)
+        contributions = Contributions.objects.filter(
+            user_id=id, year=year)
 
     # lines of text
     lines = [
@@ -578,6 +581,31 @@ def annualreport_pdf(request, id):
     lines.append(" ")
     lines.append(
         "===========================================================")
+    lines.append("Awards Received")
+    lines.append(
+        "===========================================================")
+    lines.append(" ")
+
+    if awards:
+        for award in awards:
+            lines.append(award.title)
+    else:
+        lines.append("-")
+    lines.append(" ")
+    lines.append(
+        "===========================================================")
+    lines.append("Honours and Certificates")
+    lines.append(
+        "===========================================================")
+    lines.append(" ")
+    if honours:
+        for hon in honours:
+            lines.append(hon.title)
+    else:
+        lines.append("-")
+    lines.append(" ")
+    lines.append(
+        "===========================================================")
     lines.append("Technical Presentations")
     lines.append(
         "===========================================================")
@@ -592,34 +620,31 @@ def annualreport_pdf(request, id):
     lines.append(" ")
     lines.append(
         "===========================================================")
+    lines.append("Contributions to the Department or University")
+    lines.append(
+        "===========================================================")
+    lines.append(" ")
+    if contributions:
+        for con in contributions:
+            lines.append(con.contribution)
+    else:
+        lines.append("-")
+    lines.append(" ")
+
+    lines.append(
+        "===========================================================")
     lines.append("Conferences Attended")
     lines.append(
         "===========================================================")
     lines.append(" ")
-
     if conferences:
         for con in conferences:
             lines.append(con.title)
     else:
         lines.append("-")
-
     lines.append(" ")
     lines.append(
         "===========================================================")
-    lines.append("Awards Received")
-    lines.append(
-        "===========================================================")
-    lines.append(" ")
-
-    if awards:
-        for award in awards:
-            lines.append(award.title)
-    else:
-        lines.append("-")
-    lines.append(" ")
-    lines.append(
-        "===========================================================")
-
     for line in lines:
         textob.textLine(line)
 

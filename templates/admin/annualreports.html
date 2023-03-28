@@ -438,6 +438,15 @@ a:link {
                                     
                                     
                                         </div>
+                                        <div>
+                                            <span>last update - {{employee.updated|naturaltime }}</span>
+                                        </div>
+                                        <div class="row justify-content-center">
+                                            <form  method="POST" action="{% url 'admin_app:annualreport-pdf' employee.user_id%}">{% csrf_token %}
+                                                <input type="hidden" name="year" value="{{year}}">
+                                                <input class="btn btn-primary" type="submit" value="download">
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
