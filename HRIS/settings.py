@@ -48,7 +48,6 @@ INSTALLED_APPS = [
     'phonenumber_field',
     'bootstrap_modal_forms',
     'debug_toolbar',
-    'django_filters',
     'bootstrapform',
 
 
@@ -163,7 +162,7 @@ EMAIL_HOST_USER = 'hr.system.x@gmail.com'
 EMAIL_HOST_PASSWORD = 'alyposeylitiokui'
 
 # Auto Logout Functionality
-AUTO_LOGOUT = {'IDLE_TIME': 1800,
+AUTO_LOGOUT = {'IDLE_TIME': 600,  # 60 seconds * 10
                'REDIRECT_TO_LOGIN_IMMEDIATELY': True,
                'MESSAGE': 'The session has expired. Please login again to continue.',
                }

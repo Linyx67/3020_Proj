@@ -26,7 +26,7 @@
         .sidenav a{
             padding: 6px 8px 6px 18px;
             text-decoration: none;
-            font-size: 25px;
+            font-size: 20px;
             color: black;
             display:block;
         }
@@ -62,16 +62,15 @@
 </head>
 <body>
     <div class="sidenav">
+        <section class="text-center">
+            <p>HRIS</p>
+            <hr>
+        </section>
         <a href="{% url 'admin_app:admin-home' %}">Dashboard</a>
-        <a href="{% url 'admin_app:publications' %} ">All Publications</a>
+        <a href="{% url 'admin_app:publications' %} ">All</a>
         <a href="{% url 'admin_app:pubs-journals' %} ">Journals</a>
         <a href="{% url 'admin_app:pubs-papers' %} ">Papers</a>
         <a href="{% url 'admin_app:pubs-books' %} ">Books</a>
-        <a href="{# url 'admin_app:pubs-manuscripts' #} ">Manuscripts</a>
-        <a href="{# url 'admin_app:pubs-presentations' #}">Technical Presentations</a>
-        {# admin_app:pubs-journals #}
-        {# admin_app:pubs-manuscripts #}
-        {# admin_app:pubs-journals #}
     </div>
     <div class="main">
         {% block content %}

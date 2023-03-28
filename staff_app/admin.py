@@ -3,7 +3,6 @@ from django.contrib.auth.admin import UserAdmin
 from .models import (
     Requests,
     Employee,
-    Leave,
     Awards,
     Publications,
     Conferences,
@@ -26,7 +25,6 @@ from .models import (
 # Register your models here.
 admin.site.register(Employee)
 admin.site.register(Requests)
-admin.site.register(Leave)
 admin.site.register(Awards)
 admin.site.register(Publications)
 admin.site.register(Consultancies)

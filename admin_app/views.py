@@ -156,43 +156,6 @@ def request_delete(request, id):
 # Define the view function for displaying the all awards.
 
 
-def awards(request):
-    # Check if user is authenticated and superuser. If not, redirect to home page.
-    if not (request.user.is_authenticated and request.user.is_superuser):
-        return redirect('hris:home')
-
-    # Get all awards from the database, sorted by year.
-    awards = Awards.objects.prefetch_related('user').all().order_by('-year')
-
-    # Create a dictionary to store data for rendering the template.
-    dataset = dict()
-
-    # Search functionality: Get the query from the GET request and filter the awards accordingly.
-    query = request.GET.get('search')
-    if query:
-        query = re.sub(r"\s+", ".", query, flags=re.UNICODE)
-        awards = awards.filter(
-            Q(user__username__icontains=query)
-        )
-
-    # Pagination: Get the current page from the GET request, and show 10 awards per page.
-    paginator = Paginator(awards, 10)
-
-    # Get the current page of awards.
-    page = request.GET.get('page')
-    awards_paginated = paginator.get_page(page)
-
-    # Add the paginated awards and all awards to the dataset dictionary.
-    dataset['awards_list'] = awards_paginated
-    dataset['all_awards'] = Awards.objects.all()
-
-    # Add the page title to the dataset dictionary.
-    dataset['title'] = 'Awards list view'
-
-    # Render the awards template with the dataset.
-    return render(request, "admin/awards.html", dataset)
-
-
 # Define the view function for displaying the all publications.
 def publications(request):
     # Check if the user is authenticated and a superuser, otherwise redirect to home
@@ -660,6 +623,42 @@ def annualreport_pdf(request, id):
 
 
 '''
+def awards(request):
+    # Check if user is authenticated and superuser. If not, redirect to home page.
+    if not (request.user.is_authenticated and request.user.is_superuser):
+        return redirect('hris:home')
+
+    # Get all awards from the database, sorted by year.
+    awards = Awards.objects.prefetch_related('user').all().order_by('-year')
+
+    # Create a dictionary to store data for rendering the template.
+    dataset = dict()
+
+    # Search functionality: Get the query from the GET request and filter the awards accordingly.
+    query = request.GET.get('search')
+    if query:
+        query = re.sub(r"\s+", ".", query, flags=re.UNICODE)
+        awards = awards.filter(
+            Q(user__username__icontains=query)
+        )
+
+    # Pagination: Get the current page from the GET request, and show 10 awards per page.
+    paginator = Paginator(awards, 10)
+
+    # Get the current page of awards.
+    page = request.GET.get('page')
+    awards_paginated = paginator.get_page(page)
+
+    # Add the paginated awards and all awards to the dataset dictionary.
+    dataset['awards_list'] = awards_paginated
+    dataset['all_awards'] = Awards.objects.all()
+
+    # Add the page title to the dataset dictionary.
+    dataset['title'] = 'Awards list view'
+
+    # Render the awards template with the dataset.
+    return render(request, "admin/awards.html", dataset)
+
 def leaves_list(request):
     # check if the user is authenticated and is a superuser, else redirect to the home page
     if not (request.user.is_authenticated and request.user.is_superuser):

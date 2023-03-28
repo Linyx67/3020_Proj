@@ -8,7 +8,7 @@ urlpatterns = [
     path('employee/download/<int:id>/', views.download_vitae, name="download"),
     path('employee/<int:id>/', views.employees_info, name="info"),
 
-    path('awards/', views.awards, name="awards"),
+
     path('publications/', views.publications, name="publications"),
     path('publications/journals/', views.pubs_journals, name="pubs-journals"),
     path('publications/conference/', views.pubs_papers, name="pubs-papers"),
@@ -29,6 +29,7 @@ urlpatterns = [
 ]
 
 '''
+     path('awards/', views.awards, name="awards"),
      path('leaves/all/', views.leaves_list, name="leaves"),
     path('leaves/pending/', views.leaves_pending_list, name="leaves-pending"),
     path('leaves/approved/', views.leaves_approved_list, name='leaves-approved'),

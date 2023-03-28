@@ -6,7 +6,6 @@ from .functions import year_choices, academic_year_choices, year_choice
 from .models import (
     Employee,
     Requests,
-    Leave,
     Awards,
     Publications,
     Conferences,
@@ -260,6 +259,7 @@ class ContributionsCreateForm(forms.ModelForm):
         }
 
 
+'''
 class LeaveCreateForm(forms.ModelForm):
 
     class Meta:
@@ -284,3 +284,5 @@ class LeaveCreateForm(forms.ModelForm):
         elif startdate >= enddate:  # TRUE -> FUTURE DATE > PAST DATE,FALSE other wise
             raise forms.ValidationError("Selected dates are wrong")
         return enddate
+
+'''

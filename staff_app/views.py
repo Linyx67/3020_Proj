@@ -33,7 +33,6 @@ from .forms import (
     AwardsCreateForm,
     PublicationsCreateForm,
     EmployeeCreateForm,
-    LeaveCreateForm,
     RequestsCreateForm,
     ConferencesCreateForm,
     PresentationsCreateForm,
