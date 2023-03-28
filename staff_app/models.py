@@ -556,7 +556,7 @@ class Manuscripts(models.Model):
 
     STATUS = (
         (IN_PREPARATION, 'in preparation'),
-        (IN_REVIEW, 'in review'),
+        (IN_REVIEW, 'under review'),
     )
 
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=1)
@@ -756,17 +756,18 @@ class Supervision(models.Model):
     levels = ((1, 1), (2, 2), (3, 3), (4, 4,), (5, 5))
     # User who created the entry
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=1)
-    title = models.CharField(max_length=100, verbose_name=_(
-        'Title'), null=True, blank=False)  # title of the thesis or project
+
     # first name of the student supervised
     firstname = models.CharField(
-        _('First name'), max_length=125, null=False, blank=False)
+        _('Student First name'), max_length=125, null=False, blank=False)
     # last name of the student supervised
     lastname = models.CharField(
-        _('Last name'), max_length=125, null=False, blank=False)
+        _('Student Last name'), max_length=125, null=False, blank=False)
     # degree level of the student
     level = models.IntegerField(
-        _('Degree Level'), blank=False, null=True, choices=levels, default=1)
+        _('Student Degree Level'), blank=False, null=True, choices=levels, default=1)
+    title = models.CharField(max_length=100, verbose_name=_(
+        'Project/Thesis Title'), null=True, blank=False)  # title of the thesis or project
     # academic year of the project /thesis
     year = models.CharField(verbose_name=_(
         'Academic Year'), null=True, blank=False, max_length=9)

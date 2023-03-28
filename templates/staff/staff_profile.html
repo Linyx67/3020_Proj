@@ -80,21 +80,21 @@ span,.list-group-item > div{
 
 
 .panel-title a:hover{
-color:#e6e4e4;
+color:#dedcdc !important;
 }
 
+.panel-title a{
+    color:white;
+    text-decoration: none!important;
+    }
 .panel-title a:active{
-color:#e6e4e4;
+color:#e6e4e4 !important;
 }
 
 .panel-title a:focus{
-color:#e6e4e4;
+color:#e6e4e4 !important;
 }
-a:link {
-    color: white;
-    background-color: transparent;
-    text-decoration: none;
-}
+
 
 #file:link {
     color: blue;
@@ -115,14 +115,23 @@ a:link {
             </section>
             <section class="row">
                 <section class="col col-lg-12 col-md-12  col-sm-12">
-                    {% if  messages %}
+                    {% if messages %}
+                        <div class="col-12">
                             {% for message in messages %}
-                                <div {% if message.tags %} class="{{ message.tags}}"{% endif %}>
-                                    {{ message }}
-                                    <button type="button" class="close" id = "override-start"data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span>
-                                    </button>
+                                {% if message.tags == "error" %}
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <b>{{ message }}</b>
+                                    <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
                                 </div>
+                                {% endif %}
+                                {% if message.tags == "success" %}
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <b>{{ message }}</b>
+                                    <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                                {% endif %}
                             {% endfor %}
+                        </div>
                     {% endif %}
                 </section>
             </section>
@@ -301,7 +310,7 @@ a:link {
                                                         <div>
                                                             {{ employee.vitae | cut:'vitae/' }}
                                                         </div>
-                                                        <a id="file" href="{% url 'admin_app:download' employee.user_id %}">download</a>
+                                                        <a id="file" href="{% url 'admin_app:download' employee.user_id %}">download</a> <a href="{% url 'staff:profile-update' %}">Edit</a>
                                                     {% else %}
                                                         <div>
                                                             NONE
@@ -340,7 +349,7 @@ a:link {
                                 
                                 <div class="container-fluid">
                                     <div class="row">
-                                         <div class="download-print-action">
+                                         <div class="add">
                                               <a href="{% url 'staff:publication-add' %}">Add</a>
                                               
                                         </div>

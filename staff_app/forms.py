@@ -210,10 +210,11 @@ class SupervisionCreateForm(forms.ModelForm):
         model = Supervision
         exclude = ['created', 'updated', 'user']
         widgets = {
-            'title': forms.TextInput(attrs={'class': 'form-control'}),
+
             'firstname': forms.TextInput(attrs={'class': 'form-control'}),
             'lastname': forms.TextInput(attrs={'class': 'form-control'}),
             'level': forms.Select(attrs={'class': 'form-control'}),
+            'title': forms.TextInput(attrs={'class': 'form-control'}),
             'year': forms.Select(choices=academic_year_choices(), attrs={'class': 'form-control'}),
         }
 

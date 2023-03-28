@@ -95,7 +95,9 @@ a:link {
     background-color: transparent;
     text-decoration: none;
 }
-
+p{
+    font-size: 1.5em !important;
+}
 #file:link {
     color: blue;
     background-color: transparent;
@@ -446,7 +448,47 @@ a:link {
                 <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
                     <div class="panel-body">
                         <section class="container-fluid">
-                            
+                            <div class="table-responsive table-shadow">
+                                
+                                <div class="container-fluid">
+                                    <div class="row">
+                                         <div class="download-print-action">
+                                            
+                                              
+                                        </div>
+                                    </div>
+                                </div>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                          <th scope="col">Title</th>
+                                          <th scope="col">Conpetition</th>
+                                          <th scope="col">Year</th>
+                                          
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% if not honours %}
+                                            <tr>
+                                            <td>No Entries</td>
+                                            </tr>
+                                        {% else %}
+                                            {% for hon in honours %}
+                                            <tr>
+                                            
+                                                <td>{{hon.title}}</td>  
+                                                <td>{{hon.competition}}</td> 
+                                                <td>{{hon.year}}</td> 
+                                                
+                                            </tr>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </tbody>
+                        
+                                </table>
+                        
+                        
+                            </div>
                         </section>
                     </div>
                 </div>
@@ -463,7 +505,45 @@ a:link {
                 <div id="collapseFive" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFive">
                     <div class="panel-body">
                         <section class="container-fluid">
+                            <div class="table-responsive table-shadow">
                             
+                                <div class="container-fluid">
+                                    <div class="row">
+                                         <div class="download-print-action">
+                                              
+                                        </div>
+                                    </div>
+                                </div>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                          <th scope="col">Title</th>
+                                          <th scope="col">Year</th>
+                            
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% if not presentations %}
+                                            <tr>
+                                            <td>No Entries</td>
+                                            </tr>
+                                        {% else %}
+                                            {% for pres in presentations %}
+                                            <tr>
+                                            
+                                                <td>{{pres.title}}</td>                 
+                        
+                                                <td>{{pres.year}}</td>
+                                                
+                                            
+                                            </tr>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </tbody>
+                        
+                                </table>
+                        
+                            </div>
                         </section>
                     </div>
                 </div>
@@ -480,7 +560,44 @@ a:link {
                 <div id="collapseSix" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSix">
                     <div class="panel-body">
                         <section class="container-fluid">
-                            
+                            <div class="table-responsive table-shadow">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                         <div class="download-print-action">
+                                    
+                                              
+                                        </div>
+                                    </div>
+                                </div>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                          <th scope="col">Title</th>
+                                          <th scope="col">Status</th>
+            
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% if not manuscripts %}
+                                            <tr>
+                                            <td>No Entries</td>
+                                            </tr>
+                                        {% else %}
+                                            {% for obj in manuscripts %}
+                                            <tr>
+                                            
+                                                <td>{{obj.title}}</td>  
+                                                <td>{{obj.status}}</td>             
+                                                
+                                            
+                                            </tr>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </tbody>
+                        
+                                </table>
+                        
+                            </div>
                         </section>
                     </div>
                 </div>
@@ -497,7 +614,40 @@ a:link {
                 <div id="collapseSeven" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSeven">
                     <div class="panel-body">
                         <section class="container-fluid">
-                            
+                            <div class="table-responsive table-shadow">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                         <div class="download-print-action">
+                                              
+                                        </div>
+                                    </div>
+                                </div>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                          <th scope="col">Area</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% if not specialisation %}
+                                            <tr>
+                                            <td>No Entries</td>
+                                            </tr>
+                                        {% else %}
+                                            {% for obj in specialisation %}
+                                            <tr>
+                                            
+                                                <td>{{obj.area}}</td>  
+                                                
+                                            
+                                            </tr>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </tbody>
+                        
+                                </table>
+                        
+                            </div>
                         </section>
                     </div>
                 </div>
@@ -514,7 +664,44 @@ a:link {
                 <div id="collapseEight" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingEight">
                     <div class="panel-body">
                         <section class="container-fluid">
-                            
+                            <div class="table-responsive table-shadow">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                         <div class="download-print-action">
+                                              
+                                        </div>
+                                    </div>
+                                </div>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                          <th scope="col">Title</th>
+                                          <th scope="col">Start Year</th>
+                                          <th scope="col">End Year</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% if not development %}
+                                            <tr>
+                                            <td>No Entries</td>
+                                            </tr>
+                                        {% else %}
+                                            {% for obj in development %}
+                                            <tr>
+                                            
+                                                <td>{{obj.title}}</td>                 
+                                                <td>{{obj.year_start}}</td>
+                                                <td>{{obj.year_end}}</td>
+                                                
+                                            </tr>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </tbody>
+                        
+                                </table>
+                        
+                        
+                            </div>
                         </section>
                     </div>
                 </div>
@@ -531,7 +718,47 @@ a:link {
                 <div id="collapseNine" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingNine">
                     <div class="panel-body">
                         <section class="container-fluid">
-                            
+                            <div class="table-responsive table-shadow">
+                        
+                                <div class="container-fluid">
+                                    <div class="row">
+                                         <div class="download-print-action">
+                                              
+                                        </div>
+                                    </div>
+                                </div>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                          <th scope="col">Student</th>
+                                          <th scope="col">Degree Level</th>
+                                          <th scope="col">Project/Thesis</th>
+                                          <th scope="col">Year</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% if not supervision %}
+                                            <tr>
+                                            <td>No Entries</td>
+                                            </tr>
+                                        {% else %}
+                                            {% for obj in supervision %}
+                                            <tr>
+                                            
+                                                <td>{{obj.firstname}} {{obj.lastname}}</td>  
+                                                <td>{{obj.level}}</td>  
+                                                <td>{{obj.title}}</td>  
+                                                <td>{{obj.year}}</td>  
+                                                
+                                            
+                                            </tr>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </tbody>
+                        
+                                </table>
+                        
+                            </div>
                         </section>
                     </div>
                 </div>
@@ -548,7 +775,42 @@ a:link {
                 <div id="collapseTen" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTen">
                     <div class="panel-body">
                         <section class="container-fluid">
+                            <div class="table-responsive table-shadow">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                         <div class="download-print-action">
+                                            
+                                              
+                                        </div>
+                                    </div>
+                                </div>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                          <th scope="col">Title</th>
                             
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% if not grants %}
+                                            <tr>
+                                            <td>No Entries</td>
+                                            </tr>
+                                        {% else %}
+                                            {% for obj in grants %}
+                                            <tr>
+                                            
+                                                <td>{{obj.title}}</td>  
+                                                
+                                            
+                                            </tr>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </tbody>
+                        
+                                </table>
+                        
+                            </div>
                         </section>
                     </div>
                 </div>
@@ -565,7 +827,45 @@ a:link {
                 <div id="collapseEleven" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingEleven">
                     <div class="panel-body">
                         <section class="container-fluid">
-                            
+                            <div class="table-responsive table-shadow">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                         <div class="download-print-action">
+                                              
+                                        </div>
+                                    </div>
+                                </div>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                          <th scope="col">Title</th>
+                                          <th scope="col">Position</th>
+                                          <th scope="col">Period</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% if not consultancies %}
+                                            <tr>
+                                            <td>No Entries</td>
+                                            </tr>
+                                        {% else %}
+                                            {% for obj in consultancies %}
+                                            <tr>
+                                            
+                                                <td>{{obj.title}}</td>  
+                                                <td>{{obj.position}}</td>              
+                                                <td>{{obj.period}}</td>
+                                                
+                                            
+                                            </tr>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </tbody>
+                        
+                                </table>
+                        
+                        
+                            </div>
                         </section>
                     </div>
                 </div>
@@ -582,7 +882,43 @@ a:link {
                 <div id="collapseTwelve" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwelve">
                     <div class="panel-body">
                         <section class="container-fluid">
-                            
+                            <div class="table-responsive table-shadow">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                         <div class="download-print-action">
+                                              
+                                        </div>
+                                    </div>
+                                </div>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                          <th scope="col">Role</th>
+                                          <th scope="col">Association</th>
+                                          <th scope="col">Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% if not roles %}
+                                            <tr>
+                                            <td>No Entries</td>
+                                            </tr>
+                                        {% else %}
+                                            {% for obj in roles %}
+                                            <tr>
+                                            
+                                                <td>{{obj.role}}</td>  
+                                                <td>{{obj.association}}</td>  
+                                                <td>{{obj.date}}</td>  
+                                                
+                                            </tr>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </tbody>
+                        
+                                </table>
+                        
+                            </div>
                         </section>
                     </div>
                 </div>
@@ -599,7 +935,41 @@ a:link {
                 <div id="collapseThirteen" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThirteen">
                     <div class="panel-body">
                         <section class="container-fluid">
-                            
+                            <div class="table-responsive table-shadow">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                         <div class="download-print-action">
+                                              
+                                        </div>
+                                    </div>
+                                </div>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                          <th scope="col">Contribution</th>
+                                          <th scope="col">Year</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% if not contributions %}
+                                            <tr>
+                                            <td>No Entries</td>
+                                            </tr>
+                                        {% else %}
+                                            {% for obj in contributions %}
+                                            <tr>
+                                            
+                                                <td>{{obj.contribution}}</td>  
+                                                <td>{{obj.year}}</td> 
+                                                
+                                            </tr>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </tbody>
+                        
+                                </table>
+                        
+                            </div>
                         </section>
                     </div>
                 </div>
@@ -616,7 +986,43 @@ a:link {
                 <div id="collapseFourteen" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFourteen">
                     <div class="panel-body">
                         <section class="container-fluid">
-                            
+                            <div class="table-responsive table-shadow">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                         <div class="download-print-action">
+                                              
+                                        </div>
+                                    </div>
+                                </div>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                          <th scope="col">Research</th>
+                                          <th scope="col">Interest</th>
+                                          <th scope="col">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% if not research %}
+                                            <tr>
+                                            <td>No Entries</td>
+                                            </tr>
+                                        {% else %}
+                                            {% for obj in research %}
+                                            <tr>
+                                            
+                                                <td>{{obj.research}}</td>  
+                                                <td>{{obj.interest}}</td> 
+                                                
+                                            
+                                            </tr>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </tbody>
+                        
+                                </table>
+                        
+                            </div>
                         </section>
                     </div>
                 </div>
@@ -633,7 +1039,42 @@ a:link {
                 <div id="collapseFifteen" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFifteen">
                     <div class="panel-body">
                         <section class="container-fluid">
-                            
+                            <div class="table-responsive table-shadow">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                         <div class="download-print-action">
+                                              
+                                        </div>
+                                    </div>
+                                </div>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                          <th scope="col">Title</th>
+                                          <th scope="col">Year</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% if not conferences %}
+                                            <tr>
+                                            <td>No Entries</td>
+                                            </tr>
+                                        {% else %}
+                                            {% for obj in conferences %}
+                                            <tr>
+                                            
+                                                <td>{{obj.title}}</td>                 
+                        
+                                                <td>{{obj.year}}</td>
+                                                
+                                            </tr>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </tbody>
+                        
+                                </table>
+                        
+                            </div>
                         </section>
                     </div>
                 </div>
@@ -650,7 +1091,39 @@ a:link {
                 <div id="collapseSixteen" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSixteen">
                     <div class="panel-body">
                         <section class="container-fluid">
-                            
+                            <div class="table-responsive table-shadow">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                         <div class="download-print-action">
+                                              
+                                        </div>
+                                    </div>
+                                </div>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                          <th scope="col">Activity</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% if not activities %}
+                                            <tr>
+                                            <td>No Entries</td>
+                                            </tr>
+                                        {% else %}
+                                            {% for obj in activities %}
+                                            <tr>
+                                            
+                                                <td>{{obj.activity}}</td> 
+                                                
+                                            </tr>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </tbody>
+                        
+                                </table>
+                        
+                            </div>
                         </section>
                     </div>
                 </div>
