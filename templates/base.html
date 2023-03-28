@@ -11,10 +11,7 @@
     <link rel="stylesheet" type="text/CSS" href="{% static "css/bootstrap.min.css" %}">
     
     <style>
-        p{
-            font-size: 1.5em;
-
-        }
+        
         .sidenav{
             height:100%;
             width:160px;
@@ -117,14 +114,16 @@
                 </div>
             </div>
             <!--<a href="{% url 'admin_app:awards' %}">Awards</a>-->
-            <a href="{% url 'admin_app:publications' %}">Publications</a>
+            
             <a href="{% url 'admin_app:annualreports' %}">Annual Reports</a>
+            <a href="{% url 'admin_app:contacts' %}">Contacts</a>
             <a href="">View Requests</a>
             <a href="{% url 'hris:password_change' %}">Change Password</a>
             <a href="{% url 'hris:logout' %}">Logout</a>
         {% else %}
             <a href="{% url 'staff:staff-home' %}">Dashboard</a>
             <a href="{% url 'staff:profile' %} ">Profile</a>
+            <a href="{% url 'staff:contacts' %} ">Contacts</a>
             <a href="{% url 'staff:requests' %}">Request Information</a>
             <a href="{% url 'hris:password_change' %}">Change Password</a>
             <a href="{% url 'hris:logout' %}">Logout</a>

@@ -298,7 +298,7 @@ def reset_account(request, id):
     employee.email = email
     employee.save()
     messages.success(request, 'Successfully reset account')
-    return redirect('admin_app:home')
+    return redirect('admin_app:employees')
 
 
 def reset_accounts(request, id):

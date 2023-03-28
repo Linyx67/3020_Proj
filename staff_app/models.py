@@ -21,6 +21,7 @@ class Requests(models.Model):
     BOOK = 'Book Grant'
     CLAIMFORM = 'Claim Form'
     PENSION = 'Pension Plans'
+    OTHER = 'Other'
 
     # choices for type of information to request
     INFORMATION = (
@@ -30,6 +31,7 @@ class Requests(models.Model):
         (BOOK, 'Book Grant'),
         (CLAIMFORM, 'Claim Form'),
         (PENSION, 'Pension Plans'),
+        (OTHER, 'Other'),
     )
     # link to the user model
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=1)
@@ -37,7 +39,6 @@ class Requests(models.Model):
                                    choices=INFORMATION, blank=False)
     message = models.CharField(_('Message'), max_length=255, default='',
                                null=True, blank=True)
-    status = models.CharField(max_length=12, default='pending')
     created = models.DateTimeField(verbose_name=_(
         'Created'), auto_now_add=True, null=True)
     updated = models.DateTimeField(
@@ -919,3 +920,35 @@ class Contributions(models.Model):
         lastname = self.user.last_name
         fullname = firstname + ' ' + lastname
         return fullname  # Return the full name of the user who created the entry
+
+# Contacts Model
+
+
+class Contacts(models.Model):
+    # optional name of the contact
+    name = models.CharField(
+        _('Name'), max_length=125, null=True, blank=True)
+    # email address of the contact
+    email = models.EmailField(
+        _('Email'), max_length=255, default=None, blank=True, null=True)
+    # information contact should be queried for
+    information = models.CharField(_('Information'), max_length=255, default='',
+                                   null=True, blank=True)
+    created = models.DateTimeField(verbose_name=_(
+        'Created'), auto_now_add=True, null=True)
+    updated = models.DateTimeField(
+        verbose_name=_('Updated'), auto_now=True, null=True)
+
+    class Meta:
+        # A human-readable name for the model in the admin panel
+        verbose_name = _('Contact')
+
+        # A human-readable plural name for the model in the admin panel
+        verbose_name_plural = _('Contacts')
+
+        # The default sorting order for the model
+        ordering = ['-created']
+
+    def __str__(self):
+        # A string representation of the model
+        return (self.email)

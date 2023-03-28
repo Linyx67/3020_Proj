@@ -73,7 +73,7 @@ p{
 <link type="text/CSS" href="{% static 'css/light-bootstrap-dashboard.css' %}" rel="stylesheet"/>
 <div class="content">
     <section class="container-fluid">
-        <section class="row m-lg-5"></section>
+        <section class="row m-lg-5 text-center"><h2 class="Header">Welcome to the Human Resource Information System</h2></section>
         <section class="row">
             <section class="col col-lg-4">
                 <div class="employee-box sec-box">
@@ -88,7 +88,7 @@ p{
                     <a href="{% url 'admin_app:publications' %}">
                     <span>Publications</span>
                     </a>
-                    <span class="count-object" style="color:#41b6d6;">{{ leaves.count }}</span> 
+                    <span class="count-object" style="color:#41b6d6;">{{ publications.count }}</span> 
                 </div>
             </section>
             <section class="col col-lg-4">
@@ -96,7 +96,7 @@ p{
                     <a href="">
                     <span>Requests</span>
                     </a>
-                    <span class="count-object"> {{employees_birthday.count}} </span>
+                    <span class="count-object"> {{requests.count}} </span>
                 </div>
             </section>
             

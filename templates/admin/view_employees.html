@@ -78,6 +78,24 @@
             <span><a href="{{request.META.HTTP_REFERER|escape}}" style="color:#565656;">Back</a></span>
         </section>
     </section>
+    {% if messages %}
+        <div class="col-12">
+            {% for message in messages %}
+                {% if message.tags == "error" %}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <b>{{ message }}</b>
+                    <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endif %}
+                {% if message.tags == "success" %}
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <b>{{ message }}</b>
+                    <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
     <section class="row margin-bottom">
         <div class="container-fluid">
             <section class="col-lg-4 col-md-4 col-sm-12">
@@ -126,7 +144,6 @@
         <div class="container-fluid">
             <div class="row">
                  <div class="download-print-action">
-                      Download Excel | Pdf | Print <!-- Work on pdf and excel and print -->
                       
                 </div>
             </div>
@@ -138,6 +155,7 @@
                   <th scope="col">Full Name</th>
                   <th scope="col">Status</th>
                   <th scope="col">Actions</th>
+                  <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
@@ -167,9 +185,10 @@
                     <td> 
                         <a href="{% url 'admin_app:info' employee.user_id %}">
                             view
-                        </a>                     
+                        </a>                    
                         
                     </td>
+                    <td> <a href="{% url 'hris:reset-account' employee.user_id %}">reset account</a> </td>
                     </tr>
                     {% endfor %}
                 {% endif %}

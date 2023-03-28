@@ -25,7 +25,8 @@ from .models import (
     Roles,
     Honours,
     Contributions,
-    Activities
+    Activities,
+    Contacts
 )
 from .functions import get_user_info
 from .forms import (
@@ -331,10 +332,28 @@ def rfi_add(request):
     context = {
         'form': form
     }
-    return render(request, "staff/staff_rfi.html", context)
+    return render(request, "staff/staff_edit.html", context)
 
+# delete Request For Information
+
+
+def rfi_delete(request, id):
+    # Check if user is authenticated
+    if not request.user.is_authenticated:
+        return redirect('hris:home')
+
+    # Get the request object with the specified id
+    rfis = get_object_or_404(Requests, id=id)
+
+    # Delete the request object
+    rfis.delete()
+    messages.success(request, "Deleted successfully")
+    # Redirect to the requests page
+    return redirect('staff:requests')
 
 # view conference entries
+
+
 def conferences_view(request):
     # Check if user is authenticated
     if not request.user.is_authenticated:
@@ -1422,6 +1441,20 @@ def contribution_delete(request, id):
     messages.success(request, "Deleted successfully")
     # Redirect to the profile page
     return redirect('staff:contributions')
+# view contacts list
+
+
+def contacts_view(request):
+    # Check if user is authenticated
+    if not request.user.is_authenticated:
+        return redirect('hris:home')
+
+    contacts = Contacts.objects.all()
+
+    context = {
+        "object": contacts
+    }
+    return render(request, "staff/staff_contacts.html", context)
 
 
 '''

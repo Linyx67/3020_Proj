@@ -19,15 +19,16 @@ from reportlab.lib.pagesizes import letter
 from hris_app.models import CustomUser
 from staff_app.models import (
     Employee,
-    Leave,
+    Requests,
     Awards,
     Publications,
     Conferences,
     Presentations,
     Honours,
-    Contributions
+    Contributions,
+    Contacts
 )
-from .forms import ReportForm
+from .forms import ReportForm, ContactsCreateForm
 from staff_app.functions import get_user_info
 
 
@@ -38,9 +39,15 @@ def home(request):
     # Redirect non-authenticated and non-superuser users to the home page
     if not (request.user.is_authenticated and request.user.is_superuser):
         return redirect('hris:home')
-
+    dataset = dict()
+    employees = Employee.objects.all()
+    publications = Publications.objects.all()
+    requests = Requests.objects.all()
+    dataset['employees'] = employees
+    dataset['publications'] = publications
+    dataset['requests'] = requests
     # Render the admin home page template for authenticated and superuser users
-    return render(request, "admin/admin_home.html")
+    return render(request, "admin/admin_home.html", dataset)
 
 
 # view function for displaying the list of employees.
@@ -320,7 +327,91 @@ def pubs_books(request):
     return render(request, "admin/publications_view.html", dataset)
 
 
+def contacts_view(request):
+    # Check if user is authenticated
+    if not (request.user.is_authenticated and request.user.is_superuser):
+        return redirect('hris:home')
+
+    contacts = Contacts.objects.all()
+
+    context = {
+        "object": contacts
+    }
+    return render(request, "admin/admin_contacts.html", context)
+
+# add contacts
+
+
+def contact_add(request):
+    # Check if user is authenticated
+    if not (request.user.is_authenticated and request.user.is_superuser):
+        return redirect('hris:home')
+
+    # Create a Contacts CreateForm object based on the request's POST data
+    form = ContactsCreateForm(request.POST or None)
+
+    # If form is valid, save the form and redirect to the staff profile page
+    if form.is_valid():
+        instance = form.save(commit='false')
+        instance.user = request.user
+        instance.save()
+        messages.success(request, "Added successfully")
+        return redirect('admin_app:contacts')
+
+    # If form is not valid, render the staff contacts template with the form as context
+    context = {
+        'form': form
+    }
+    return render(request, "staff/staff_edit.html", context)
+
+# edit contact
+
+
+def contact_edit(request, id):
+    # Check if user is authenticated
+    if not (request.user.is_authenticated and request.user.is_superuser):
+        return redirect('hris:home')
+    # Get the contacts object with the specified id
+    contact = get_object_or_404(Contacts, id=id)
+
+    # Create a new instance of the Contacts create form, passing in the contacts object as an instance
+    form = ContactsCreateForm(request.POST or None, instance=contact)
+
+    # Check if the form is valid
+    if form.is_valid():
+        # Save the form data to the database
+        instance = form.save(commit='false')
+        instance.user = request.user
+        instance.save()
+        messages.success(request, "Saved successfully")
+        # Redirect to the profile page
+        return redirect('admin_app:contacts')
+
+    # If the form is not valid, render the add contacts template with the form object
+    context = {
+        'form': form
+    }
+    return render(request, "staff/staff_edit.html", context)
+
+# delete contact
+
+
+def contact_delete(request, id):
+    # Check if user is authenticated
+    if not (request.user.is_authenticated and request.user.is_superuser):
+        return redirect('hris:home')
+    # Get the contacts object with the specified id
+    contact = get_object_or_404(Contacts, id=id)
+    # Delete the contacts object
+    contact.delete()
+    messages.success(request, "Deleted successfully")
+    # Redirect to the profile page
+    return redirect('admin_app:contacts')
+
+
 # Define the annualreports view function
+
+
 def annualreports(request):
     # Check if the user is authenticated and is a superuser.
     # If not, redirect to the home page.

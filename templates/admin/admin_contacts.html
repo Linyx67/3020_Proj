@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load humanize %}
-{% block title %}Staff | Requests {% endblock title %}
+{% block title %}Admin | Contacts{% endblock title %}
 {% block stylesheet %}
 .table-shadow{
     background: white;
@@ -69,7 +69,9 @@
 }
 #name:hover, #name:active {
     background-color: #f0f2f0;
-}{% endblock stylesheet %}
+}
+{% endblock stylesheet %}
+
 {% block content %}
 <link type="text/CSS" href="{% static 'css/light-bootstrap-dashboard.css' %}" rel="stylesheet"/>
 <section class="row">
@@ -95,17 +97,16 @@
             {% endfor %}
         </div>
 {% endif %}
-    
     <!-- TABLE -->
     <div class="table-responsive table-shadow">
         <div class="text-center table-description">
             <h4 class="title-h3" style="color: #60a0b3 !important;
-            text-shadow: 1px 0px rgba(0,0,0,0.11)"> Requests for Information</h4>
+            text-shadow: 1px 0px rgba(0,0,0,0.11)"> University Contacts</h4>
         </div>
         <div class="container-fluid">
             <div class="row">
                  <div class="download-print-action">
-                      <a href="{% url 'staff:request-add' %}">Add</a>
+                    <a href="{% url 'admin_app:contact-add' %}">Add</a>
                       
                 </div>
             </div>
@@ -113,31 +114,40 @@
         <table class="table">
             <thead>
                 <tr>
-                  <th scope="col">Information Requested</th>
-                  <th scope="col">Status</th>
+                  <th scope="col">Benefit</th>
+                  <th scope="col">Contact Name</th>
+                  <th scope="col">Email Address</th>
                   <th scope="col">Actions</th>
                 </tr>
             </thead>
             <tbody>
                 {% if not object %}
                     <tr>
-                    <td>No Current Requests</td>
+                    <td>No Contacts Added</td>
                     </tr>
                 {% else %}
                     {% for obj in object %}
                     <tr>
-                        <td>{{obj.information}}</td> 
-                        <td>pending</td>                  
-                        <td><a href="{% url 'staff:request-delete' obj.id %}">Delete</a></td>
+                    
+                        <td>{{obj.information}}</td>
+                        {% if obj.name %} 
+                            <td>{{obj.name}}</td> 
+                        {% else %} 
+                            <td> - </td>
+                        {% endif %}               
+                        <td>{{obj.email}}</td>
+                        <td><a href="{% url 'admin_app:contact-edit' obj.id %}">Edit</a><br>
+                            <a href="{% url 'admin_app:contact-delete' obj.id %}">Delete</a>
+                        </td>
+                        
+                    
                     </tr>
                     {% endfor %}
                 {% endif %}
             </tbody>
 
         </table>
-    
+
 
     </div>
-
-</section>
 {% endblock content %}

@@ -14,7 +14,19 @@ urlpatterns = [
     path('publications/conference/', views.pubs_papers, name="pubs-papers"),
     path('publications/books/', views.pubs_books, name="pubs-books"),
 
-    path('leaves/all/', views.leaves_list, name="leaves"),
+    path('contacts/', views.contacts_view, name="contacts"),
+    path('contacts_add/', views.contact_add, name="contact-add"),
+    path('contacts_edit/<int:id>/', views.contact_edit, name="contact-edit"),
+    path('contacts_delete/<int:id>/',
+         views.contact_delete, name="contact-delete"),
+
+    path('annualreports/', views.annualreports, name='annualreports'),
+    path('annualreports/<int:id>/',
+         views.annualreport_pdf, name='annualreport-pdf'),
+]
+
+'''
+     path('leaves/all/', views.leaves_list, name="leaves"),
     path('leaves/pending/', views.leaves_pending_list, name="leaves-pending"),
     path('leaves/approved/', views.leaves_approved_list, name='leaves-approved'),
     path('leaves/cancelled/', views.cancel_leaves_list, name='leaves-cancelled'),
@@ -27,8 +39,4 @@ urlpatterns = [
     path('leaves/uncancel/<int:id>/', views.uncancel_leave, name='leave-uncancel'),
     path('leaves/reject/<int:id>/', views.reject_leave, name='leave-reject'),
     path('leaves/unreject/<int:id>/', views.unreject_leave, name='leave-unreject'),
-
-    path('annualreports/', views.annualreports, name='annualreports'),
-    path('annualreports/<int:id>/',
-         views.annualreport_pdf, name='annualreport-pdf'),
-]
+    '''

@@ -21,7 +21,8 @@ from .models import (
     Roles,
     Honours,
     Contributions,
-    Activities
+    Activities,
+    Contacts
 )
 
 # Employee
@@ -53,7 +54,7 @@ class EmployeeCreateForm(forms.ModelForm):
 
     def clean_email(self, *args, **kwargs):
         email = self.cleaned_data.get("email")
-        if not email.endswith("edu"):
+        if not email.endswith("sta.uwi.edu"):
             raise forms.ValidationError("This is not a valid email address")
         else:
             return email

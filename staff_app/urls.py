@@ -69,6 +69,7 @@ urlpatterns = [
 
     path('requests/', views.rfi, name="requests"),
     path('requests_add/', views.rfi_add, name="request-add"),
+    path('requests_delete/<int:id>/', views.rfi_delete, name="request-delete"),
 
     path('roles/', views.roles_view, name="roles"),
     path('role_add/', views.roles_add, name="role-add"),
@@ -118,8 +119,7 @@ urlpatterns = [
     path('contribution_delete/<int:id>/',
          views.contribution_delete, name="contribution-delete"),
 
-
-
+    path('contacts/', views.contacts_view, name="contacts"),
 ]
 '''
     path('leave_add/', views.add_leave, name="add-leave"),
