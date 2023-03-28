@@ -450,9 +450,7 @@ def annualreports(request):
     year = ''
     users = CustomUser.objects.none()
     employee = Employee.objects.none()
-    journals = Publications.objects.none()
-    papers = Publications.objects.none()
-    books = Publications.objects.none()
+    publications = Publications.objects.none()
     presentations = Presentations.objects.none()
     conferences = Conferences.objects.none()
     awards = Awards.objects.none()
@@ -477,9 +475,8 @@ def annualreports(request):
             users = CustomUser.objects.get(
                 first_name=firstname.capitalize(), last_name=lastname.capitalize())
             employee = Employee.objects.get(user_id=users.id)
-            journals = Publications.objects.journals().filter(user_id=users.id, year=year)
-            papers = Publications.objects.papers().filter(user_id=users.id, year=year)
-            books = Publications.objects.books().filter(user_id=users.id, year=year)
+            publications = Publications.objects.filter(
+                user_id=users.id, year=year)
             presentations = Presentations.objects.filter(
                 user_id=users.id, year=year)
             conferences = Conferences.objects.filter(
@@ -493,9 +490,7 @@ def annualreports(request):
     dataset['employee'] = employee
     dataset['year'] = year
     dataset['awards'] = awards
-    dataset['journals'] = journals
-    dataset['papers'] = papers
-    dataset['books'] = books
+    dataset['publications'] = publications
     dataset['presentations'] = presentations
     dataset['conferences'] = conferences
     dataset['honours'] = honours
