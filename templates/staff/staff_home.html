@@ -64,32 +64,33 @@ text-decoration:none;
 }
 {% endblock stylesheet %}
 {% block content %}
+<link type="text/CSS" href="{% static 'css/light-bootstrap-dashboard.css' %}" rel="stylesheet"/>
 <div class="d-flex justify-content-center">
-    <h1 class="Header">Welcome to the Human Resource Information System</h1>
+    <h2 class="Header">Welcome to the Human Resource Information System</h2>
 </div>
 <section class="content">
     <section class="container-fluid">
         <section class="row">
             <section class="col col-lg-4">
                 <div class="employee-box sec-box">
-                    <a href="">
-                    <span>Employees </span>
+                    <a href="{% url 'staff:profile' %}">
+                    <span>Profile </span>
                     </a>
                     <span class="count-object">{{ employees.count }}</span> 
                 </div>
             </section>
             <section class="col col-lg-4">
                 <div class="leave-box sec-box">
-                    <a href="">
-                    <span>Leaves</span>
+                    <a href="{% url 'staff:contacts' %}">
+                    <span>Contacts</span>
                     </a>
                     <span class="count-object" style="color:#41b6d6;">{{ leaves.count }}</span> 
                 </div>
             </section>
             <section class="col col-lg-4">
                 <div class="birthday-box sec-box">
-                    <a href="">
-                    <span>Birthdays</span>
+                    <a href="{% url 'staff:requests' %}">
+                    <span>Request Information</span>
                     </a>
                     <span class="count-object"> {{employees_birthday.count}} </span>
                 </div>

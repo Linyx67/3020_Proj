@@ -20,6 +20,9 @@ urlpatterns = [
     path('contacts_delete/<int:id>/',
          views.contact_delete, name="contact-delete"),
 
+    path('requests/', views.requests_view, name="requests"),
+    path('request_delete/<int:id>/', views.request_delete, name="request-delete"),
+
     path('annualreports/', views.annualreports, name='annualreports'),
     path('annualreports/<int:id>/',
          views.annualreport_pdf, name='annualreport-pdf'),

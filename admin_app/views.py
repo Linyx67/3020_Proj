@@ -41,9 +41,11 @@ def home(request):
         return redirect('hris:home')
     dataset = dict()
     employees = Employee.objects.all()
+    contacts = Contacts.objects.all()
     publications = Publications.objects.all()
     requests = Requests.objects.all()
     dataset['employees'] = employees
+    dataset['contacts'] = contacts
     dataset['publications'] = publications
     dataset['requests'] = requests
     # Render the admin home page template for authenticated and superuser users
@@ -127,8 +129,32 @@ def download_vitae(request, id):
 
 # function for obtaining all leave requests.
 
+# view requests list
+def requests_view(request):
+    # Check if user is authenticated
+    if not (request.user.is_authenticated and request.user.is_superuser):
+        return redirect('hris:home')
+    rfis = Requests.objects.all().order_by('created')
+
+    context = {
+        "object": rfis
+    }
+    return render(request, "admin/rfi_view.html", context)
+
+# delete request
+
+
+def request_delete(request, id):
+    # Check if user is authenticated
+    if not (request.user.is_authenticated and request.user.is_superuser):
+        return redirect('hris:home')
+    rfi = get_object_or_404(Requests, id=id)
+    rfi.delete()
+    messages.success(request, "Deleted successfully")
+    return redirect('admin_app:requests')
 
 # Define the view function for displaying the all awards.
+
 
 def awards(request):
     # Check if user is authenticated and superuser. If not, redirect to home page.
@@ -613,6 +639,7 @@ def annualreport_pdf(request, id):
     return response
 
 
+'''
 def leaves_list(request):
     # check if the user is authenticated and is a superuser, else redirect to the home page
     if not (request.user.is_authenticated and request.user.is_superuser):
@@ -885,3 +912,4 @@ def unreject_leave(request, id):
 
     # Redirect to the 'leaves-rejected' page
     return redirect('admin_app:leaves-rejected')
+'''
