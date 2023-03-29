@@ -3,3 +3,4 @@ Django==4.1.5
 django_phonenumber_field==7.0.1
 reportlab==3.6.12
 django-auto-logout==0.5.1
+phonenumbers==8.13.4
