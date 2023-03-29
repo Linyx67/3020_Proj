@@ -47,8 +47,8 @@ INSTALLED_APPS = [
     # 3rd party
     'phonenumber_field',
 
-    'debug_toolbar',
-    'bootstrapform',
+    #'debug_toolbar',
+    #'bootstrapform',
 
 
     # own
