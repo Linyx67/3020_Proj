@@ -93,7 +93,7 @@ def doRegistration(request):
 
     # Check if email has a valid format and determine the user type
     user_type = get_user_type_from_email(email_id)
-    if user_type is None:
+    if not email_id.endswith('sta.uwi.edu'):
         messages.error(
             request, "Please use valid format for the email id: '<firstname>.<lastname>@<sta.uwi.edu>'")
         return render(request, 'hris/registration.html')
@@ -250,6 +250,9 @@ def add_account(request):
         user.last_name = lastname
         user.save()
         if user_type == '1':
+            user.is_superuser = True
+            user.is_staff = True
+            user.save()
             messages.success(request, 'Successfully added Admin account')
             # Display a success message and render the page again
             return redirect('hris:add-account')
