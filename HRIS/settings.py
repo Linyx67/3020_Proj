@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-5^x)w5g93kt8qu9_sqd*h6b)bakp$!a&oh2t_z=z74^*4t_!wf
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['.vercel.app']
+ALLOWED_HOSTS = ["*"]
 
 # MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
@@ -47,8 +47,8 @@ INSTALLED_APPS = [
     # 3rd party
     'phonenumber_field',
 
-    #'debug_toolbar',
-    #'bootstrapform',
+    # 'debug_toolbar',
+    # 'bootstrapform',
 
 
     # own
