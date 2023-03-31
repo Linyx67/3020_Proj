@@ -44,13 +44,14 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'cloudinary_storage',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
 
     # 3rd party
     'phonenumber_field',
 
-
+    'cloudinary',
     # 'debug_toolbar',
     # 'bootstrapform',
 
@@ -180,3 +181,9 @@ INTERNAL_IPS = [
 CSRF_TRUSTED_ORIGINS = [
     'https://3020proj-production.up.railway.app'
 ]
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'dtol6ceis',
+    'API_KEY': '952943386774399',
+    'API_SECRET': 'HoSHbsaWlODj6VI3VquzUmkJ_vU'
+}
