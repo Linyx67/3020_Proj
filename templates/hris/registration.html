@@ -4,6 +4,41 @@
 {% block css %}
     <link rel="stylesheet" href="{% static "style_r.css" %}">
 {% endblock css %}
+{% block stylesheet %}
+body,html{
+    margin:0;
+    padding: 0;
+    height: 100%;
+    background: #6ebeff !important;
+}
+
+.reg_card{
+    height: 600px;
+    width: 350px;
+    margin-top:30px;
+    margin-bottom:auto;
+    background: #82c7ff;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    padding: 15px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 5px;
+}
+.form_info{
+    margin: 20px;
+}
+.form-control{
+    box-shadow: none !important;
+    outline: 10px !important;
+}
+#register{
+   margin-bottom: 10px;
+}
+{% endblock stylesheet %}
 {% block content %}
     <div>
         <form action="{% url 'hris:doRegistration' %}" method="POST">{% csrf_token %}
