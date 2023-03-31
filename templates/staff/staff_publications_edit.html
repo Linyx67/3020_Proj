@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}Staff | Publications{% endblock title %}
+{% block stylesheet %}
+.container{
+    display: gird;
+    align-items: center;
+    gap: 1rem;
+}
+{% endblock stylesheet %}
+{% block content %}
+<div class="container">
+    <div class="d-flex justify-content-center align-items-center mt-lg-5">
+        
+        <h4 class="text-right">Edit Entry</h4>
+    </div>
+    <div class="row justify-content-center pt-lg-5">
+        <div class="col-5">
+            <form action="." method="POST" enctype="multipart/form-data" class="form-control" >{% csrf_token %}
+                {{form.as_p}}
+                <div class="d-flex justify-content-center">
+                    <input class="btn btn-primary" type="submit" value="Save" />
+                </div>
+            </form>
+        </div>
+    </div>
+    
+</div>
+{% endblock content %}
