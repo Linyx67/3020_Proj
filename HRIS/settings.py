@@ -32,7 +32,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
-
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 # Application definition
 
@@ -71,8 +73,8 @@ MIDDLEWARE = [
     # 3rd party auto logout
     'django_auto_logout.middleware.auto_logout',
     # debug toolbar
-    # 'debug_toolbar.middleware.DebugToolbarMiddleware',
-    "whitenoise.middleware.WhiteNoiseMiddleware",
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 
