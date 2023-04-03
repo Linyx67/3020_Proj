@@ -78,22 +78,24 @@ body,html{
                         <div class="d-flex justify-content-center links">
                             <a href="{% url 'hris:login' %}"><b> Return to Login Page</a>
                         </div>
+
+                        {% if messages %}
+                        <div class="col-12">
+                            {% for message in messages %}
+                                {% if message.tags == "error" %}
+                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                        <b>{{ message }}</b>
+                                        <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        {% endif %}
                     </div>
 
                 </div>
                 {% comment %} Display Messages {% endcomment %}
-                {% if messages %}
-                <div class="col-12">
-                    {% for message in messages %}
-                    {% if message.tags == "error" %}
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <b>{{ message }}</b>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                    {% endif %}
-                    {% endfor %}
-                </div>
-                {% endif %}
+                
             </div>
             
         </form>

@@ -128,20 +128,13 @@ html {
                         {% if messages %}
                         <div class="col-12">
                             {% for message in messages %}
-                            {% if message.tags == "error" %}
-   {% comment %}
-   <div class="alert alert-danger alert-dismissible fade show" role="alert" style="margin-top: 10px;">
-      <b>{{ message }}</b>
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-   </div>
-   {% endcomment %}
-                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                <strong>Invalid Login Credentials!</strong>
-                                <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">×</span>
-                                </button>
-                            </div>
-                            {% endif %}
+                              {% if message.tags == "error" %}
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                   <b> {{ message }}</b>
+                                  <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close">
+                                  </button>
+                                </div>
+                              {% endif %}
                             {% endfor %}
                         </div>
                         {% endif %}
