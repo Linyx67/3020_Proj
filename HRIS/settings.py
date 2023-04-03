@@ -166,8 +166,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'hr.system.x@gmail.com'
-EMAIL_HOST_PASSWORD = 'alyposeylitiokui'
+EMAIL_HOST_USER = 'hris.system.x@gmail.com'
+EMAIL_HOST_PASSWORD = 'rqnicovvtaedxtxy'
 
 # Auto Logout Functionality
 AUTO_LOGOUT = {'IDLE_TIME': 600,  # 60 seconds * 10
