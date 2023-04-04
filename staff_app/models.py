@@ -143,7 +143,7 @@ class Employee(models.Model):
     email = models.EmailField(
         _('Email'), max_length=255, default=None, blank=True, null=True)
     # phone number of the employee
-    tel = PhoneNumberField(null=False, blank=False,
+    tel = PhoneNumberField(null=False, blank=True,
                            verbose_name='Phone Number')
     # biography of the employee
     bio = models.CharField(_('Bio'), max_length=255, default='',
