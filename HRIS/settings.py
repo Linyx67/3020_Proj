@@ -167,7 +167,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'hris.system.x@gmail.com'
-EMAIL_HOST_PASSWORD = 'rqnicovvtaedxtxy'
+EMAIL_HOST_PASSWORD = 'xwavqxavhtewverd'
 
 # Auto Logout Functionality
 AUTO_LOGOUT = {'IDLE_TIME': 600,  # 60 seconds * 10
