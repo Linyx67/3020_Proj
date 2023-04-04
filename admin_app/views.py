@@ -341,7 +341,7 @@ def contact_add(request):
 
     # If form is valid, save the form and redirect to the staff profile page
     if form.is_valid():
-        instance = form.save(commit='false')
+        instance = form.save(commit=False)
         instance.user = request.user
         instance.save()
         messages.success(request, "Added successfully")
@@ -369,7 +369,7 @@ def contact_edit(request, id):
     # Check if the form is valid
     if form.is_valid():
         # Save the form data to the database
-        instance = form.save(commit='false')
+        instance = form.save(commit=False)
         instance.user = request.user
         instance.save()
         messages.success(request, "Saved successfully")
