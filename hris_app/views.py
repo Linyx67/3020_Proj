@@ -286,6 +286,7 @@ def reset_account(request, id):
     firstname = user.first_name
     lastname = user.last_name
     # delete the user, this deletes all associated information as well
+
     user.delete()
 
     # recrete a blank account
@@ -295,10 +296,10 @@ def reset_account(request, id):
     new_account.email = email
     new_account.password = make_password('password')  # default passowrd
     new_account.user_type = user_type
-    user.first_name = firstname
-    user.last_name = lastname
-    user.save()
-    employee = Employee.objects.create(user_id=user.id)
+    new_account.first_name = firstname
+    new_account.last_name = lastname
+    new_account.save()
+    employee = Employee.objects.create(user_id=new_account.id)
     employee.firstname = firstname
     employee.lastname = lastname
     employee.email = email
