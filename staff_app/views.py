@@ -87,7 +87,7 @@ def profile_update(request):
     # If the form has been submitted and is valid
     if form.is_valid():
         # Save the form data to the database
-        instance = form.save(commit='false')
+        instance = form.save(commit=False)
         instance.user = request.user
         instance.save()
         messages.success(request, "Profile Updated")
@@ -113,7 +113,7 @@ def add_award(request):
     # If the form has been submitted and is valid
     if form.is_valid():
         # Save the form data to the database
-        instance = form.save(commit='false')
+        instance = form.save(commit=False)
         instance.user = request.user
         instance.save()
         messages.success(request, "Saved successfully")
@@ -142,7 +142,7 @@ def edit_award(request, id):
     # If the form has been submitted and is valid
     if form.is_valid():
         # Save the form data to the database
-        instance = form.save(commit='false')
+        instance = form.save(commit=False)
         instance.user = request.user
         instance.save()
         # Redirect to the awards view
@@ -207,7 +207,7 @@ def add_publication(request):
     # Check if the form is valid
     if form.is_valid():
         # Save the form data to the database
-        instance = form.save(commit='false')
+        instance = form.save(commit=False)
         instance.user = request.user
         instance.save()
         messages.success(request, "Added successfully")
@@ -238,7 +238,7 @@ def edit_publication(request, id):
     # Check if the form is valid
     if form.is_valid():
         # Save the form data to the database
-        instance = form.save(commit='false')
+        instance = form.save(commit=False)
         instance.user = request.user
         instance.save()
         messages.success(request, "Saved successfully")
@@ -321,7 +321,7 @@ def rfi_add(request):
 
     # If form is valid, save the request request and redirect to the staff view page
     if form.is_valid():
-        instance = form.save(commit='false')
+        instance = form.save(commit=False)
         instance.user = request.user
         instance.save()
         messages.success(request, "Request Submitted successfully")
@@ -378,7 +378,7 @@ def conferences_add(request):
 
     # If form is valid, save the form and redirect to the staff profile page
     if form.is_valid():
-        instance = form.save(commit='false')
+        instance = form.save(commit=False)
         instance.user = request.user
         instance.save()
         messages.success(request, "Added successfully")
@@ -403,7 +403,7 @@ def conferences_edit(request, id):
     # Check if the form is valid
     if form.is_valid():
         # Save the form data to the database
-        instance = form.save(commit='false')
+        instance = form.save(commit=False)
         instance.user = request.user
         instance.save()
         messages.success(request, "Saved successfully")
@@ -460,7 +460,7 @@ def presentations_add(request):
 
     # If form is valid, save the form and redirect to the staff profile page
     if form.is_valid():
-        instance = form.save(commit='false')
+        instance = form.save(commit=False)
         instance.user = request.user
         instance.save()
         messages.success(request, "Added successfully")
@@ -485,7 +485,7 @@ def presentations_edit(request, id):
     # Check if the form is valid
     if form.is_valid():
         # Save the form data to the database
-        instance = form.save(commit='false')
+        instance = form.save(commit=False)
         instance.user = request.user
         instance.save()
         messages.success(request, "Saved successfully")
@@ -545,7 +545,7 @@ def development_add(request):
 
     # If form is valid, save the form and redirect to the staff profile page
     if form.is_valid():
-        instance = form.save(commit='false')
+        instance = form.save(commit=False)
         instance.user = request.user
         instance.save()
         messages.success(request, "Added successfully")
@@ -570,7 +570,7 @@ def development_edit(request, id):
     # Check if the form is valid
     if form.is_valid():
         # Save the form data to the database
-        instance = form.save(commit='false')
+        instance = form.save(commit=False)
         instance.user = request.user
         instance.save()
         messages.success(request, "Saved successfully")
@@ -629,7 +629,7 @@ def consultancies_add(request):
 
     # If form is valid, save the form and redirect to the staff profile page
     if form.is_valid():
-        instance = form.save(commit='false')
+        instance = form.save(commit=False)
         instance.user = request.user
         instance.save()
         messages.success(request, "Added successfully")
@@ -654,7 +654,7 @@ def consultancies_edit(request, id):
     # Check if the form is valid
     if form.is_valid():
         # Save the form data to the database
-        instance = form.save(commit='false')
+        instance = form.save(commit=False)
         instance.user = request.user
         instance.save()
         messages.success(request, "Saved successfully")
@@ -713,7 +713,7 @@ def manuscripts_add(request):
 
     # If form is valid, save the form and redirect to the staff profile page
     if form.is_valid():
-        instance = form.save(commit='false')
+        instance = form.save(commit=False)
         instance.user = request.user
         instance.save()
         messages.success(request, "Added successfully")
@@ -741,7 +741,7 @@ def manuscripts_edit(request, id):
     # Check if the form is valid
     if form.is_valid():
         # Save the form data to the database
-        instance = form.save(commit='false')
+        instance = form.save(commit=False)
         instance.user = request.user
         instance.save()
         messages.success(request, "Saved successfully")
@@ -797,7 +797,7 @@ def grants_add(request):
 
     # If form is valid, save the form and redirect to the staff profile page
     if form.is_valid():
-        instance = form.save(commit='false')
+        instance = form.save(commit=False)
         instance.user = request.user
         instance.save()
         messages.success(request, "Added successfully")
@@ -825,7 +825,7 @@ def grants_edit(request, id):
     # Check if the form is valid
     if form.is_valid():
         # Save the form data to the database
-        instance = form.save(commit='false')
+        instance = form.save(commit=False)
         instance.user = request.user
         instance.save()
         messages.success(request, "Saved successfully")
@@ -881,7 +881,7 @@ def roles_add(request):
 
     # If form is valid, save the form and redirect to the staff profile page
     if form.is_valid():
-        instance = form.save(commit='false')
+        instance = form.save(commit=False)
         instance.user = request.user
         instance.save()
         messages.success(request, "Added successfully")
@@ -909,7 +909,7 @@ def roles_edit(request, id):
     # Check if the form is valid
     if form.is_valid():
         # Save the form data to the database
-        instance = form.save(commit='false')
+        instance = form.save(commit=False)
         instance.user = request.user
         instance.save()
         messages.success(request, "Saved successfully")
@@ -964,7 +964,7 @@ def research_add(request):
 
     # If form is valid, save the form and redirect to the staff profile page
     if form.is_valid():
-        instance = form.save(commit='false')
+        instance = form.save(commit=False)
         instance.user = request.user
         instance.save()
         messages.success(request, "Added successfully")
@@ -992,7 +992,7 @@ def research_edit(request, id):
     # Check if the form is valid
     if form.is_valid():
         # Save the form data to the database
-        instance = form.save(commit='false')
+        instance = form.save(commit=False)
         instance.user = request.user
         instance.save()
         messages.success(request, "Saved successfully")
@@ -1048,7 +1048,7 @@ def supervision_add(request):
 
     # If form is valid, save the form and redirect to the staff profile page
     if form.is_valid():
-        instance = form.save(commit='false')
+        instance = form.save(commit=False)
         instance.user = request.user
         instance.save()
         messages.success(request, "Added successfully")
@@ -1076,7 +1076,7 @@ def supervision_edit(request, id):
     # Check if the form is valid
     if form.is_valid():
         # Save the form data to the database
-        instance = form.save(commit='false')
+        instance = form.save(commit=False)
         instance.user = request.user
         instance.save()
         messages.success(request, "Saved successfully")
@@ -1132,7 +1132,7 @@ def specialisation_add(request):
 
     # If form is valid, save the form and redirect to the staff profile page
     if form.is_valid():
-        instance = form.save(commit='false')
+        instance = form.save(commit=False)
         instance.user = request.user
         instance.save()
         messages.success(request, "Added successfully")
@@ -1161,7 +1161,7 @@ def specialisation_edit(request, id):
     # Check if the form is valid
     if form.is_valid():
         # Save the form data to the database
-        instance = form.save(commit='false')
+        instance = form.save(commit=False)
         instance.user = request.user
         instance.save()
         messages.success(request, "Saved successfully")
@@ -1217,7 +1217,7 @@ def activity_add(request):
 
     # If form is valid, save the form and redirect to the staff profile page
     if form.is_valid():
-        instance = form.save(commit='false')
+        instance = form.save(commit=False)
         instance.user = request.user
         instance.save()
         messages.success(request, "Added successfully")
@@ -1245,7 +1245,7 @@ def activity_edit(request, id):
     # Check if the form is valid
     if form.is_valid():
         # Save the form data to the database
-        instance = form.save(commit='false')
+        instance = form.save(commit=False)
         instance.user = request.user
         instance.save()
         messages.success(request, "Saved successfully")
@@ -1301,7 +1301,7 @@ def honour_add(request):
 
     # If form is valid, save the form and redirect to the staff profile page
     if form.is_valid():
-        instance = form.save(commit='false')
+        instance = form.save(commit=False)
         instance.user = request.user
         instance.save()
         messages.success(request, "Added successfully")
@@ -1329,7 +1329,7 @@ def honour_edit(request, id):
     # Check if the form is valid
     if form.is_valid():
         # Save the form data to the database
-        instance = form.save(commit='false')
+        instance = form.save(commit=False)
         instance.user = request.user
         instance.save()
         messages.success(request, "Saved successfully")
@@ -1385,7 +1385,7 @@ def contribution_add(request):
 
     # If form is valid, save the form and redirect to the staff profile page
     if form.is_valid():
-        instance = form.save(commit='false')
+        instance = form.save(commit=False)
         instance.user = request.user
         instance.save()
         messages.success(request, "Added successfully")
@@ -1413,7 +1413,7 @@ def contribution_edit(request, id):
     # Check if the form is valid
     if form.is_valid():
         # Save the form data to the database
-        instance = form.save(commit='false')
+        instance = form.save(commit=False)
         instance.user = request.user
         instance.save()
         messages.success(request, "Saved successfully")
